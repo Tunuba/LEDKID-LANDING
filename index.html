@@ -307,7 +307,14 @@ section { padding: 68px 0; }
 .mando svg { width: 22px; height: 22px; }
 
 /* ── Bloque 50/50 ─────────────────────────────────────────── */
-.mitades { display: grid; grid-template-columns: 1fr 1fr; background: var(--off); border-radius: var(--r2); overflow: hidden; }
+/* minmax(0,1fr) y no 1fr: «1fr» es minmax(AUTO,1fr), y el auto deja que el
+   tamaño mínimo del video (el ancho propio del poster) infle su columna. Medido
+   en 1280 daba 701px de video contra 484px de texto — ni mitades ni nada. Peor:
+   la fila la marcaba el 16:9 del video, el texto quedaba 60-160px más alto que
+   el bloque y el «overflow:hidden» de aquí le CORTABA el botón por la mitad, en
+   teléfono, en tableta y en PC. Con minmax(0,…) las dos columnas ceden y son
+   de verdad la mitad. */
+.mitades { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: var(--off); border-radius: var(--r2); overflow: hidden; }
 @media (max-width: 980px) { .mitades { grid-template-columns: 1fr; } }
 /* El video conserva su 16:9: recortarlo se comía el texto del cuadro */
 .mitades .medio-visual { position: relative; background: #000; aspect-ratio: 16 / 9; }
