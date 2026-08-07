@@ -1,52 +1,897 @@
-<!doctype html>
-<html lang="es">
+<!DOCTYPE html>
+<html lang="es-GT">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LEDKID — Robótica para todos</title>
-<meta name="description" content="LEDKID: simulador de circuitos, kits de robótica y academia para colegios de Guatemala.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M7 15 Q7 2 16 2 Q25 2 25 15 Z' fill='%23FFAD00'/><rect x='7' y='14' width='18' height='11' rx='2' fill='%23FFAD00'/><rect x='6' y='24' width='20' height='3' rx='1.5' fill='%23FFAD00'/><rect x='9' y='27' width='5' height='4' rx='1' fill='%23FFAD00'/><rect x='18' y='27' width='5' height='4' rx='1' fill='%23FFAD00'/></svg>">
+<title>LedKid | Robótica para el aula, lista para su colegio</title>
+<meta name="description" content="LedKid lleva el programa de robótica y electrónica a su colegio: kits para el salón, simulador de circuitos, planificación docente y acompañamiento durante todo el ciclo escolar.">
+<meta name="theme-color" content="#FFFFFF">
+<meta property="og:title" content="LedKid | Robótica educativa para colegios">
+<meta property="og:description" content="Kits, simulador y formación docente. El programa de robótica llega armado a su colegio.">
+<meta property="og:image" content="media/video-poster.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_GT">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 176 176'%3E%3Cg transform='translate(38,15.5)' fill='none' stroke='%23FFA000' stroke-width='11'%3E%3Cpath d='M5,105 V65 Q5,0 50,0 Q95,0 95,65 V105 Q95,115 85,115 H15 Q5,115 5,105 Z' stroke-linejoin='round'/%3E%3Cpath d='M5,117 H95' stroke-linecap='round'/%3E%3Cpath d='M28,124 V145 M72,124 V145' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-  :root { --ambar:#FFAD00; --tinta:#111318; --papel:#f7f8fa; --tenue:#6b7280; }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body {
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    background: var(--papel); color: var(--tinta);
-    min-height: 100dvh; display: grid; place-items: center;
-    padding: 24px; line-height: 1.5;
+/* ══════════════════════════════════════════════════════════════
+   LEDKID — Landing
+
+   ARQUITECTURA (patrones de uso común en sitios educativos):
+   contenedor 1185px, rejilla de 3 con gap 24, titulares grandes en
+   peso ligero, cuerpo de 16px, hero de video con velo.
+
+   IDENTIDAD (propia de LedKid, deliberadamente distinta):
+   · acento ámbar #FFA000 en los botones primarios — no negro
+   · paleta pastel propia, tibia (crema/cielo/menta), no la de nadie
+   · radios de 6/10, no 2/4
+   · motivo de fondo = nodo de circuito, NO el aro tipo pieza de LEGO:
+     ese patrón es imagen comercial ajena y se retiró a propósito
+   · tipografía Figtree
+   Ningún activo de terceros: ilustraciones y videos generados en
+   landing/scripts/.
+══════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Tinta cálida, no negro puro: el negro absoluto es de otros */
+  --negro:  #14161C;
+  --texto:  #3A3F4C;
+  --gris:   #6A6C75;
+  --gris-2: #9A9CA5;
+  --off:    #F8F7F4;   /* hueso tibio */
+  --panel:  #F4F2ED;
+  --linea:  #E4E1DA;
+  --blanco: #FFFFFF;
+
+  /* marca */
+  --ambar:    #FFA000;
+  --ambar-os: #E08D00;
+  --ambar-cl: #FFC24D;
+  --tinta-btn:#1A1206;
+
+  /* pasteles propios: tibios, del mismo tronco que el ámbar */
+  --p-crema: #FFEFCF;
+  --p-cielo: #E2ECFB;
+  --p-menta: #DDF2E9;
+  --p-melo:  #FFE3D2;
+  --p-teal:  #DDF2E9;
+  --p-azul:  #E2ECFB;
+  --p-verde: #E8F2D9;
+
+  --azul:    #1461D6;
+  --turquesa:#00A88F;
+
+  --ancho: 1185px;
+  --r:  6px;      /* botones y chips */
+  --r2: 10px;     /* tarjetas */
+  --t: .18s ease;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 120px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  font-family: 'Figtree', 'Segoe UI', system-ui, sans-serif;
+  font-size: 16px; line-height: 1.5; font-weight: 400;
+  color: var(--texto); background: var(--blanco);
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+
+/* Los titulares van en peso 400 y muy grandes: es lo que da el aire */
+h1, h2, h3, h4 { font-weight: 400; color: var(--negro); letter-spacing: 0; }
+h1 { font-size: clamp(2.4rem, 4.3vw, 3.8rem); line-height: 1.15; }
+h2 { font-size: clamp(2rem, 3.4vw, 3.06rem); line-height: 1.15; }
+h3 { font-size: 1.25rem; line-height: 1.4; font-weight: 500; }
+p  { color: var(--texto); }
+a  { color: inherit; }
+img, video { max-width: 100%; display: block; }
+:focus-visible { outline: 2px solid var(--negro); outline-offset: 3px; }
+
+.env { width: min(100% - 3rem, var(--ancho)); margin-inline: auto; }
+.gris { color: var(--gris); }
+
+/* ── Chip ─────────────────────────────────────────────────── */
+.chip {
+  display: inline-block; font-size: .875rem; font-weight: 500; line-height: 1.4;
+  padding: 4px 12px; border-radius: var(--r); color: #141414; background: var(--p-azul);
+}
+.chip.ambar { background: var(--ambar); }
+.chip.teal  { background: var(--p-teal); }
+.chip.verde { background: var(--p-verde); }
+.chip.melo  { background: var(--p-melo); }
+
+/* ── Botones ──────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  font-family: inherit; font-size: 1rem; font-weight: 400; line-height: 1.5;
+  padding: 12px 20px; border: 1px solid transparent; border-radius: var(--r);
+  text-decoration: none; cursor: pointer; transition: var(--t); white-space: nowrap;
+}
+.btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+/* El botón primario es ÁMBAR, no negro: es la firma de LedKid */
+.btn-negro  { background: var(--ambar); color: var(--tinta-btn); font-weight: 500; }
+.btn-negro:hover { background: var(--ambar-os); }
+.btn-blanco { background: var(--ambar); color: var(--tinta-btn); font-weight: 500; font-size: 1.125rem; padding: 14.5px 24px; }
+.btn-blanco:hover { background: var(--ambar-os); }
+.btn-linea-bl { background: transparent; color: #fff; border-color: #fff; font-size: 1.125rem; padding: 14.5px 24px; }
+.btn-linea-bl:hover { background: rgba(255,255,255,.14); }
+.btn-bloque { width: 100%; }
+/* Jerarquía: el ámbar sólido es solo para la llamada principal. Dentro de una
+   tarjeta el botón va en contorno, si no la página entera grita. */
+.tarjeta .btn-negro { background: transparent; color: var(--negro); border-color: var(--negro); font-weight: 500; }
+.tarjeta .btn-negro:hover { background: var(--negro); color: #fff; }
+
+.flecha-circ {
+  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--negro); color: #fff; flex-shrink: 0; transition: var(--t);
+}
+.flecha-circ svg { width: 20px; height: 20px; }
+
+/* ═══════════ BARRA DE UTILIDAD ═══════════ */
+.utilidad { border-bottom: 1px solid var(--linea); background: #fff; }
+.utilidad .env { display: flex; justify-content: flex-end; align-items: center; gap: 1.75rem; height: 39px; }
+.utilidad a { font-size: .9375rem; text-decoration: none; color: var(--negro); }
+.utilidad a:hover { text-decoration: underline; }
+.utilidad .bandera { font-size: .8125rem; font-weight: 500; letter-spacing: .06em; border: 1px solid var(--linea); border-radius: var(--r); padding: 1px 7px; }
+
+/* ═══════════ CABECERA ═══════════ */
+header { position: sticky; top: 0; z-index: 90; background: #fff; }
+header.pegado { box-shadow: 0 1px 10px rgba(0,0,0,.08); }
+.barra { display: flex; align-items: center; gap: 2rem; height: 78px; }
+.marca { display: flex; align-items: center; gap: .55rem; text-decoration: none; flex-shrink: 0; }
+.marca .logo { width: 36px; height: 36px; }
+.marca .nombre { font-size: 1.55rem; font-weight: 600; letter-spacing: -.03em; color: var(--negro); }
+.marca .nombre em { font-style: normal; color: var(--ambar); }
+
+.nav { display: flex; align-items: center; gap: 1.9rem; margin-left: 1.5rem; }
+.nav > .item { position: relative; }
+.nav .disparador, .nav > a.enl {
+  display: inline-flex; align-items: center; gap: 5px; padding: 10px 0;
+  font-family: inherit; font-size: 1rem; font-weight: 400; color: var(--negro);
+  background: none; border: 0; cursor: pointer; text-decoration: none;
+}
+.nav .disparador svg { width: 14px; height: 14px; transition: var(--t); }
+.nav .item.abierto .disparador svg { transform: rotate(180deg); }
+.nav .desplegable {
+  position: absolute; top: 100%; left: -20px; min-width: 288px; background: #fff;
+  border: 1px solid var(--linea); border-radius: var(--r2); padding: .5rem 0;
+  box-shadow: 0 12px 34px rgba(0,0,0,.12); display: none; z-index: 5;
+}
+.nav .item.abierto .desplegable { display: block; }
+.nav .desplegable a { display: block; padding: .7rem 1.25rem; font-size: .96rem; text-decoration: none; }
+.nav .desplegable a:hover { background: var(--panel); }
+.nav .desplegable small { display: block; color: var(--gris); font-size: .84rem; }
+
+.acciones-cab { margin-left: auto; display: flex; align-items: center; gap: 1.25rem; }
+.buscar { width: 40px; height: 40px; border: 0; background: none; cursor: pointer; display: grid; place-items: center; border-radius: 50%; }
+.buscar:hover { background: var(--panel); }
+.buscar svg { width: 22px; height: 22px; }
+
+.hamb { display: none; width: 44px; height: 40px; border: 1px solid var(--linea); border-radius: var(--r); background: #fff; cursor: pointer; }
+.hamb i { display: block; width: 18px; height: 2px; background: var(--negro); margin: 4px auto; }
+
+@media (max-width: 1100px) {
+  .barra { height: 64px; }
+  .nav {
+    position: absolute; inset: 100% 0 auto; margin: 0; flex-direction: column; align-items: stretch; gap: 0;
+    background: #fff; border-bottom: 1px solid var(--linea); padding: .25rem 1.5rem 1.25rem; display: none;
+    box-shadow: 0 12px 30px rgba(0,0,0,.1);
   }
-  main { text-align: center; max-width: 32rem; }
-  .marca { display:flex; align-items:center; justify-content:center; gap:.6rem; margin-bottom:1.25rem; }
-  .marca svg { width: clamp(44px, 11vw, 62px); height: auto; }
-  .marca h1 { font-size: clamp(2.4rem, 11vw, 3.6rem); font-weight:900; letter-spacing:-.03em; }
-  .marca .kid { color: var(--tinta); }
-  .marca .led { color: var(--ambar); }
-  p.lema { font-size: clamp(1rem, 4vw, 1.2rem); color: var(--tenue); }
-  p.pronto {
-    margin-top: 2rem; font-size:.78rem; letter-spacing:.18em; text-transform:uppercase;
-    color: var(--tenue);
-  }
-  a { color: var(--tinta); text-decoration-color: var(--ambar); text-underline-offset: 3px; }
-  @media (prefers-color-scheme: dark) {
-    :root { --papel:#0d0f14; --tinta:#f2f4f8; --tenue:#9aa3b2; }
-  }
+  .nav.abierto { display: flex; }
+  .nav > .item, .nav > a.enl { border-bottom: 1px solid var(--linea); }
+  .nav .desplegable { position: static; border: 0; box-shadow: none; padding: 0 0 .5rem 1rem; min-width: 0; }
+  .nav .btn { margin-top: 1rem; }
+  .acciones-cab .btn-negro { display: none; }
+  .hamb { display: block; }
+  .buscar { display: none; }
+}
+
+/* ═══════════ HERO DE VIDEO ═══════════ */
+.hero { position: relative; height: 640px; overflow: hidden; background: #111; }
+.hero video, .hero .respaldo {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+.hero .velo { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.2)); }
+.hero .contenido { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: center; padding-bottom: 40px; }
+.hero .kicker { color: #fff; font-size: 1.5rem; margin-bottom: .6rem; }
+.hero h1 { color: #fff; max-width: 16ch; }
+.hero .bajada { color: #fff; font-size: clamp(1.15rem, 1.75vw, 1.5625rem); line-height: 1.35; max-width: 44ch; margin-top: 1.5rem; }
+.hero .acciones { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 2.5rem; }
+.hero .pausa {
+  position: absolute; right: 2rem; bottom: 2rem; width: 44px; height: 44px;
+  background: rgba(255,255,255,.9); border: 0; border-radius: var(--r); cursor: pointer;
+  display: grid; place-items: center;
+}
+.hero .pausa svg { width: 18px; height: 18px; }
+@media (max-width: 760px) {
+  .hero { height: 560px; }
+  .hero .pausa { right: 1.25rem; bottom: 1.25rem; }
+  /* En vertical el video se recorta al centro: hace falta más velo para leer el titular */
+  .hero .velo { background: linear-gradient(180deg, rgba(0,0,0,.5), rgba(0,0,0,.65)); }
+  .hero video { object-position: 68% center; }
+}
+
+/* ═══════════ SECCIONES ═══════════ */
+section { padding: 68px 0; }
+/* Firma de LedKid: una barra ámbar corta abre cada sección */
+.encab { margin-bottom: 44px; }
+.encab::before { content: ''; display: block; width: 56px; height: 5px; border-radius: 3px; background: var(--ambar); margin-bottom: 28px; }
+.encab h2 { max-width: 24ch; }
+.encab.ancho h2 { max-width: none; }
+.encab p { margin-top: 1rem; font-size: 1.125rem; color: var(--gris); max-width: 62ch; }
+
+/* ── Rejilla de tarjetas ──────────────────────────────────── */
+.trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+@media (max-width: 980px) { .trio { grid-template-columns: 1fr; max-width: 480px; margin-inline: auto; } }
+
+.tarjeta { background: var(--off); border-radius: var(--r2); overflow: hidden; display: flex; flex-direction: column; }
+/* El atributo height del <img> gana sobre aspect-ratio: hay que soltarlo a auto */
+.tarjeta > img { width: 100%; height: auto; aspect-ratio: 36 / 25; object-fit: cover; }
+.baldosa img, .mitades img, .cta-panel .deco { height: auto; }
+.tarjeta .cuerpo { padding: 24px 32px 32px; display: flex; flex-direction: column; flex: 1; }
+.tarjeta .chip { margin-bottom: 24px; align-self: flex-start; }
+.tarjeta h3 { margin-bottom: 1.25rem; }
+.tarjeta p { color: var(--gris); font-size: .9375rem; margin-bottom: 1.5rem; }
+.tarjeta .btn { margin-top: auto; }
+
+/* ── Carrusel de baldosas ─────────────────────────────────── */
+.carrusel { position: relative; }
+.pista {
+  display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 48px) / 3);
+  gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.pista::-webkit-scrollbar { display: none; }
+@media (max-width: 980px) { .pista { grid-auto-columns: 84%; } }
+
+.baldosa {
+  scroll-snap-align: start; position: relative; border-radius: var(--r2); overflow: hidden;
+  height: 420px; padding: 32px; display: block; text-decoration: none; background: var(--p-crema);
+  transition: var(--t);
+}
+.baldosa:nth-child(2) { background: var(--p-cielo); }
+.baldosa:nth-child(3) { background: var(--p-menta); }
+.baldosa:hover { filter: brightness(.97); }
+.baldosa .fila { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.baldosa h3 { font-size: 1.75rem; font-weight: 400; line-height: 1.2; max-width: 11ch; }
+.baldosa .grado { display: block; margin-top: .5rem; font-size: .9375rem; color: #45474D; }
+.baldosa .flecha-circ { background: var(--ambar); color: var(--tinta-btn); }
+.baldosa:nth-child(2) .flecha-circ { background: var(--azul); color: #fff; }
+.baldosa:nth-child(3) .flecha-circ { background: var(--turquesa); color: #fff; }
+/* El producto se sale por abajo: la baldosa lo recorta, como una foto de producto */
+.baldosa img { position: absolute; left: -6%; bottom: -46px; width: 112%; }
+.baldosa:hover .flecha-circ { transform: scale(1.08); }
+
+.mandos { display: flex; justify-content: flex-end; gap: 8px; margin-top: 32px; }
+.mando { width: 56px; height: 56px; border: 0; border-radius: var(--r); background: var(--panel); color: var(--gris-2); cursor: pointer; display: grid; place-items: center; transition: var(--t); }
+.mando.activo { background: var(--negro); color: #fff; }
+.mando svg { width: 22px; height: 22px; }
+
+/* ── Bloque 50/50 ─────────────────────────────────────────── */
+.mitades { display: grid; grid-template-columns: 1fr 1fr; background: var(--off); border-radius: var(--r2); overflow: hidden; }
+@media (max-width: 980px) { .mitades { grid-template-columns: 1fr; } }
+/* El video conserva su 16:9: recortarlo se comía el texto del cuadro */
+.mitades .medio-visual { position: relative; background: #000; aspect-ratio: 16 / 9; }
+.mitades .medio-visual video, .mitades .medio-visual img { width: 100%; height: 100%; object-fit: contain; }
+@media (max-width: 980px) { .mitades .medio-visual { aspect-ratio: 16 / 9; } }
+.mitades .medio-texto { padding: clamp(2rem, 4vw, 3.5rem); display: flex; flex-direction: column; justify-content: center; }
+.mitades .medio-texto h2 { font-size: clamp(1.6rem, 2.4vw, 2.1rem); margin: 24px 0 1rem; }
+.mitades .medio-texto p { color: var(--gris); }
+.mitades .medio-texto .btn { align-self: flex-start; margin-top: 2rem; }
+.tapa-video {
+  position: absolute; inset: 0; display: grid; place-items: center; border: 0; cursor: pointer;
+  background: rgba(0,0,0,.15); transition: var(--t);
+}
+.tapa-video:hover { background: rgba(0,0,0,.28); }
+.tapa-video[hidden] { display: none; }
+.tapa-video .play { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,.92); display: grid; place-items: center; }
+.tapa-video .play svg { width: 26px; height: 26px; color: #000; margin-left: 3px; }
+
+/* ── Cita suelta, dentro de otra sección ──────────────────── */
+.cita-suelta { max-width: 62ch; margin: 0 0 48px; padding-left: 28px; border-left: 5px solid var(--ambar); }
+.cita-suelta blockquote { font-size: clamp(1.15rem, 1.8vw, 1.5rem); line-height: 1.45; color: var(--negro); }
+.cita-suelta figcaption { margin-top: .9rem; font-size: .9375rem; color: var(--gris); }
+.cita-suelta strong { font-weight: 500; color: var(--negro); }
+
+/* ── Cita ─────────────────────────────────────────────────── */
+.cita-marco { position: relative; padding: 0 0 0 0; }
+/* Motivo propio: nodos de circuito con sus pistas. Antes había una retícula de
+   aros que evocaba la pieza de LEGO; era imagen comercial ajena y se quitó. */
+.puntitos {
+  position: absolute; top: 0; bottom: 0; width: 168px; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Cg fill='none' stroke='%23DCD8CF' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M24 0v9M24 39v9M0 24h9M39 24h9'/%3E%3Ccircle cx='24' cy='24' r='4.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 48px 48px;
+}
+.puntitos.izq { left: -1.5rem; } .puntitos.der { right: -1.5rem; }
+@media (max-width: 1100px) { .puntitos { display: none; } }
+/* Los aros van a los lados, nunca encima del globo de la cita */
+.cita { display: grid; grid-template-columns: 232px 1fr; align-items: stretch; margin-inline: 168px; position: relative; z-index: 1; }
+@media (max-width: 1100px) { .cita { margin-inline: 0; } }
+@media (max-width: 900px) { .cita { grid-template-columns: 1fr; } }
+.cita .retrato { background: var(--azul); display: grid; place-items: end center; overflow: hidden; min-height: 260px; }
+.cita .retrato svg { width: 100%; height: auto; }
+.cita .globo { background: var(--p-azul); padding: clamp(1.75rem, 3vw, 2.75rem); display: flex; align-items: center; }
+.cita blockquote { font-size: clamp(1.1rem, 1.6vw, 1.375rem); line-height: 1.5; color: var(--negro); }
+.cita-pie { margin: 1rem 0 0 168px; padding-left: 0; font-size: .9375rem; color: var(--gris); }
+@media (max-width: 900px) { .cita-pie { margin-left: 0; } }
+.cita-pie strong { display: block; color: var(--negro); font-weight: 500; }
+
+/* ── Pasos ────────────────────────────────────────────────── */
+.pasos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; counter-reset: p; }
+@media (max-width: 980px) { .pasos { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .pasos { grid-template-columns: 1fr; } }
+.paso { border-top: 2px solid var(--negro); padding-top: 1.25rem; }
+.paso .n { counter-increment: p; font-size: .875rem; color: var(--gris); }
+.paso .n::before { content: '0' counter(p); }
+.paso h3 { margin: .5rem 0 .5rem; }
+.paso p { font-size: .9375rem; color: var(--gris); }
+
+/* ── Datos ────────────────────────────────────────────────── */
+.datos { list-style: none; }
+.datos li { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--linea); font-size: 1rem; }
+.datos li:last-child { border-bottom: 0; }
+.datos b { font-weight: 500; }
+.datos li.total { border-top: 2px solid var(--negro); border-bottom: 0; padding-top: 1.25rem; }
+.datos li.total b { font-size: 1.5rem; }
+.chks { list-style: none; margin-top: 1.5rem; }
+.chks li { display: flex; gap: .9rem; padding: .85rem 0; border-bottom: 1px solid var(--linea); }
+.chks li:last-child { border-bottom: 0; }
+.chks.dos-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; margin-top: 0; }
+.chks.dos-col li:nth-last-child(-n+2) { border-bottom: 0; }
+@media (max-width: 860px) { .chks.dos-col { grid-template-columns: 1fr; } .chks.dos-col li:nth-last-child(2) { border-bottom: 1px solid var(--linea); } }
+.pie-nota { margin-top: 2rem; font-size: .9375rem; color: var(--gris); max-width: 62ch; }
+.chks svg { width: 20px; height: 20px; color: var(--turquesa); flex-shrink: 0; margin-top: .2rem; }
+.chks strong { font-weight: 500; color: var(--negro); }
+
+/* ── FAQ ──────────────────────────────────────────────────── */
+.faq { border-top: 1px solid var(--linea); }
+details { border-bottom: 1px solid var(--linea); }
+summary { cursor: pointer; list-style: none; padding: 1.5rem 0; font-size: 1.25rem; display: flex; justify-content: space-between; align-items: center; gap: 2rem; }
+summary::-webkit-details-marker { display: none; }
+summary .mas { position: relative; width: 22px; height: 22px; flex-shrink: 0; }
+summary .mas::before, summary .mas::after { content: ''; position: absolute; background: var(--negro); left: 50%; top: 50%; translate: -50% -50%; }
+summary .mas::before { width: 16px; height: 1.5px; }
+summary .mas::after { width: 1.5px; height: 16px; transition: var(--t); }
+details[open] summary .mas::after { transform: scaleY(0); }
+details p { padding: 0 4rem 1.75rem 0; color: var(--gris); }
+
+/* ── Panel CTA ────────────────────────────────────────────── */
+.cta-panel {
+  background: var(--panel); border-radius: var(--r2); position: relative; overflow: hidden;
+  padding: clamp(3rem, 6vw, 5.5rem) clamp(1.5rem, 5vw, 4rem); text-align: center;
+}
+.cta-panel h2 { max-width: 18ch; margin-inline: auto; }
+.cta-panel p { margin: 1.25rem auto 2.25rem; max-width: 46ch; color: var(--texto); }
+.cta-panel .deco { position: absolute; bottom: 0; width: 300px; opacity: .95; }
+.cta-panel .deco.izq { left: -30px; } .cta-panel .deco.der { right: -30px; }
+@media (max-width: 1000px) { .cta-panel .deco { display: none; } }
+
+/* ── Formulario ───────────────────────────────────────────── */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+@media (max-width: 980px) { .form-grid { grid-template-columns: 1fr; } }
+form { background: var(--off); border-radius: var(--r2); padding: clamp(1.75rem, 3vw, 2.5rem); }
+.campos { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.campo { display: flex; flex-direction: column; gap: .35rem; }
+.campo.ancho { grid-column: 1 / -1; }
+label { font-size: .875rem; font-weight: 500; color: var(--negro); }
+label .opt { font-weight: 400; color: var(--gris); }
+input, select, textarea {
+  font-family: inherit; font-size: 1rem; color: var(--texto); width: 100%;
+  background: #fff; border: 1px solid var(--linea); border-radius: var(--r); padding: .7rem .85rem;
+}
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--negro); }
+textarea { resize: vertical; min-height: 96px; }
+form .btn { margin-top: 1.5rem; }
+.aviso-form { font-size: .875rem; color: var(--gris); margin-top: .9rem; }
+@media (max-width: 560px) { .campos { grid-template-columns: 1fr; } }
+.vias { list-style: none; margin-top: 1.5rem; }
+.vias li { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--linea); }
+.vias li:last-child { border-bottom: 0; }
+.vias svg { width: 22px; height: 22px; flex-shrink: 0; margin-top: .15rem; }
+.vias strong { display: block; font-weight: 500; color: var(--negro); }
+.vias a { text-decoration: none; color: var(--texto); }
+.vias a:hover { text-decoration: underline; }
+
+/* ═══════════ PIE ═══════════ */
+footer { position: relative; padding: 80px 0 0; background: #fff; }
+footer .env { position: relative; z-index: 1; }
+/* El motivo vive en el margen, fuera del contenedor: nunca debajo del texto */
+footer .circuito {
+  position: absolute; left: 0; top: 40px; bottom: 0; z-index: 0; pointer-events: none;
+  width: max(0px, calc((100vw - var(--ancho)) / 2 - 16px));
+  mask-image: linear-gradient(90deg, #000 62%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, #000 62%, transparent);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='none' stroke='%23DCD8CF' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M28 0v10M28 46v10M0 28h10M46 28h10'/%3E%3Ccircle cx='28' cy='28' r='5.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 56px 56px;
+}
+@media (max-width: 1200px) { footer .circuito { display: none; } }
+.pie-logo { margin-bottom: 3.5rem; }
+.pie-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; margin-bottom: 4rem; }
+@media (max-width: 800px) { .pie-cols { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .pie-cols { grid-template-columns: 1fr; } }
+.pie-cols h4 { font-size: 1.0625rem; font-weight: 600; margin-bottom: 1.5rem; }
+.pie-cols ul { list-style: none; }
+.pie-cols li { margin-bottom: 1.25rem; }
+.pie-cols a { text-decoration: none; font-size: 1rem; }
+.pie-cols a:hover { text-decoration: underline; }
+.lema { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; flex-wrap: wrap; padding-bottom: 2rem; }
+.lema h3 { font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 400; max-width: 16ch; }
+.redes { display: flex; gap: 1.5rem; }
+.redes a { color: var(--negro); }
+.redes svg { width: 24px; height: 24px; }
+.pie-legal { border-top: 1px solid var(--linea); padding: 1.5rem 0 2.5rem; }
+.pie-legal .enlaces { display: flex; gap: 1.75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.pie-legal a { font-size: .9375rem; text-decoration: none; }
+.pie-legal a:hover { text-decoration: underline; }
+.pie-legal p { font-size: .875rem; color: var(--gris); max-width: 90ch; }
+
+/* ── Aparición ────────────────────────────────────────────── */
+.revelar { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
+.revelar.visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .revelar { opacity: 1; transform: none; transition: none; } }
 </style>
 </head>
 <body>
-  <main>
-    <div class="marca">
-      <svg viewBox="0 0 32 32" aria-hidden="true">
-        <path d="M7 15 Q7 2 16 2 Q25 2 25 15 Z" fill="#FFAD00"/>
-        <rect x="7" y="14" width="18" height="11" rx="2" fill="#FFAD00"/>
-        <path d="M10 7 Q11 4 14 4" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none" opacity=".55"/>
-        <rect x="6" y="24" width="20" height="3" rx="1.5" fill="#FFAD00"/>
-        <rect x="9" y="27" width="5" height="4" rx="1" fill="#FFAD00"/>
-        <rect x="18" y="27" width="5" height="4" rx="1" fill="#FFAD00"/>
+
+<!-- ══ UTILIDAD ══ -->
+<div class="utilidad">
+  <div class="env">
+    <a href="#programa">Sobre LedKid</a>
+    <a href="#preguntas">Soporte</a>
+    <span class="bandera" aria-label="Guatemala">GT</span>
+  </div>
+</div>
+
+<!-- ══ CABECERA ══ -->
+<header id="cabecera">
+  <div class="env barra">
+    <a class="marca" href="#inicio" aria-label="LedKid — inicio">
+      <svg class="logo" viewBox="0 0 176 176" aria-hidden="true">
+        <g transform="translate(38,15.5)" fill="none" stroke="#FFA000" stroke-width="11">
+          <path d="M5,105 V65 Q5,0 50,0 Q95,0 95,65 V105 Q95,115 85,115 H15 Q5,115 5,105 Z" stroke-linejoin="round"/>
+          <path d="M5,117 H95" stroke-linecap="round"/>
+          <path d="M28,124 V145 M72,124 V145" stroke-linecap="round"/>
+        </g>
       </svg>
-      <h1><span class="led">LED</span><span class="kid">KID</span></h1>
+      <span class="nombre"><em>Led</em>Kid</span>
+    </a>
+
+    <nav class="nav" id="nav">
+      <div class="item">
+        <button class="disparador" aria-expanded="false">El programa
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="desplegable">
+          <a href="#programa">Qué incluye <small>Kits, simulador y formación docente</small></a>
+          <a href="#video">Ver el programa <small>Recorrido en video</small></a>
+          <a href="#preguntas">Cómo se implementa <small>Del primer contacto a la primera clase</small></a>
+        </div>
+      </div>
+      <div class="item">
+        <button class="disparador" aria-expanded="false">Niveles
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="desplegable">
+          <a href="#niveles">Nivel 1 · Chispa <small>1º a 3º primaria</small></a>
+          <a href="#niveles">Nivel 2 · Circuito <small>4º a 6º primaria</small></a>
+          <a href="#niveles">Nivel 3 · Robot <small>1º a 3º básico</small></a>
+        </div>
+      </div>
+      <a class="enl" href="#directores">Para directores</a>
+      <a class="enl" href="#preguntas">Preguntas</a>
+      <a class="btn btn-negro" href="#contacto" style="display:none" data-solo-movil>Agendar una demostración</a>
+    </nav>
+
+    <div class="acciones-cab">
+      <a class="btn btn-negro" href="#contacto">Agendar una demostración</a>
+      <button class="buscar" aria-label="Buscar en el sitio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </button>
+      <button class="hamb" id="hamb" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><i></i><i></i><i></i></button>
     </div>
-    <p class="lema">Robótica y electrónica para todos. Simula tu circuito, prográmalo y llévalo a una placa real.</p>
-    <p class="pronto">Muy pronto · Guatemala</p>
-  </main>
+  </div>
+</header>
+
+<main id="inicio">
+
+  <!-- ══ HERO ══ -->
+  <section class="hero" style="padding:0">
+    <video id="heroVideo" autoplay muted loop playsinline poster="media/hero-poster.png" aria-hidden="true">
+      <source src="media/hero-loop.mp4" type="video/mp4">
+    </video>
+    <div class="velo"></div>
+    <div class="env contenido">
+      <span class="kicker">Programa 2027</span>
+      <h1>LedKid, robótica y electrónica para el aula</h1>
+      <p class="bajada">Un programa que entra al horario de clases con material propio, simulador en línea y el docente del colegio ya capacitado.</p>
+      <div class="acciones">
+        <a class="btn btn-blanco" href="#programa">Cómo funciona</a>
+        <a class="btn btn-linea-bl" href="#video">Ver el programa · 2 min
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5z" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+    </div>
+    <button class="pausa" id="pausa" aria-label="Pausar el video de fondo">
+      <svg id="iconoPausa" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+    </button>
+  </section>
+
+  <!-- ══ NIVELES · CARRUSEL ══ -->
+  <section id="niveles">
+    <div class="env">
+      <div class="encab ancho revelar">
+        <h2>Tres niveles que llevan al alumno del primer LED encendido a un robot que decide solo</h2>
+      </div>
+
+      <div class="carrusel">
+        <div class="pista" id="pista">
+          <a class="baldosa" href="#programa">
+            <div class="fila">
+              <h3>Chispa<span class="grado">Nivel 1 · 1º a 3º primaria</span></h3>
+              <span class="flecha-circ" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </div>
+            <img src="assets/producto-1.svg" alt="Semáforo con LEDs y placa de pruebas" loading="lazy">
+          </a>
+
+          <a class="baldosa" href="#programa">
+            <div class="fila">
+              <h3>Circuito<span class="grado">Nivel 2 · 4º a 6º primaria</span></h3>
+              <span class="flecha-circ" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </div>
+            <img src="assets/producto-2.svg" alt="Sensor de distancia y computadora con el simulador" loading="lazy">
+          </a>
+
+          <a class="baldosa" href="#programa">
+            <div class="fila">
+              <h3>Robot<span class="grado">Nivel 3 · 1º a 3º básico</span></h3>
+              <span class="flecha-circ" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </div>
+            <img src="assets/producto-3.svg" alt="Robot seguidor de línea sobre la pista" loading="lazy">
+          </a>
+        </div>
+
+        <div class="mandos">
+          <button class="mando" id="antes" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 5l-7 7 7 7"/></svg></button>
+          <button class="mando activo" id="despues" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ VIDEO 50/50 ══ -->
+  <section id="video">
+    <div class="env">
+      <div class="mitades revelar">
+        <div class="medio-visual">
+          <video id="demo" playsinline preload="metadata" poster="media/video-poster.png">
+            <source src="media/ledkid-demo.mp4" type="video/mp4">
+          </video>
+          <button class="tapa-video" id="tapaDemo" aria-label="Reproducir el video">
+            <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+          </button>
+        </div>
+        <div class="medio-texto">
+          <span class="chip teal" style="align-self:flex-start">El programa en video</span>
+          <h2>Cuando el circuito enciende, el alumno ya no lo olvida</h2>
+          <p>
+            Un recorrido corto por lo que recibe la institución, cómo trabaja el alumno y qué hace
+            el docente en cada sesión. Del primer LED encendido al robot que sigue una línea.
+          </p>
+          <a class="btn btn-negro" href="#contacto">Agendar una visita</a>
+        </div>
+      </div>
+      <p style="font-size:.875rem;color:var(--gris);margin-top:1rem">Video de muestra · pendiente sustituir por la grabación real de un aula.</p>
+    </div>
+  </section>
+
+  <!-- ══ EL PROGRAMA POR DENTRO ══ -->
+  <section id="programa">
+    <div class="env">
+      <div class="encab revelar"><h2>Todo llega armado al salón</h2></div>
+      <div class="trio">
+        <article class="tarjeta revelar">
+          <img src="assets/nivel-1.svg" width="660" height="480" alt="Alumno junto a un semáforo con LEDs">
+          <div class="cuerpo">
+            <span class="chip melo">Material</span>
+            <h3>Kits para el salón</h3>
+            <p>Un kit por grupo de trabajo, con organizador rígido, repuestos e inventario a cargo de LedKid. El equipo se queda en el colegio.</p>
+            <a class="btn btn-negro btn-bloque" href="#contacto">Ver el listado</a>
+          </div>
+        </article>
+        <article class="tarjeta revelar">
+          <img src="assets/nivel-2.svg" width="660" height="480" alt="Alumna con un sensor y una alarma">
+          <div class="cuerpo">
+            <span class="chip verde">Plataforma</span>
+            <h3>Simulador en línea</h3>
+            <p>El alumno arma y programa circuitos en el navegador, sin instalar nada. Si algo falla en pantalla, no se quema un componente real.</p>
+            <a class="btn btn-negro btn-bloque" href="#contacto">Pedir una prueba</a>
+          </div>
+        </article>
+        <article class="tarjeta revelar">
+          <img src="assets/nivel-3.svg" width="660" height="480" alt="Robot seguidor de línea">
+          <div class="cuerpo">
+            <span class="chip teal">Docentes</span>
+            <h3>Formación y acompañamiento</h3>
+            <p>Capacitación antes de arrancar, planificación clase por clase y soporte durante todo el ciclo. No se requiere personal especializado.</p>
+            <a class="btn btn-negro btn-bloque" href="#preguntas">Cómo funciona</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ DIRECTORES ══ -->
+  <section id="directores">
+    <div class="env">
+      <div class="encab revelar">
+        <h2>Un programa que no compromete el presupuesto</h2>
+        <p>Se financia con una cuota mensual incluida en la colegiatura durante los diez meses del ciclo. La institución no adquiere equipo ni contrata personal técnico.</p>
+      </div>
+
+      <figure class="cita-suelta revelar">
+        <blockquote>“Queríamos ofrecer robótica desde hace años. El problema nunca fue el interés de los alumnos: era el equipo y quién iba a darla. Aquí llegan las dos cosas resueltas.”</blockquote>
+        <figcaption><strong>Dirección académica</strong> · Colegio privado, Retalhuleu</figcaption>
+      </figure>
+
+      <!-- Sin tabla de precios: la cuota se arma con cada colegio en la reunión.
+           Publicar una cifra fija ata la negociación antes de empezarla. -->
+      <ul class="chks dos-col revelar">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <span><strong>Sin inversión inicial.</strong> Los kits son propiedad de LedKid y permanecen en el colegio mientras dure el convenio.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <span><strong>Ingreso adicional.</strong> Una parte de la cuota mensual queda para la institución; el porcentaje se fija en el convenio.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <span><strong>Diferenciador en la inscripción.</strong> Un laboratorio con material propio pesa en la decisión de las familias.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          <span><strong>Incorporación flexible.</strong> Puede iniciar en cualquier bimestre, sin esperar al siguiente ciclo escolar.</span></li>
+      </ul>
+
+      <p class="pie-nota revelar">La cuota se calcula con la matrícula y la colegiatura de cada colegio. Se arma en la reunión de presentación.</p>
+    </div>
+  </section>
+
+  <!-- ══ PREGUNTAS ══ -->
+  <section id="preguntas">
+    <div class="env">
+      <div class="encab revelar"><h2>Lo que consulta la dirección antes de firmar</h2></div>
+      <div class="faq revelar">
+        <details>
+          <summary>¿Cuánto tarda en arrancar el programa? <span class="mas" aria-hidden="true"></span></summary>
+          <p>Un mes. <strong>Semana 1:</strong> llevamos los kits al colegio y revisamos los datos de matrícula con la dirección. <strong>Semana 2:</strong> se firma el convenio, con grados, cuota y distribución de ingresos. <strong>Semanas 3 y 4:</strong> capacitamos al docente asignado y entregamos kits y accesos. <strong>Mes 2:</strong> primera clase, con acompañamiento presencial en las primeras sesiones.</p>
+        </details>
+        <details>
+          <summary>¿Se necesita un maestro con formación en robótica? <span class="mas" aria-hidden="true"></span></summary>
+          <p>No. Capacitamos al docente que la institución asigne —habitualmente el de computación o ciencias— y entregamos la planificación completa del ciclo, clase por clase, junto con la guía de evaluación. El soporte continúa disponible todo el año.</p>
+        </details>
+        <details>
+          <summary>¿Cuántas computadoras se requieren? <span class="mas" aria-hidden="true"></span></summary>
+          <p>Una por grupo de trabajo es suficiente. El simulador funciona en el navegador, no exige instalación ni equipo nuevo, y opera en las computadoras que el colegio ya tiene.</p>
+        </details>
+                        <details>
+          <summary>¿Atienden colegios fuera de la capital? <span class="mas" aria-hidden="true"></span></summary>
+          <p>Sí. El programa opera a nivel nacional: el acompañamiento presencial se calendariza por visitas y el seguimiento restante se realiza en línea.</p>
+        </details>
+              </div>
+    </div>
+  </section>
+
+  <!-- ══ CONTACTO ══ -->
+  <section id="contacto">
+    <div class="env">
+      <div class="encab revelar"><h2>¿Lo quiere en su colegio el próximo bimestre?</h2></div>
+      <div class="form-grid">
+        <div class="revelar">
+          <p class="gris">Una reunión de treinta minutos con el material a la vista. Respondemos en un plazo máximo de 48 horas hábiles.</p>
+          <ul class="vias">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
+              <span><strong>Teléfono y WhatsApp</strong><a href="https://wa.me/502XXXXXXXX" target="_blank" rel="noopener">+502 0000 0000</a></span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+              <span><strong>Correo institucional</strong><a href="mailto:info@ledkid.gt">info@ledkid.gt</a></span>
+            </li>
+                      </ul>
+        </div>
+
+        <form class="revelar" action="mailto:info@ledkid.gt" method="post" enctype="text/plain">
+          <div class="campos">
+            <div class="campo ancho">
+              <label for="colegio">Nombre del colegio</label>
+              <input id="colegio" name="colegio" type="text" required autocomplete="organization">
+            </div>
+            <div class="campo">
+              <label for="nombre">Nombre de contacto</label>
+              <input id="nombre" name="nombre" type="text" required autocomplete="name">
+            </div>
+            <div class="campo">
+              <label for="correo">Correo electrónico</label>
+              <input id="correo" name="correo" type="email" required autocomplete="email">
+            </div>
+            <div class="campo">
+              <label for="tel">Teléfono o WhatsApp</label>
+              <input id="tel" name="telefono" type="tel" required autocomplete="tel" placeholder="+502">
+            </div>
+            <div class="campo">
+              <label for="alumnos">Alumnos aproximados</label>
+              <input id="alumnos" name="alumnos" type="number" min="1" inputmode="numeric" placeholder="120">
+            </div>
+            <div class="campo ancho">
+              <label for="mensaje">Mensaje <span class="opt">(opcional)</span></label>
+              <textarea id="mensaje" name="mensaje" placeholder="Grados que le interesan, fechas disponibles para la reunión…"></textarea>
+            </div>
+          </div>
+          <button class="btn btn-negro btn-bloque" type="submit">Solicitar presentación</button>
+          <p class="aviso-form">Al enviar acepta que le contactemos para coordinar la reunión.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══ PIE ══ -->
+<footer>
+  <span class="circuito" aria-hidden="true"></span>
+  <div class="env">
+    <a class="marca pie-logo" href="#inicio" aria-label="LedKid">
+      <svg class="logo" viewBox="0 0 176 176" aria-hidden="true">
+        <g transform="translate(38,15.5)" fill="none" stroke="#FFA000" stroke-width="11">
+          <path d="M5,105 V65 Q5,0 50,0 Q95,0 95,65 V105 Q95,115 85,115 H15 Q5,115 5,105 Z" stroke-linejoin="round"/>
+          <path d="M5,117 H95" stroke-linecap="round"/>
+          <path d="M28,124 V145 M72,124 V145" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <span class="nombre"><em>Led</em>Kid</span>
+    </a>
+
+    <div class="pie-cols">
+      <div>
+        <h4>El programa</h4>
+        <ul>
+          <li><a href="#programa">Qué es LedKid</a></li>
+          <li><a href="#niveles">Plan de niveles</a></li>
+          <li><a href="#preguntas">Cómo se implementa</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Para el colegio</h4>
+        <ul>
+          <li><a href="#preguntas">Preguntas frecuentes</a></li>
+          <li><a href="#contacto">Agendar una demostración</a></li>
+          <li><a href="#directores">Costos y convenio</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Material</h4>
+        <ul>
+          <li><a href="#video">Video del programa</a></li>
+          <li><a href="#programa">Listado del kit</a></li>
+          <li><a href="#contacto">Prueba del simulador</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lema">
+      <h3>La curiosidad se enciende en el aula.</h3>
+      <div class="redes">
+        <a href="#contacto" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"/></svg></a>
+        <a href="#contacto" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#contacto" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.3-.4-4.8a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.4a2.5 2.5 0 0 0-1.8 1.8C1 8.7 1 12 1 12s0 3.3.4 4.8c.2.9.9 1.6 1.8 1.8 1.5.4 8.8.4 8.8.4s7.3 0 8.8-.4a2.5 2.5 0 0 0 1.8-1.8C23 15.3 23 12 23 12ZM9.8 15.2V8.8l6 3.2-6 3.2Z"/></svg></a>
+        <a href="https://wa.me/502XXXXXXXX" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.6 14.1c-.2.7-1.2 1.3-1.9 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3-1.3-5-4.4-5.2-4.6-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.5-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.4.1.6-.1l.9-1c.2-.2.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="pie-legal">
+    <div class="env">
+      <div class="enlaces">
+        <a href="#contacto">Términos y condiciones</a>
+        <a href="#contacto">Política de privacidad</a>
+        <a href="#contacto">Accesibilidad</a>
+        <a href="#contacto">Cookies</a>
+      </div>
+      <p>
+        LedKid es una marca guatemalteca de robótica educativa. © <span id="anio">2026</span> LedKid.
+        Las ilustraciones y los videos de este sitio son material de muestra y se sustituirán por
+        fotografía y grabación reales del aula. LedKid no está asociada con ninguna otra marca de
+        material educativo.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Menú móvil ──
+  const hamb = document.getElementById('hamb');
+  const nav  = document.getElementById('nav');
+  hamb.addEventListener('click', () => {
+    const abierto = nav.classList.toggle('abierto');
+    hamb.setAttribute('aria-expanded', String(abierto));
+  });
+
+  // ── Desplegables de la cabecera ──
+  document.querySelectorAll('.nav .item').forEach(item => {
+    const disp = item.querySelector('.disparador');
+    disp.addEventListener('click', e => {
+      e.stopPropagation();
+      const abierto = item.classList.contains('abierto');
+      document.querySelectorAll('.nav .item').forEach(i => { i.classList.remove('abierto'); i.querySelector('.disparador').setAttribute('aria-expanded','false'); });
+      if (!abierto) { item.classList.add('abierto'); disp.setAttribute('aria-expanded','true'); }
+    });
+  });
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.nav .item').forEach(i => { i.classList.remove('abierto'); i.querySelector('.disparador').setAttribute('aria-expanded','false'); });
+  });
+  nav.addEventListener('click', e => {
+    if (e.target.closest('a')) { nav.classList.remove('abierto'); hamb.setAttribute('aria-expanded','false'); }
+  });
+
+  // ── Sombra de la cabecera ──
+  const cabecera = document.getElementById('cabecera');
+  const marcarScroll = () => cabecera.classList.toggle('pegado', window.scrollY > 8);
+  marcarScroll();
+  addEventListener('scroll', marcarScroll, { passive: true });
+
+  // ── Video del hero: pausa manual ──
+  const heroVideo = document.getElementById('heroVideo');
+  const pausa = document.getElementById('pausa');
+  const iconoPausa = document.getElementById('iconoPausa');
+  pausa.addEventListener('click', () => {
+    if (heroVideo.paused) {
+      heroVideo.play();
+      iconoPausa.innerHTML = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
+      pausa.setAttribute('aria-label', 'Pausar el video de fondo');
+    } else {
+      heroVideo.pause();
+      iconoPausa.innerHTML = '<path d="M8 5v14l11-7z"/>';
+      pausa.setAttribute('aria-label', 'Reanudar el video de fondo');
+    }
+  });
+
+  // ── Video de demostración ──
+  const demo = document.getElementById('demo');
+  const tapaDemo = document.getElementById('tapaDemo');
+  // Los controles nativos solo aparecen al reproducir: con el cartel puesto ensucian
+  tapaDemo.addEventListener('click', () => { demo.controls = true; demo.play(); });
+  demo.addEventListener('play',  () => { tapaDemo.hidden = true; });
+  demo.addEventListener('ended', () => { tapaDemo.hidden = false; demo.controls = false; });
+
+  // ── Carrusel ──
+  const pista = document.getElementById('pista');
+  const paso = () => pista.querySelector('.baldosa').getBoundingClientRect().width + 24;
+  document.getElementById('antes').addEventListener('click', () => pista.scrollBy({ left: -paso(), behavior: 'smooth' }));
+  document.getElementById('despues').addEventListener('click', () => pista.scrollBy({ left: paso(), behavior: 'smooth' }));
+  const marcarMandos = () => {
+    // Si las tres baldosas caben, los mandos no pintan nada
+    const desborda = pista.scrollWidth > pista.clientWidth + 4;
+    document.querySelector('.mandos').style.display = desborda ? '' : 'none';
+    const fin = pista.scrollLeft + pista.clientWidth >= pista.scrollWidth - 4;
+    document.getElementById('antes').classList.toggle('activo', pista.scrollLeft > 4);
+    document.getElementById('despues').classList.toggle('activo', !fin);
+  };
+  addEventListener('resize', marcarMandos);
+  pista.addEventListener('scroll', marcarMandos, { passive: true });
+  marcarMandos();
+
+  // ── Año ──
+  document.getElementById('anio').textContent = new Date().getFullYear();
+
+  // ── Aparición ──
+  const objetivos = document.querySelectorAll('.revelar');
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+    objetivos.forEach(el => el.classList.add('visible'));
+  } else {
+    const obs = new IntersectionObserver(es => {
+      es.forEach((e, i) => { if (!e.isIntersecting) return; setTimeout(() => e.target.classList.add('visible'), i * 55); obs.unobserve(e.target); });
+    }, { threshold: .1, rootMargin: '0px 0px -50px' });
+    objetivos.forEach(el => obs.observe(el));
+  }
+</script>
 </body>
 </html>

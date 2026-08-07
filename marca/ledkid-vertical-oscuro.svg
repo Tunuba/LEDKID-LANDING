@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-3 -3 482 302" role="img" aria-label="LedKid">
+  <title>LedKid</title>
+  <g transform="translate(187.5,0)">
+    <g transform="translate(0.5,5.5)" fill="none" stroke="#FFA000" stroke-width="11">
+      <path d="M5,105 V65 Q5,0 50,0 Q95,0 95,65 V105 Q95,115 85,115 H15 Q5,115 5,105 Z" stroke-linejoin="round"/>
+      <path d="M5,117 H95" stroke-linecap="round"/>
+      <path d="M28,124 V145 M72,124 V145" stroke-linecap="round"/>
+    </g>
+  </g>
+  <g transform="translate(0,156)">
+    <path d="M8,48 V132 H50" transform="translate(0,0)" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M69.6,106 A31,31 0 1 0 54.5,127.8" transform="translate(78,0)" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><path d="M8,106 H69.6" transform="translate(78,0)" fill="none" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M70,38 V132" transform="translate(176,0)" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><circle cx="215" cy="101" r="31" fill="none" stroke="#FFFFFF" stroke-width="16"/>
+    <path d="M8,48 V132 M58,48 L18,88 M30,78 L60,132" transform="translate(274,0)" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M8,70 V132" transform="translate(362,0)" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><circle cx="370" cy="40" r="8" fill="#FFFFFF"/>
+    <path d="M70,38 V132" transform="translate(398,0)" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><circle cx="437" cy="101" r="31" fill="none" stroke="#FFFFFF" stroke-width="16"/>
+  </g>
+</svg>
