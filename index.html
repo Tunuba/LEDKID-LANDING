@@ -121,6 +121,11 @@ img, video { max-width: 100%; display: block; }
 .btn-linea-bl { background: transparent; color: #fff; border-color: #fff; font-size: 1.125rem; padding: 14.5px 24px; }
 .btn-linea-bl:hover { background: rgba(255,255,255,.14); }
 .btn-bloque { width: 100%; }
+/* El CTA de la cabecera se duplica dentro del menú de teléfono: arriba de 1100
+   manda el de .acciones-cab, abajo manda este. Antes iba con style="display:none"
+   en el HTML y ninguna regla lo volvía a mostrar, así que en teléfono el botón
+   principal no existía en ninguna parte. */
+.solo-movil { display: none; }
 /* Jerarquía: el ámbar sólido es solo para la llamada principal. Dentro de una
    tarjeta el botón va en contorno, si no la página entera grita. */
 .tarjeta .btn-negro { background: transparent; color: var(--negro); border-color: var(--negro); font-weight: 500; }
@@ -162,7 +167,11 @@ header.pegado { box-shadow: 0 1px 10px rgba(0,0,0,.08); }
   border: 1px solid var(--linea); border-radius: var(--r2); padding: .5rem 0;
   box-shadow: 0 12px 34px rgba(0,0,0,.12); display: none; z-index: 5;
 }
-.nav .item.abierto .desplegable { display: block; }
+/* Los desplegables abren sin JS: puntero y teclado. La clase .abierto sigue
+   valiendo para el clic cuando el script sí corre. */
+.nav .item.abierto .desplegable,
+.nav .item:hover .desplegable,
+.nav .item:focus-within .desplegable { display: block; }
 .nav .desplegable a { display: block; padding: .7rem 1.25rem; font-size: .96rem; text-decoration: none; }
 .nav .desplegable a:hover { background: var(--panel); }
 .nav .desplegable small { display: block; color: var(--gris); font-size: .84rem; }
@@ -172,8 +181,13 @@ header.pegado { box-shadow: 0 1px 10px rgba(0,0,0,.08); }
 .buscar:hover { background: var(--panel); }
 .buscar svg { width: 22px; height: 22px; }
 
+/* El menú de teléfono abre SIN JavaScript: casilla oculta + etiqueta.
+   Antes lo abría el script, y bajo la CSP del gateway el script no corre:
+   en un teléfono la navegación entera era inalcanzable. */
+.menu-check { position: absolute; width: 1px; height: 1px; opacity: 0; margin: 0; }
 .hamb { display: none; width: 44px; height: 40px; border: 1px solid var(--linea); border-radius: var(--r); background: #fff; cursor: pointer; }
 .hamb i { display: block; width: 18px; height: 2px; background: var(--negro); margin: 4px auto; }
+.menu-check:focus-visible ~ .acciones-cab .hamb { outline: 2px solid var(--negro); outline-offset: 3px; }
 
 @media (max-width: 1100px) {
   .barra { height: 64px; }
@@ -182,10 +196,19 @@ header.pegado { box-shadow: 0 1px 10px rgba(0,0,0,.08); }
     background: #fff; border-bottom: 1px solid var(--linea); padding: .25rem 1.5rem 1.25rem; display: none;
     box-shadow: 0 12px 30px rgba(0,0,0,.1);
   }
-  .nav.abierto { display: flex; }
+  /* La casilla es la que manda; .abierto queda por compatibilidad con el JS */
+  .menu-check:checked ~ .nav, .nav.abierto { display: flex; }
   .nav > .item, .nav > a.enl { border-bottom: 1px solid var(--linea); }
-  .nav .desplegable { position: static; border: 0; box-shadow: none; padding: 0 0 .5rem 1rem; min-width: 0; }
+  /* En el teléfono los submenús van siempre abiertos: no hay sitio para un
+     segundo nivel plegable y así no dependen de ningún clic con JS. */
+  .nav .desplegable { position: static; border: 0; box-shadow: none; padding: 0 0 .5rem 1rem; min-width: 0; display: block; }
+  .nav .disparador { cursor: default; font-weight: 500; }
+  .nav .disparador svg { display: none; }
   .nav .btn { margin-top: 1rem; }
+  /* Con los dos submenús abiertos el menú mide ~610px: en un teléfono corto o en
+     horizontal no cabe, y al ser absolute no se puede desplazar. Que ruede solo. */
+  .nav { max-height: calc(100vh - 64px); max-height: calc(100dvh - 64px); overflow-y: auto; overscroll-behavior: contain; }
+  .nav .solo-movil { display: inline-flex; }
   .acciones-cab .btn-negro { display: none; }
   .hamb { display: block; }
   .buscar { display: none; }
@@ -202,14 +225,22 @@ header.pegado { box-shadow: 0 1px 10px rgba(0,0,0,.08); }
 .hero h1 { color: #fff; max-width: 16ch; }
 .hero .bajada { color: #fff; font-size: clamp(1.15rem, 1.75vw, 1.5625rem); line-height: 1.35; max-width: 44ch; margin-top: 1.5rem; }
 .hero .acciones { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 2.5rem; }
+/* Mandos que solo sirven con JS: si el script no corre, un botón muerto
+   confunde más que su ausencia. Se muestran únicamente con .js-vivo. */
 .hero .pausa {
   position: absolute; right: 2rem; bottom: 2rem; width: 44px; height: 44px;
   background: rgba(255,255,255,.9); border: 0; border-radius: var(--r); cursor: pointer;
-  display: grid; place-items: center;
+  display: none; place-items: center;
 }
+.js-vivo .hero .pausa { display: grid; }
 .hero .pausa svg { width: 18px; height: 18px; }
 @media (max-width: 760px) {
-  .hero { height: 560px; }
+  /* Altura mínima, no fija: si el titular gana una línea (pantalla estrecha o
+     tipografía grande del sistema) el hero crece en vez de recortar el texto. */
+  .hero { height: auto; min-height: 560px; }
+  .hero .contenido { height: auto; min-height: 560px; }
+  /* El mando de pausa vive abajo a la derecha y llegaba a tocar el último botón */
+  .hero .contenido { padding-bottom: 92px; }
   .hero .pausa { right: 1.25rem; bottom: 1.25rem; }
   /* En vertical el video se recorta al centro: hace falta más velo para leer el titular */
   .hero .velo { background: linear-gradient(180deg, rgba(0,0,0,.5), rgba(0,0,0,.65)); }
@@ -267,7 +298,10 @@ section { padding: 68px 0; }
 .baldosa img { position: absolute; left: -6%; bottom: -46px; width: 112%; }
 .baldosa:hover .flecha-circ { transform: scale(1.08); }
 
-.mandos { display: flex; justify-content: flex-end; gap: 8px; margin-top: 32px; }
+/* Sin JS las flechas no empujan nada, pero la pista sigue arrastrándose con el
+   dedo (overflow-x + scroll-snap): se ocultan en vez de quedar muertas. */
+.mandos { display: none; justify-content: flex-end; gap: 8px; margin-top: 32px; }
+.js-vivo .mandos { display: flex; }
 .mando { width: 56px; height: 56px; border: 0; border-radius: var(--r); background: var(--panel); color: var(--gris-2); cursor: pointer; display: grid; place-items: center; transition: var(--t); }
 .mando.activo { background: var(--negro); color: #fff; }
 .mando svg { width: 22px; height: 22px; }
@@ -283,10 +317,13 @@ section { padding: 68px 0; }
 .mitades .medio-texto h2 { font-size: clamp(1.6rem, 2.4vw, 2.1rem); margin: 24px 0 1rem; }
 .mitades .medio-texto p { color: var(--gris); }
 .mitades .medio-texto .btn { align-self: flex-start; margin-top: 2rem; }
+/* El cartel de play tapa el video y solo el JS lo reproduce. Sin JS estorbaría,
+   así que se retira y manda el atributo controls nativo del <video>. */
 .tapa-video {
-  position: absolute; inset: 0; display: grid; place-items: center; border: 0; cursor: pointer;
+  position: absolute; inset: 0; display: none; place-items: center; border: 0; cursor: pointer;
   background: rgba(0,0,0,.15); transition: var(--t);
 }
+.js-vivo .tapa-video { display: grid; }
 .tapa-video:hover { background: rgba(0,0,0,.28); }
 .tapa-video[hidden] { display: none; }
 .tapa-video .play { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,.92); display: grid; place-items: center; }
@@ -430,10 +467,47 @@ footer .circuito {
 .pie-legal a:hover { text-decoration: underline; }
 .pie-legal p { font-size: .875rem; color: var(--gris); max-width: 90ch; }
 
-/* ── Aparición ────────────────────────────────────────────── */
-.revelar { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
-.revelar.visible { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: reduce) { .revelar { opacity: 1; transform: none; transition: none; } }
+/* ── Ajuste fino de teléfono ──────────────────────────────────
+   No cambia la identidad: mismos colores, misma tipografía, mismos radios.
+   Solo recupera el ancho útil que se comían separaciones pensadas para
+   escritorio. En 360px la columna de texto mide 312px: 64px de relleno
+   lateral o 64px de padding-right en el FAQ son una quinta parte del renglón. */
+@media (max-width: 560px) {
+  section { padding: 48px 0; }
+  .encab { margin-bottom: 32px; }
+  .encab::before { margin-bottom: 20px; }
+  .encab p { font-size: 1.0625rem; }
+
+  .tarjeta .cuerpo { padding: 22px 20px 26px; }
+  .tarjeta .chip { margin-bottom: 18px; }
+  .tarjeta h3 { margin-bottom: 1rem; }
+
+  .baldosa { padding: 24px; }
+
+  /* El FAQ perdía 4rem de renglón por un padding pensado para 1185px */
+  summary { gap: 1rem; padding: 1.25rem 0; }
+  details p { padding-right: 0; }
+
+  .cita-suelta { padding-left: 20px; margin-bottom: 36px; }
+  .pie-logo { margin-bottom: 2.5rem; }
+  .pie-cols { gap: 2rem; margin-bottom: 2.5rem; }
+  .pie-cols li { margin-bottom: 1rem; }
+  footer { padding-top: 56px; }
+  .lema { gap: 1.5rem; }
+  form { padding: 1.5rem 1.25rem; }
+}
+
+/* ── Aparición ────────────────────────────────────────────────
+   OJO: la animación SOLO existe si el script está vivo. El gateway que sirve
+   ledkid.com manda «Content-Security-Policy: script-src 'self'» (sin
+   'unsafe-inline'), así que el <script> de esta página NO se ejecuta en
+   producción. Con «.revelar { opacity: 0 }» de partida, los 15 bloques del
+   cuerpo quedaban invisibles para siempre: la landing entera era un hero y
+   nada más. Ahora el contenido se ve por defecto y el script, si llega a
+   correr, es quien pide la animación. */
+.js-vivo .revelar { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
+.js-vivo .revelar.visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .js-vivo .revelar { opacity: 1; transform: none; transition: none; } }
 </style>
 </head>
 <body>
@@ -450,6 +524,9 @@ footer .circuito {
 <!-- ══ CABECERA ══ -->
 <header id="cabecera">
   <div class="env barra">
+    <!-- Abre el menú de teléfono sin JavaScript. Va antes de <nav> porque la
+         regla que lo muestra es «.menu-check:checked ~ .nav». -->
+    <input class="menu-check" type="checkbox" id="menu-movil" aria-label="Abrir el menú">
     <a class="marca" href="#inicio" aria-label="LedKid — inicio">
       <svg class="logo" viewBox="0 0 176 176" aria-hidden="true">
         <g transform="translate(38,15.5)" fill="none" stroke="#FFA000" stroke-width="11">
@@ -468,6 +545,7 @@ footer .circuito {
         </button>
         <div class="desplegable">
           <a href="#programa">Qué incluye <small>Kits, simulador y formación docente</small></a>
+          <a href="/circuito">Probar el simulador <small>Armar circuitos en el navegador</small></a>
           <a href="#video">Ver el programa <small>Recorrido en video</small></a>
           <a href="#preguntas">Cómo se implementa <small>Del primer contacto a la primera clase</small></a>
         </div>
@@ -484,7 +562,9 @@ footer .circuito {
       </div>
       <a class="enl" href="#directores">Para directores</a>
       <a class="enl" href="#preguntas">Preguntas</a>
-      <a class="btn btn-negro" href="#contacto" style="display:none" data-solo-movil>Agendar una demostración</a>
+      <!-- El simulador vive en la misma máquina y el mismo dominio: ruta relativa -->
+      <a class="enl" href="/circuito">Probar el simulador</a>
+      <a class="btn btn-negro solo-movil" href="#contacto">Agendar una demostración</a>
     </nav>
 
     <div class="acciones-cab">
@@ -609,7 +689,7 @@ footer .circuito {
             <span class="chip verde">Plataforma</span>
             <h3>Simulador en línea</h3>
             <p>El alumno arma y programa circuitos en el navegador, sin instalar nada. Si algo falla en pantalla, no se quema un componente real.</p>
-            <a class="btn btn-negro btn-bloque" href="#contacto">Pedir una prueba</a>
+            <a class="btn btn-negro btn-bloque" href="/circuito">Probar el simulador</a>
           </div>
         </article>
         <article class="tarjeta revelar">
@@ -772,7 +852,7 @@ footer .circuito {
         <ul>
           <li><a href="#video">Video del programa</a></li>
           <li><a href="#programa">Listado del kit</a></li>
-          <li><a href="#contacto">Prueba del simulador</a></li>
+          <li><a href="/circuito">Probar el simulador</a></li>
         </ul>
       </div>
     </div>
@@ -806,92 +886,6 @@ footer .circuito {
   </div>
 </footer>
 
-<script>
-  // ── Menú móvil ──
-  const hamb = document.getElementById('hamb');
-  const nav  = document.getElementById('nav');
-  hamb.addEventListener('click', () => {
-    const abierto = nav.classList.toggle('abierto');
-    hamb.setAttribute('aria-expanded', String(abierto));
-  });
-
-  // ── Desplegables de la cabecera ──
-  document.querySelectorAll('.nav .item').forEach(item => {
-    const disp = item.querySelector('.disparador');
-    disp.addEventListener('click', e => {
-      e.stopPropagation();
-      const abierto = item.classList.contains('abierto');
-      document.querySelectorAll('.nav .item').forEach(i => { i.classList.remove('abierto'); i.querySelector('.disparador').setAttribute('aria-expanded','false'); });
-      if (!abierto) { item.classList.add('abierto'); disp.setAttribute('aria-expanded','true'); }
-    });
-  });
-  document.addEventListener('click', () => {
-    document.querySelectorAll('.nav .item').forEach(i => { i.classList.remove('abierto'); i.querySelector('.disparador').setAttribute('aria-expanded','false'); });
-  });
-  nav.addEventListener('click', e => {
-    if (e.target.closest('a')) { nav.classList.remove('abierto'); hamb.setAttribute('aria-expanded','false'); }
-  });
-
-  // ── Sombra de la cabecera ──
-  const cabecera = document.getElementById('cabecera');
-  const marcarScroll = () => cabecera.classList.toggle('pegado', window.scrollY > 8);
-  marcarScroll();
-  addEventListener('scroll', marcarScroll, { passive: true });
-
-  // ── Video del hero: pausa manual ──
-  const heroVideo = document.getElementById('heroVideo');
-  const pausa = document.getElementById('pausa');
-  const iconoPausa = document.getElementById('iconoPausa');
-  pausa.addEventListener('click', () => {
-    if (heroVideo.paused) {
-      heroVideo.play();
-      iconoPausa.innerHTML = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
-      pausa.setAttribute('aria-label', 'Pausar el video de fondo');
-    } else {
-      heroVideo.pause();
-      iconoPausa.innerHTML = '<path d="M8 5v14l11-7z"/>';
-      pausa.setAttribute('aria-label', 'Reanudar el video de fondo');
-    }
-  });
-
-  // ── Video de demostración ──
-  const demo = document.getElementById('demo');
-  const tapaDemo = document.getElementById('tapaDemo');
-  // Los controles nativos solo aparecen al reproducir: con el cartel puesto ensucian
-  tapaDemo.addEventListener('click', () => { demo.controls = true; demo.play(); });
-  demo.addEventListener('play',  () => { tapaDemo.hidden = true; });
-  demo.addEventListener('ended', () => { tapaDemo.hidden = false; demo.controls = false; });
-
-  // ── Carrusel ──
-  const pista = document.getElementById('pista');
-  const paso = () => pista.querySelector('.baldosa').getBoundingClientRect().width + 24;
-  document.getElementById('antes').addEventListener('click', () => pista.scrollBy({ left: -paso(), behavior: 'smooth' }));
-  document.getElementById('despues').addEventListener('click', () => pista.scrollBy({ left: paso(), behavior: 'smooth' }));
-  const marcarMandos = () => {
-    // Si las tres baldosas caben, los mandos no pintan nada
-    const desborda = pista.scrollWidth > pista.clientWidth + 4;
-    document.querySelector('.mandos').style.display = desborda ? '' : 'none';
-    const fin = pista.scrollLeft + pista.clientWidth >= pista.scrollWidth - 4;
-    document.getElementById('antes').classList.toggle('activo', pista.scrollLeft > 4);
-    document.getElementById('despues').classList.toggle('activo', !fin);
-  };
-  addEventListener('resize', marcarMandos);
-  pista.addEventListener('scroll', marcarMandos, { passive: true });
-  marcarMandos();
-
-  // ── Año ──
-  document.getElementById('anio').textContent = new Date().getFullYear();
-
-  // ── Aparición ──
-  const objetivos = document.querySelectorAll('.revelar');
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
-    objetivos.forEach(el => el.classList.add('visible'));
-  } else {
-    const obs = new IntersectionObserver(es => {
-      es.forEach((e, i) => { if (!e.isIntersecting) return; setTimeout(() => e.target.classList.add('visible'), i * 55); obs.unobserve(e.target); });
-    }, { threshold: .1, rootMargin: '0px 0px -50px' });
-    objetivos.forEach(el => obs.observe(el));
-  }
-</script>
+<script src="app.js" defer></script>
 </body>
 </html>
