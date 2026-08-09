@@ -1064,9 +1064,17 @@ footer .env { position: relative; z-index: 1; }
              iba creyendo que habia pedido una reunion. Cada uno de esos fue un
              cliente perdido en silencio. Y `ledkid.gt` ni siquiera es el dominio.
              Ahora hace POST a /api/contacto, que manda el correo por el mismo SMTP
-             que ya envia las verificaciones de cuenta. El `action` se queda como
-             RESPALDO por si el JavaScript no corre. -->
-        <form id="formContacto" class="revelar" action="mailto:info@ledkid.com" method="post" enctype="text/plain">
+             que ya envia las verificaciones de cuenta.
+
+             ⚠️ Y NO HAY `action` DE RESPALDO. Lo hubo un rato —el mailto de antes,
+             conservado "por si el JavaScript no corre"— y era peor que nada por
+             tres motivos a la vez: apuntaba a un buzon que no existe, no enviaba
+             nada igualmente, y el navegador lo marca en consola como **Mixed
+             Content** en cada carga por ser un destino inseguro dentro de una
+             pagina HTTPS. Un respaldo que no respalda y encima ensucia.
+             Para quien no tenga JavaScript esta el <noscript> de aqui abajo, que
+             da los canales que SI funcionan. -->
+        <form id="formContacto" class="revelar">
           <div class="campos">
             <!-- Trampa para robots: oculto para personas, tentador para un bot.
                  Si viene relleno, el servidor contesta 200 y tira el mensaje. -->
@@ -1101,6 +1109,10 @@ footer .env { position: relative; z-index: 1; }
           </div>
           <button class="btn btn-negro btn-bloque" type="submit">Solicitar presentación</button>
           <p class="aviso-form">Al enviar acepta que le contactemos para coordinar la reunión.</p>
+          <noscript>
+            <p class="respuesta-form mal">Este formulario necesita JavaScript. Escríbanos por WhatsApp al
+              <a href="https://wa.me/50257545388" target="_blank" rel="noopener">+502 5754 5388</a>.</p>
+          </noscript>
           <p class="respuesta-form" id="respuestaContacto" role="status" aria-live="polite" hidden></p>
         </form>
       </div>
