@@ -68,10 +68,10 @@ Por lo mismo **no se usa Google Fonts**: `font-src 'self' data:` bloquea la hoja
 de `fonts.googleapis.com`, así que la tipografía es la pila del sistema — que
 además es la de los ocho videos de `LEDKID-MARKETING` (`Segoe UI`, weight 800).
 
-## ROBO no se edita a mano
+## BOTITO no se edita a mano
 
 `assets/robo.svg` lo **genera** un script del otro repo leyendo el componente
-real del simulador (`frontend/src/components/RoboMascot.vue`), que es el ROBO que
+real del simulador (`frontend/src/components/RoboMascot.vue`), que es el BOTITO que
 el niño ve todos los días:
 
 ```bash

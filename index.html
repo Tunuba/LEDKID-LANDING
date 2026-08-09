@@ -283,8 +283,17 @@ section { padding: 68px 0; }
 
 /* ── Carrusel de baldosas ─────────────────────────────────── */
 .carrusel { position: relative; }
+/* CUATRO columnas, no tres. Los niveles son cuatro y Meme los quiere ver "las 4
+   tarjetas al mismo tiempo, sin ese boton corredor". Con tres cabiendo, el cuarto
+   —diversificado, que es el que mas caro se vende— quedaba SIEMPRE fuera de
+   pantalla y solo aparecia si al visitante se le ocurria pulsar la flecha.
+   El divisor y el descuento van juntos: son 3 huecos de 24px entre 4 columnas,
+   no 2 entre 3. Si se cambia uno sin el otro, la ultima baldosa se corta.
+   ⚠️ Los mandos NO hay que ocultarlos a mano: app.js ya los esconde cuando la
+   pista no desborda (`scrollWidth > clientWidth`), asi que al caber las cuatro
+   desaparecen solos — y siguen saliendo en movil, donde el carrusel si hace falta. */
 .pista {
-  display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 48px) / 3);
+  display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 72px) / 4);
   gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
   padding-bottom: 4px;
 }
@@ -527,13 +536,13 @@ footer .circuito {
 .js-vivo .revelar.visible { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .js-vivo .revelar { opacity: 1; transform: none; transition: none; } }
 
-/* ROBO: la caja que lo enmarca. Fondo oscuro para que el SVG (que es oscuro)
+/* BOTITO: la caja que lo enmarca. Fondo oscuro para que el SVG (que es oscuro)
    tenga contraste, y un tamaño contenido — es un acompañante, no un héroe.
 
    ⚠️ SEGUNDA PASADA (Meme, 2026-08-08): *"que la iluminacion sea mejor planteada
-   y suave, porque actualmente es como si ROBO estuviera en una caja y la
+   y suave, porque actualmente es como si BOTITO estuviera en una caja y la
    iluminacion se ve cortada"*. Y no era el halo recortandose, como se supuso la
-   primera vez: MEDIDO en el navegador, la caja son 593x767 y ROBO 203x320, o sea
+   primera vez: MEDIDO en el navegador, la caja son 593x767 y BOTITO 203x320, o sea
    224 px de holgura por arriba y por abajo contra un halo de solo 46. El halo no
    llegaba al borde ni de lejos. Lo que se veia como una caja ERA la caja: un
    rectangulo plano de fondo casi negro, enorme y medio vacio, cortando en seco
@@ -542,7 +551,7 @@ footer .circuito {
    Por eso el arreglo NO es mas halo, es que la luz TENGA ORIGEN:
    · el fondo pasa de `linear-gradient` (plano, direccional, delata el rectangulo)
      a un `radial-gradient` centrado en el 40% de alto — donde esta la cara. Asi el
-     propio fondo se lee como luz que sale de ROBO, no como una lamina de color.
+     propio fondo se lee como luz que sale de BOTITO, no como una lamina de color.
    · un `::before` radial ancho y transparente hace de resplandor de ambiente.
    · el halo del <img> pasa de dos sombras a TRES, con radios 14/40/110, para que
      la caida sea gradual en vez de tener un final visible.
@@ -566,21 +575,27 @@ footer .circuito {
     rgba(0,212,170,.26) 0%, rgba(0,212,170,.13) 34%,
     rgba(0,212,170,.05) 56%, rgba(0,212,170,0) 74%); }
 /* `height:auto` explicito: el ancho lo pone el max-height y la proporcion del
-   viewBox. Sin esto el SVG se estira al ancho de la columna y ROBO sale gordo. */
+   viewBox. Sin esto el SVG se estira al ancho de la columna y BOTITO sale gordo. */
+/* ⚠️ 450 Y NO 360, Y VA ATADO AL viewBox. El lienzo del SVG crecio de 126 a 158
+   unidades de alto para que el halo de la antena dejara de cortarse (ver
+   exportar-robo-landing.mjs). Ese aire es transparente, asi que si el max-height
+   se queda en 360, BOTITO se ve un 25% mas pequeño sin que nada falle. 360×158/126
+   = 450, y con eso el robot vuelve a medir los mismos 358 px de alto y 228 de
+   ancho que antes. Los dos numeros se mueven JUNTOS o no se mueve ninguno. */
 .robo-caja img { position:relative; z-index:1;
-  width:auto; height:auto; max-height:360px; max-width:100%;
+  width:auto; height:auto; max-height:450px; max-width:100%;
   filter: drop-shadow(0 6px 14px rgba(0,212,170,.30))
           drop-shadow(0 0 40px rgba(0,212,170,.22))
           drop-shadow(0 0 110px rgba(0,212,170,.14)); }
 /* ⚠️ EN MOVIL EL HALO HAY QUE ENCOGERLO, y por una cuenta: con `overflow:hidden`
    el halo se recorta contra la caja, asi que su radio tiene que caber en la
-   holgura. Antes eran 260 de caja con 200 de ROBO = 30 px de holgura, donde un
+   holgura. Antes eran 260 de caja con 200 de BOTITO = 30 px de holgura, donde un
    halo de 110 se corta en seco y reaparece el problema, solo que en el telefono
    (que es donde nadie lo mira). Con 340 y 220 quedan 60 px de holgura y el halo
    mayor baja a 54. */
 @media (max-width:760px){
-  .robo-caja { min-height:340px; padding:1.5rem 1rem; border-radius:22px; }
-  .robo-caja img { max-height:220px;
+  .robo-caja { min-height:400px; padding:1.5rem 1rem; border-radius:22px; }
+  .robo-caja img { max-height:276px;
     filter: drop-shadow(0 4px 10px rgba(0,212,170,.30))
             drop-shadow(0 0 22px rgba(0,212,170,.22))
             drop-shadow(0 0 54px rgba(0,212,170,.14)); } }
@@ -754,7 +769,7 @@ footer .circuito {
           <span class="chip teal" style="align-self:flex-start">El programa en video</span>
           <h2>Dos minutos por dentro del simulador</h2>
           <p>
-            ROBO recorre lo que el alumno usa de verdad: los nueve modos de práctica de primaria,
+            BOTITO recorre lo que el alumno usa de verdad: los nueve modos de práctica de primaria,
             el editor de circuitos que resuelve la electricidad de verdad, la programación por
             bloques y por código sobre el ESP32, y la electrónica digital de diversificado.
             <strong>Todo lo que se ve son pantallas reales</strong>, no una recreación.
@@ -784,7 +799,7 @@ footer .circuito {
           <div class="cuerpo">
             <span class="chip verde">Plataforma</span>
             <h3>Simulador en línea</h3>
-            <p>El alumno arma y programa circuitos en el navegador, sin instalar nada. Si algo falla en pantalla, no se quema un componente real. Y no está solo: <strong>ROBO</strong> lo acompaña en cada lección.</p>
+            <p>El alumno arma y programa circuitos en el navegador, sin instalar nada. Si algo falla en pantalla, no se quema un componente real. Y no está solo: <strong>BOTITO</strong> lo acompaña en cada lección.</p>
             <a class="btn btn-negro btn-bloque" href="/circuito">Probar el simulador</a>
           </div>
         </article>
@@ -801,22 +816,22 @@ footer .circuito {
     </div>
   </section>
 
-  <!-- ══ ROBO Y EL RECORRIDO COMPLETO ══
+  <!-- ══ BOTITO Y EL RECORRIDO COMPLETO ══
        Meme lo pidió explícito: *"la landing debe de usar nuestro robot mascota del
        simulador, no otro"*. El de `assets/robo.svg` NO es un dibujo de marketing:
        lo genera `frontend/scripts/exportar-robo-landing.mjs` leyendo
-       `RoboMascot.vue`, que es el ROBO que el niño ve todos los días dentro del
+       `RoboMascot.vue`, que es el BOTITO que el niño ve todos los días dentro del
        simulador. Si el componente cambia, se vuelve a correr el script.
        Los contenidos citados aquí son los que existen en la base, no una promesa. -->
   <section id="recorrido">
     <div class="env">
       <div class="mitades revelar">
         <div class="robo-caja">
-          <img src="assets/robo.svg" alt="ROBO, la mascota de LedKid" width="260" height="410" decoding="async">
+          <img src="assets/robo.svg" alt="BOTITO, la mascota de LedKid" width="260" height="410" decoding="async">
         </div>
         <div class="medio-texto">
           <span class="chip verde" style="align-self:flex-start">El acompañante</span>
-          <h2>Este es ROBO, y no es un dibujo de folleto</h2>
+          <h2>Este es BOTITO, y no es un dibujo de folleto</h2>
           <p>
             Es el mismo que el alumno ve dentro del simulador: le explica cada lección,
             le escucha por el micrófono y le celebra cuando el circuito por fin enciende.
