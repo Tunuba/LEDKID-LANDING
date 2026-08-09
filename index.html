@@ -626,7 +626,13 @@ footer .env { position: relative; z-index: 1; }
   filter: drop-shadow(0 6px 14px rgba(0,212,170,.30))
           drop-shadow(0 0 40px rgba(0,212,170,.22))
           drop-shadow(0 0 110px rgba(0,212,170,.14)); }
-/* ⚠️ EN MOVIL EL HALO HAY QUE ENCOGERLO, y por una cuenta: con `overflow:hidden`
+/* ✅ MEDIDO A 390 px EL 2026-08-09, y no de memoria: el `resize` de la ventana no
+   cambiaba el viewport, asi que se midio dentro de un IFRAME de 390 px — que si
+   activa las media queries a ese ancho. Resultado: media query activa, holgura de
+   62 px contra un halo de 54 (cabe), 0 secciones desbordadas, 0 imagenes rotas,
+   0 botones por debajo de 40 px de alto y sin scroll horizontal.
+   Este repo tenia anotado "sin verificar en un movil de verdad"; ya no lo esta.
+   ⚠️ EN MOVIL EL HALO HAY QUE ENCOGERLO, y por una cuenta: con `overflow:hidden`
    el halo se recorta contra la caja, asi que su radio tiene que caber en la
    holgura. Antes eran 260 de caja con 200 de BOTITO = 30 px de holgura, donde un
    halo de 110 se corta en seco y reaparece el problema, solo que en el telefono
