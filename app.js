@@ -41,21 +41,16 @@
   marcarScroll();
   addEventListener('scroll', marcarScroll, { passive: true });
 
-  // ── Video del hero: pausa manual ──
-  const heroVideo = document.getElementById('heroVideo');
-  const pausa = document.getElementById('pausa');
-  const iconoPausa = document.getElementById('iconoPausa');
-  pausa.addEventListener('click', () => {
-    if (heroVideo.paused) {
-      heroVideo.play();
-      iconoPausa.innerHTML = '<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>';
-      pausa.setAttribute('aria-label', 'Pausar el video de fondo');
-    } else {
-      heroVideo.pause();
-      iconoPausa.innerHTML = '<path d="M8 5v14l11-7z"/>';
-      pausa.setAttribute('aria-label', 'Reanudar el video de fondo');
-    }
-  });
+  // ── Video del hero ──
+  //
+  // ⚠️ AQUI VIVIA EL BOTON DE PAUSA, Y SE QUITO EL 2026-08-09 por decision de
+  // Meme: *"ese boton quitalo, que se reproduzca en loop siempre"*. El video del
+  // hero es DECORADO — un control de pausa sobre un fondo invita a pararlo y deja
+  // la portada congelada. El <video> lleva `autoplay muted loop playsinline`, que
+  // es todo lo que hace falta; este bloque no tiene ya nada que hacer.
+  //
+  // Si alguien vuelve a poner el boton, acuerdese de reponer tambien su manejador:
+  // sin el, el boton se pinta y no hace nada, que es peor que no tenerlo.
 
   // ── Video de demostración ──
   const demo = document.getElementById('demo');

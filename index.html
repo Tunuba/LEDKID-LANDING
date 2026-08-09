@@ -526,6 +526,24 @@ footer .circuito {
 .js-vivo .revelar { opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease; }
 .js-vivo .revelar.visible { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .js-vivo .revelar { opacity: 1; transform: none; transition: none; } }
+
+/* ROBO: la caja que lo enmarca. Fondo suave para que el SVG (que es oscuro)
+   tenga contraste, y un tamaño contenido — es un acompañante, no un héroe. */
+.robo-caja { display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(160deg,#0f1626,#1b2740); border-radius:20px;
+  padding:2.5rem 1rem; min-height:380px; }
+/* `height:auto` explicito: el ancho lo pone el max-height y la proporcion del
+   viewBox. Sin esto el SVG se estira al ancho de la columna y ROBO sale gordo. */
+/* ⚠️ EL RESPLANDOR VA AQUI, NO DENTRO DEL SVG. Dentro, el filtro se recorta
+   contra el viewBox y el halo se corta en seco: se ve un rectangulo celeste, que
+   es justo lo que Meme reporto. En el <img> puede desbordar sobre el fondo de la
+   caja y desvanecerse. Dos sombras: uno ceñido para dar cuerpo y otro ancho y
+   suave para el halo. */
+.robo-caja img { width:auto; height:auto; max-height:320px; max-width:100%;
+  filter: drop-shadow(0 4px 10px rgba(0,212,170,.35))
+          drop-shadow(0 0 46px rgba(0,212,170,.28)); }
+@media (max-width:760px){ .robo-caja { min-height:260px; padding:1.5rem 1rem; }
+  .robo-caja img { max-height:200px; } }
 </style>
 <noscript>
   <!-- Sin JavaScript el boton de play no aparece (vive detras de `.js-vivo`), asi
@@ -612,7 +630,7 @@ footer .circuito {
     <div class="env contenido">
       <span class="kicker">Programa 2027</span>
       <h1>LedKid, robótica y electrónica para el aula</h1>
-      <p class="bajada">Un programa que entra al horario de clases con material propio, simulador en línea y el docente del colegio ya capacitado.</p>
+      <p class="bajada">De primero primaria a <strong>sexto diversificado</strong>, con material propio, simulador en línea y el docente del colegio ya capacitado. Un solo programa que crece con el alumno durante toda su escolaridad.</p>
       <div class="acciones">
         <a class="btn btn-blanco" href="#programa">Cómo funciona</a>
         <a class="btn btn-linea-bl" href="#video">Ver el programa · 2 min
@@ -620,16 +638,17 @@ footer .circuito {
         </a>
       </div>
     </div>
-    <button class="pausa" id="pausa" aria-label="Pausar el video de fondo">
-      <svg id="iconoPausa" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
-    </button>
+    <!-- El boton de pausa se quito el 2026-08-09 por decision de Meme: el video del
+         hero es DECORADO y tiene que estar SIEMPRE en loop. Un control de pausa sobre
+         un fondo invita a pararlo y deja la portada congelada. El <video> ya lleva
+         `autoplay muted loop playsinline`, que es lo unico que hace falta. -->
   </section>
 
   <!-- ══ NIVELES · CARRUSEL ══ -->
   <section id="niveles">
     <div class="env">
       <div class="encab ancho revelar">
-        <h2>Tres niveles que llevan al alumno del primer LED encendido a un robot que decide solo</h2>
+        <h2>Cuatro niveles que llevan al alumno del primer LED encendido a una estación que mide y reporta sola</h2>
       </div>
 
       <div class="carrusel">
@@ -657,6 +676,18 @@ footer .circuito {
             </div>
             <img src="assets/producto-3.svg" alt="Robot seguidor de línea sobre la pista" loading="lazy">
           </a>
+
+          <!-- DIVERSIFICADO. Faltaba, y no es un detalle: el programa llega hasta
+               6to y su contenido ya está escrito (15 lecciones, del botón a la
+               telemetría). Un colegio que ve que se corta en 3ro básico asume que
+               para bachillerato tiene que buscar otro proveedor. -->
+          <a class="baldosa" href="#programa">
+            <div class="fila">
+              <h3>Ingeniería<span class="grado">Nivel 4 · 4º a 6º diversificado</span></h3>
+              <span class="flecha-circ" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+            </div>
+            <img src="assets/producto-2.svg" alt="Estación de monitoreo con sensores y pantalla" loading="lazy">
+          </a>
         </div>
 
         <div class="mandos">
@@ -672,8 +703,8 @@ footer .circuito {
     <div class="env">
       <div class="mitades revelar">
         <div class="medio-visual">
-          <video id="demo" playsinline preload="metadata" poster="media/video-poster.png">
-            <source src="media/ledkid-demo.mp4" type="video/mp4">
+          <video id="demo" playsinline preload="metadata" poster="media/ledkid-recorrido-poster.png">
+            <source src="media/ledkid-recorrido.mp4" type="video/mp4">
           </video>
           <button class="tapa-video" id="tapaDemo" aria-label="Reproducir el video">
             <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
@@ -681,15 +712,16 @@ footer .circuito {
         </div>
         <div class="medio-texto">
           <span class="chip teal" style="align-self:flex-start">El programa en video</span>
-          <h2>Cuando el circuito enciende, el alumno ya no lo olvida</h2>
+          <h2>Dos minutos por dentro del simulador</h2>
           <p>
-            Un recorrido corto por lo que recibe la institución, cómo trabaja el alumno y qué hace
-            el docente en cada sesión. Del primer LED encendido al robot que sigue una línea.
+            ROBO recorre lo que el alumno usa de verdad: los nueve modos de práctica de primaria,
+            el editor de circuitos que resuelve la electricidad de verdad, la programación por
+            bloques y por código sobre el ESP32, y la electrónica digital de diversificado.
+            <strong>Todo lo que se ve son pantallas reales</strong>, no una recreación.
           </p>
           <a class="btn btn-negro" href="#contacto">Agendar una visita</a>
         </div>
       </div>
-      <p style="font-size:.875rem;color:var(--gris);margin-top:1rem">Video de muestra · pendiente sustituir por la grabación real de un aula.</p>
     </div>
   </section>
 
@@ -712,7 +744,7 @@ footer .circuito {
           <div class="cuerpo">
             <span class="chip verde">Plataforma</span>
             <h3>Simulador en línea</h3>
-            <p>El alumno arma y programa circuitos en el navegador, sin instalar nada. Si algo falla en pantalla, no se quema un componente real.</p>
+            <p>El alumno arma y programa circuitos en el navegador, sin instalar nada. Si algo falla en pantalla, no se quema un componente real. Y no está solo: <strong>ROBO</strong> lo acompaña en cada lección.</p>
             <a class="btn btn-negro btn-bloque" href="/circuito">Probar el simulador</a>
           </div>
         </article>
@@ -725,6 +757,41 @@ footer .circuito {
             <a class="btn btn-negro btn-bloque" href="#preguntas">Cómo funciona</a>
           </div>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ROBO Y EL RECORRIDO COMPLETO ══
+       Meme lo pidió explícito: *"la landing debe de usar nuestro robot mascota del
+       simulador, no otro"*. El de `assets/robo.svg` NO es un dibujo de marketing:
+       lo genera `frontend/scripts/exportar-robo-landing.mjs` leyendo
+       `RoboMascot.vue`, que es el ROBO que el niño ve todos los días dentro del
+       simulador. Si el componente cambia, se vuelve a correr el script.
+       Los contenidos citados aquí son los que existen en la base, no una promesa. -->
+  <section id="recorrido">
+    <div class="env">
+      <div class="mitades revelar">
+        <div class="robo-caja">
+          <img src="assets/robo.svg" alt="ROBO, la mascota de LedKid" width="260" height="410" decoding="async">
+        </div>
+        <div class="medio-texto">
+          <span class="chip verde" style="align-self:flex-start">El acompañante</span>
+          <h2>Este es ROBO, y no es un dibujo de folleto</h2>
+          <p>
+            Es el mismo que el alumno ve dentro del simulador: le explica cada lección,
+            le escucha por el micrófono y le celebra cuando el circuito por fin enciende.
+            Aquí sale igual que allá, porque es exactamente el mismo.
+          </p>
+          <ul class="chks revelar" style="margin-top:.5rem">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              <span><strong>Primaria.</strong> Sin teclado y sin kit: el alumno programa a un ratón, arma vehículos que la física decide si andan, y enciende su primer circuito de verdad.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              <span><strong>Básicos.</strong> El kit entra en la mesa: LEDs, resistencias, protoboard, sensores y el ESP32, con el código escrito por el propio alumno.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              <span><strong>Diversificado.</strong> Electrónica digital de verdad: compuertas y leyes de De Morgan, divisor de tensión, PWM, máquinas de estado con <code>millis()</code>, I2C y telemetría, hasta una estación de monitoreo como proyecto final.</span></li>
+          </ul>
+          <a class="btn btn-negro" href="/academia">Probar la Academia · 20 niveles sin registrarse</a>
+        </div>
       </div>
     </div>
   </section>
@@ -902,8 +969,8 @@ footer .circuito {
       </div>
       <p>
         LedKid es una marca guatemalteca de robótica educativa. © <span id="anio">2026</span> LedKid.
-        Las ilustraciones y los videos de este sitio son material de muestra y se sustituirán por
-        fotografía y grabación reales del aula. LedKid no está asociada con ninguna otra marca de
+        El video del programa son grabaciones reales del simulador. Las ilustraciones son
+        material de muestra y se sustituirán por fotografía real del aula. LedKid no está asociada con ninguna otra marca de
         material educativo.
       </p>
     </div>

@@ -1,0 +1,235 @@
+<!-- ROBO, el mascota de LEDKID. ARCHIVO GENERADO — NO SE EDITA A MANO.
+     Lo escribe frontend/scripts/exportar-robo-landing.mjs leyendo
+     frontend/src/components/RoboMascot.vue, que es el ROBO que el niño ve dentro
+     del simulador. Si el componente cambia, se vuelve a correr el script.
+     El CSS va DENTRO a proposito: sin el, la boca sale negra y nada se mueve. -->
+<svg class="robo-svg"
+         viewBox="0 -8 80 126" width="100%" height="100%"
+         xmlns="http://www.w3.org/2000/svg"
+         overflow="visible">
+<style>
+/* -- Breathing animation (replaces GSAP breath tween) -- */
+.g-body.breathing {
+  animation: body-breathe 3.2s ease-in-out infinite;
+}
+@keyframes body-breathe {
+  0%, 100% { transform: scale(1, 1); }
+  50%      { transform: scale(1.018, 0.982); }
+}
+
+
+/* -- LEDs animados -- */
+.ant-led {
+  animation: ant-blink 1.6s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px #00ffc8);
+}
+@keyframes ant-blink {
+  0%,38%,62%,100% { opacity: 1; }
+  50%             { opacity: .04; }
+}
+
+
+/* Modo LISTEN: antena parpadea rapido */
+.mood-listen .ant-led {
+  animation: ant-blink-fast 0.5s ease-in-out infinite;
+}
+@keyframes ant-blink-fast {
+  0%,100% { opacity: 1;    }
+  50%     { opacity: 0.08; }
+}
+
+
+.mouth-led { fill: #00d4aa; }
+
+.ml1 { animation: mouth-run 1s 0s    linear infinite; }
+
+.ml2 { animation: mouth-run 1s .25s  linear infinite; }
+
+.ml3 { animation: mouth-run 1s .5s   linear infinite; }
+
+.ml4 { animation: mouth-run 1s .75s  linear infinite; }
+@keyframes mouth-run {
+  0%,100% { opacity: .1;  }
+  18%     { opacity: 1; filter: drop-shadow(0 0 5px #00ffc8); }
+}
+
+
+/* Modo SPEAK: boca va mas rapido */
+.mood-speak .ml1 { animation-duration: 0.35s; }
+
+
+/* Ojos -- glow base */
+.g-eye-l circle:first-child,
+.g-eye-r circle:first-child {
+  animation: eye-glow 2s ease-in-out infinite;
+}
+@keyframes eye-glow {
+  0%,100% { filter: drop-shadow(0 0 4px #00ffc8);  }
+  50%     { filter: drop-shadow(0 0 14px #00ffc8); }
+}
+
+
+/* Modo THINK: ojos hacen glow intenso */
+.mood-think .g-eye-l circle:first-child,
+.mood-think .g-eye-r circle:first-child {
+  animation: eye-glow-think 0.55s ease-in-out infinite;
+}
+@keyframes eye-glow-think {
+  0%,100% { filter: drop-shadow(0 0 6px currentColor);  }
+  50%     { filter: drop-shadow(0 0 18px currentColor); }
+}
+
+
+/* Modo SPEAK: ojos pulsan al ritmo del habla */
+.mood-speak .g-eye-l circle:first-child,
+.mood-speak .g-eye-r circle:first-child {
+  animation: eye-speak-pulse 0.42s ease-in-out infinite alternate;
+}
+@keyframes eye-speak-pulse {
+  from { filter: drop-shadow(0 0 4px #00ffc8); }
+  to   { filter: drop-shadow(0 0 22px #00ffc8); }
+}
+
+
+.mx-dot { fill: #00ffc8; }
+
+
+.cl1 { fill: #ff3d52; animation: chest-seq 1.2s 0s   ease-in-out infinite; }
+
+.cl2 { fill: #00d4aa; animation: chest-seq 1.2s .4s  ease-in-out infinite; }
+
+.cl3 { fill: #ffd700; animation: chest-seq 1.2s .8s  ease-in-out infinite; }
+@keyframes chest-seq {
+  0%,100% { opacity: .15; }
+  33%     { opacity: 1; filter: drop-shadow(0 0 8px currentColor); }
+}
+
+
+/* Modo THINK: LEDs del pecho hacen scan horizontal */
+.mood-think .cl1 { animation: chest-scan 0.9s 0s   linear infinite; }
+@keyframes chest-scan {
+  0%,100% { opacity: .1;  fill: #00ffc8; }
+  40%     { opacity: 1;   fill: #ffffff; filter: drop-shadow(0 0 10px #00ffc8); }
+}
+</style>
+
+      <ellipse class="g-shadow" cx="40" cy="115" rx="20" ry="4" fill="rgba(0,0,0,.28)"/>
+
+      <!-- == CABEZA == -->
+      <g class="g-head">
+        <g class="g-antenna">
+          <line x1="40" y1="4" x2="40" y2="-3"
+                stroke="#8899bb" stroke-width="2.2" stroke-linecap="round"/>
+          <circle class="ant-led" cx="40" cy="-3" r="3.5" fill="#00ffc8"/>
+        </g>
+        <rect x="16" y="4"  width="48" height="40" rx="9" fill="#2a3148"/>
+        <rect x="16" y="4"  width="48" height="40" rx="9"
+              fill="none" stroke="#4a5578" stroke-width="1.5"/>
+        <rect x="18" y="6"  width="44" height="7"  rx="4" fill="white" opacity=".05"/>
+
+        <!-- ojo izquierdo -->
+        <rect x="22" y="15" width="15" height="15" rx="4.5" fill="#0d1120"/>
+        <g class="g-eye-l">
+          <circle class="eye-iris-l" cx="29.5" cy="22.5" r="5.5" fill="#00d4aa"/>
+          <circle cx="31.5" cy="20.5" r="2" fill="white" opacity=".6"/>
+        </g>
+
+        <!-- ojo derecho -->
+        <rect x="43" y="15" width="15" height="15" rx="4.5" fill="#0d1120"/>
+        <g class="g-eye-r">
+          <circle class="eye-iris-r" cx="50.5" cy="22.5" r="5.5" fill="#00d4aa"/>
+          <circle cx="52.5" cy="20.5" r="2" fill="white" opacity=".6"/>
+        </g>
+
+        <!-- boca -->
+        <rect x="25" y="35" width="30" height="5" rx="2.5" fill="#0d1120"/>
+        <circle class="mouth-led ml1" cx="30"   cy="37.5" r="2"/>
+        <circle class="mouth-led ml2" cx="36.5" cy="37.5" r="2"/>
+        <circle class="mouth-led ml3" cx="43"   cy="37.5" r="2"/>
+        <circle class="mouth-led ml4" cx="49.5" cy="37.5" r="2"/>
+
+        <!-- nube de pensamiento -->
+        <g class="g-thought" opacity="0">
+          <circle cx="28" cy="-8"  r="2.5" fill="rgba(0,212,170,.18)" stroke="#00d4aa" stroke-width="0.8"/>
+          <circle cx="32" cy="-14" r="3.5" fill="rgba(0,212,170,.18)" stroke="#00d4aa" stroke-width="0.8"/>
+          <circle cx="26" cy="-19" r="3"   fill="rgba(0,212,170,.18)" stroke="#00d4aa" stroke-width="0.8"/>
+          <circle cx="36" cy="-22" r="5.5" fill="rgba(0,212,170,.22)" stroke="#00d4aa" stroke-width="0.8"/>
+          <circle cx="29" cy="-22" r="4"   fill="rgba(0,212,170,.22)" stroke="#00d4aa" stroke-width="0.8"/>
+          <circle cx="42" cy="-20" r="4.5" fill="rgba(0,212,170,.22)" stroke="#00d4aa" stroke-width="0.8"/>
+          <!-- puntos suspensivos en la nube -->
+          <circle cx="30" cy="-21" r="1" fill="#00ffc8" opacity="0.8"/>
+          <circle cx="35" cy="-23" r="1" fill="#00ffc8" opacity="0.8"/>
+          <circle cx="40" cy="-21" r="1" fill="#00ffc8" opacity="0.8"/>
+        </g>
+      </g>
+
+      <!-- == BRAZOS == -->
+      <g class="g-arm-l">
+        <rect x="4"  y="52" width="12" height="32" rx="5"
+              fill="#252b3d" stroke="#3a4260" stroke-width="1.2"/>
+        <ellipse cx="10" cy="86" rx="7" ry="5"
+                 fill="#2e3650" stroke="#00d4aa" stroke-width="1"/>
+      </g>
+
+      <g class="g-arm-r">
+        <rect x="64" y="52" width="12" height="32" rx="5"
+              fill="#252b3d" stroke="#3a4260" stroke-width="1.2"/>
+        <ellipse cx="70" cy="86" rx="7" ry="5"
+                 fill="#2e3650" stroke="#00d4aa" stroke-width="1"/>
+      </g>
+
+      <!-- == PIERNAS == -->
+      <g class="g-leg-l">
+        <rect x="23"  y="94"  width="13" height="16" rx="5"
+              fill="#1e2333" stroke="#3a4260" stroke-width="1.2"/>
+        <rect x="20"  y="106" width="19" height="7"  rx="3.5" fill="#2e3650"/>
+      </g>
+
+      <g class="g-leg-r">
+        <rect x="44"  y="94"  width="13" height="16" rx="5"
+              fill="#1e2333" stroke="#3a4260" stroke-width="1.2"/>
+        <rect x="41"  y="106" width="19" height="7"  rx="3.5" fill="#2e3650"/>
+      </g>
+
+      <!-- == CUERPO (siempre encima) == -->
+      <g class="g-body">
+        <rect x="16" y="48" width="48" height="40" rx="9" fill="#252b3d"/>
+        <rect x="16" y="48" width="48" height="40" rx="9"
+              fill="none" stroke="#3a4260" stroke-width="1.5"/>
+        <rect class="chest-panel" x="20" y="53" width="40" height="30" rx="7"
+              fill="#0d1120" stroke="#2a3050" stroke-width="1.2"/>
+        <circle class="chest-led cl1" cx="30" cy="68" r="4"/>
+        <circle class="chest-led cl2" cx="40" cy="68" r="4"/>
+        <circle class="chest-led cl3" cx="50" cy="68" r="4"/>
+
+        <!-- Matriz LED 5x4 (oculta por defecto) -->
+        <g class="g-matrix" opacity="0">
+          <rect x="21" y="54" width="38" height="28" rx="6" fill="#0d1120"/>
+          <!-- fila 0 -->
+          <circle class="mx-dot" cx="24" cy="57" r="2.1"/>
+          <circle class="mx-dot" cx="31" cy="57" r="2.1"/>
+          <circle class="mx-dot" cx="38" cy="57" r="2.1"/>
+          <circle class="mx-dot" cx="45" cy="57" r="2.1"/>
+          <circle class="mx-dot" cx="52" cy="57" r="2.1"/>
+          <!-- fila 1 -->
+          <circle class="mx-dot" cx="24" cy="64" r="2.1"/>
+          <circle class="mx-dot" cx="31" cy="64" r="2.1"/>
+          <circle class="mx-dot" cx="38" cy="64" r="2.1"/>
+          <circle class="mx-dot" cx="45" cy="64" r="2.1"/>
+          <circle class="mx-dot" cx="52" cy="64" r="2.1"/>
+          <!-- fila 2 -->
+          <circle class="mx-dot" cx="24" cy="71" r="2.1"/>
+          <circle class="mx-dot" cx="31" cy="71" r="2.1"/>
+          <circle class="mx-dot" cx="38" cy="71" r="2.1"/>
+          <circle class="mx-dot" cx="45" cy="71" r="2.1"/>
+          <circle class="mx-dot" cx="52" cy="71" r="2.1"/>
+          <!-- fila 3 -->
+          <circle class="mx-dot" cx="24" cy="78" r="2.1"/>
+          <circle class="mx-dot" cx="31" cy="78" r="2.1"/>
+          <circle class="mx-dot" cx="38" cy="78" r="2.1"/>
+          <circle class="mx-dot" cx="45" cy="78" r="2.1"/>
+          <circle class="mx-dot" cx="52" cy="78" r="2.1"/>
+        </g>
+      </g>
+
+    </svg>
