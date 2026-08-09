@@ -527,23 +527,63 @@ footer .circuito {
 .js-vivo .revelar.visible { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .js-vivo .revelar { opacity: 1; transform: none; transition: none; } }
 
-/* ROBO: la caja que lo enmarca. Fondo suave para que el SVG (que es oscuro)
-   tenga contraste, y un tamaño contenido — es un acompañante, no un héroe. */
+/* ROBO: la caja que lo enmarca. Fondo oscuro para que el SVG (que es oscuro)
+   tenga contraste, y un tamaño contenido — es un acompañante, no un héroe.
+
+   ⚠️ SEGUNDA PASADA (Meme, 2026-08-08): *"que la iluminacion sea mejor planteada
+   y suave, porque actualmente es como si ROBO estuviera en una caja y la
+   iluminacion se ve cortada"*. Y no era el halo recortandose, como se supuso la
+   primera vez: MEDIDO en el navegador, la caja son 593x767 y ROBO 203x320, o sea
+   224 px de holgura por arriba y por abajo contra un halo de solo 46. El halo no
+   llegaba al borde ni de lejos. Lo que se veia como una caja ERA la caja: un
+   rectangulo plano de fondo casi negro, enorme y medio vacio, cortando en seco
+   contra el crema de la seccion. La luz moria a los 46 px y quedaba tablero.
+
+   Por eso el arreglo NO es mas halo, es que la luz TENGA ORIGEN:
+   · el fondo pasa de `linear-gradient` (plano, direccional, delata el rectangulo)
+     a un `radial-gradient` centrado en el 40% de alto — donde esta la cara. Asi el
+     propio fondo se lee como luz que sale de ROBO, no como una lamina de color.
+   · un `::before` radial ancho y transparente hace de resplandor de ambiente.
+   · el halo del <img> pasa de dos sombras a TRES, con radios 14/40/110, para que
+     la caida sea gradual en vez de tener un final visible.
+   · borde de 1px y sombra exterior suave: el corte contra el crema deja de ser
+     una linea dura.
+   El halo sigue yendo en el <img> y no dentro del SVG, y ese motivo de la primera
+   pasada sigue vigente: dentro se recortaria contra el viewBox. */
 .robo-caja { display:flex; align-items:center; justify-content:center;
-  background:linear-gradient(160deg,#0f1626,#1b2740); border-radius:20px;
-  padding:2.5rem 1rem; min-height:380px; }
+  position:relative; isolation:isolate; overflow:hidden;
+  background:radial-gradient(115% 85% at 50% 40%,
+    #263a63 0%, #1a2846 34%, #101a2e 70%, #0c1220 100%);
+  border:1px solid rgba(255,255,255,.06); border-radius:28px;
+  box-shadow:0 34px 80px -34px rgba(10,16,28,.55);
+  padding:2.5rem 1rem; min-height:420px; }
+/* El resplandor de ambiente. Va detras del <img> (z-index) y se apaga del todo
+   antes del 74%, para que nunca toque el borde de la caja: si llegara, volveria
+   a dibujar justo el rectangulo que este cambio quita. */
+.robo-caja::before { content:''; position:absolute; z-index:0; left:50%; top:42%;
+  width:150%; aspect-ratio:1; transform:translate(-50%,-50%); pointer-events:none;
+  background:radial-gradient(closest-side,
+    rgba(0,212,170,.26) 0%, rgba(0,212,170,.13) 34%,
+    rgba(0,212,170,.05) 56%, rgba(0,212,170,0) 74%); }
 /* `height:auto` explicito: el ancho lo pone el max-height y la proporcion del
    viewBox. Sin esto el SVG se estira al ancho de la columna y ROBO sale gordo. */
-/* ⚠️ EL RESPLANDOR VA AQUI, NO DENTRO DEL SVG. Dentro, el filtro se recorta
-   contra el viewBox y el halo se corta en seco: se ve un rectangulo celeste, que
-   es justo lo que Meme reporto. En el <img> puede desbordar sobre el fondo de la
-   caja y desvanecerse. Dos sombras: uno ceñido para dar cuerpo y otro ancho y
-   suave para el halo. */
-.robo-caja img { width:auto; height:auto; max-height:320px; max-width:100%;
-  filter: drop-shadow(0 4px 10px rgba(0,212,170,.35))
-          drop-shadow(0 0 46px rgba(0,212,170,.28)); }
-@media (max-width:760px){ .robo-caja { min-height:260px; padding:1.5rem 1rem; }
-  .robo-caja img { max-height:200px; } }
+.robo-caja img { position:relative; z-index:1;
+  width:auto; height:auto; max-height:360px; max-width:100%;
+  filter: drop-shadow(0 6px 14px rgba(0,212,170,.30))
+          drop-shadow(0 0 40px rgba(0,212,170,.22))
+          drop-shadow(0 0 110px rgba(0,212,170,.14)); }
+/* ⚠️ EN MOVIL EL HALO HAY QUE ENCOGERLO, y por una cuenta: con `overflow:hidden`
+   el halo se recorta contra la caja, asi que su radio tiene que caber en la
+   holgura. Antes eran 260 de caja con 200 de ROBO = 30 px de holgura, donde un
+   halo de 110 se corta en seco y reaparece el problema, solo que en el telefono
+   (que es donde nadie lo mira). Con 340 y 220 quedan 60 px de holgura y el halo
+   mayor baja a 54. */
+@media (max-width:760px){
+  .robo-caja { min-height:340px; padding:1.5rem 1rem; border-radius:22px; }
+  .robo-caja img { max-height:220px;
+    filter: drop-shadow(0 4px 10px rgba(0,212,170,.30))
+            drop-shadow(0 0 22px rgba(0,212,170,.22))
+            drop-shadow(0 0 54px rgba(0,212,170,.14)); } }
 </style>
 <noscript>
   <!-- Sin JavaScript el boton de play no aparece (vive detras de `.js-vivo`), asi
@@ -683,7 +723,7 @@ footer .circuito {
                para bachillerato tiene que buscar otro proveedor. -->
           <a class="baldosa" href="#programa">
             <div class="fila">
-              <h3>Ingeniería<span class="grado">Nivel 4 · 4º a 6º diversificado</span></h3>
+              <h3>Ingeniería<span class="grado">Nivel 4 · 4º, 5º y 6º diversificado</span></h3>
               <span class="flecha-circ" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
             </div>
             <img src="assets/producto-2.svg" alt="Estación de monitoreo con sensores y pantalla" loading="lazy">
