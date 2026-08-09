@@ -13,20 +13,37 @@
       <path d="M124,-52 a76,76 0 0 1 0,104" opacity=".6"/>
     </g>
   </g>
-  <!-- campana -->
-  <g transform="translate(228,180)">
+  <!-- campana. Movida a la derecha: el niño ya no es un torso, ocupa alto y ancho -->
+  <g transform="translate(300,158)">
     <path d="M0,-58 a44,44 0 0 1 44,44 v34 l14,20 H-58 l14,-20 v-34 a44,44 0 0 1 44,-44 z" fill="#FFA000"/>
     <circle cx="0" cy="-62" r="9" fill="#0F2A47"/>
     <path d="M-13,50 a13,13 0 0 0 26,0" fill="#0F2A47"/>
   </g>
   
-  <g transform="translate(250,330) scale(1)">
-    <rect x="-8" y="18" width="16" height="20" rx="6" fill="#F6DCC0"/>
-    <path d="M-22,74 L-54,112" stroke="#F6DCC0" stroke-width="16" stroke-linecap="round"/>
-    <path d="M22,74 L54,112" stroke="#F6DCC0" stroke-width="16" stroke-linecap="round"/>
-    <circle cx="-54" cy="112" r="9.5" fill="#F6DCC0"/>
-    <circle cx="54" cy="112" r="9.5" fill="#F6DCC0"/>
-    <path d="M-34,118 v-52 a34,34 0 0 1 68,0 v52 z" fill="#00A88F"/>
+  <g transform="translate(150,126.27999999999997) scale(0.92)">
+    <ellipse cx="0" cy="341" rx="38.44" ry="8.06" fill="#0F2A47" opacity=".12"/>
+    
+    <path d="M-21.526400000000002,163.68 L-21.956928,248" stroke="#0F2A47" stroke-width="31" stroke-linecap="round"/>
+    <path d="M-21.956928,248 L-20.234816000000002,332.32" stroke="#F6DCC0" stroke-width="21.080000000000002" stroke-linecap="round"/>
+    <rect x="-31.171616" y="332.32" width="26.04" height="8.680000000000001" rx="3.9060000000000006" fill="#0F2A47"/>
+    <path d="M21.526400000000002,163.68 L21.956928,248" stroke="#0F2A47" stroke-width="31" stroke-linecap="round"/>
+    <path d="M21.956928,248 L20.234816000000002,332.32" stroke="#F6DCC0" stroke-width="21.080000000000002" stroke-linecap="round"/>
+    <rect x="9.298016000000002" y="332.32" width="26.04" height="8.680000000000001" rx="3.9060000000000006" fill="#0F2A47"/>
+    
+    <path d="M-40.92,55.800000000000004 L-42.78,136.4 L-41.54,195.92"
+          fill="none" stroke="#F6DCC0" stroke-width="17.98" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="-41.54" cy="195.92" r="11.78" fill="#F6DCC0"/>
+    <path d="M40.92,55.800000000000004 L42.78,136.4 L41.54,195.92"
+          fill="none" stroke="#F6DCC0" stroke-width="17.98" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="41.54" cy="195.92" r="11.78" fill="#F6DCC0"/>
+    <rect x="-8.06" y="19.22" width="16.12" height="38.440000000000005" rx="5.58" fill="#F6DCC0"/>
+    <path d="M-34.720000000000006,167.4
+             C-32.28960000000001,150.35 -40.92,98.73500000000001 -40.92,52.7
+             a40.92,8.680000000000001 0 0 1 81.84,0
+             C40.92,98.73500000000001 32.28960000000001,150.35 34.720000000000006,167.4 z" fill="#00A88F"/>
+    <path d="M-40.92,55.800000000000004
+                     L-41.7384,91.26400000000001" stroke="#00A88F" stroke-width="22.6548" stroke-linecap="round"/><path d="M40.92,55.800000000000004
+                     L41.7384,91.26400000000001" stroke="#00A88F" stroke-width="22.6548" stroke-linecap="round"/>
     <g transform="scale(1)">
       <circle cx="0" cy="0" r="31" fill="#F6DCC0"/>
       <path d="M-31,-4 a31,31 0 0 1 62,0 q-10,-12 -31,-12 T-31,-4 z" fill="#6B4423"/>
@@ -37,7 +54,7 @@
     </g>
   </g>
   
-  <g transform="translate(470,372) scale(0.58)">
+  <g transform="translate(470,399.4) scale(0.58)">
     <rect x="-96" y="-72" width="192" height="122" rx="10" fill="#0F2A47"/>
     <rect x="-86" y="-62" width="172" height="102" rx="5" fill="#E7F0FD"/>
     <g fill="none" stroke="#1461D6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">

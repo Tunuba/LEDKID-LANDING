@@ -11,7 +11,7 @@ import { mkdirSync, writeFileSync, rmSync, existsSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 import { join } from 'node:path'
 import { createRequire } from 'node:module'
-import { C, led, nino, robot, laptop, placa, mesa, puntos } from './generar-ilustraciones.mjs'
+import { C, led, nino, robot, laptop, placa, mesa, puntos, medidas } from './generar-ilustraciones.mjs'
 
 const require = createRequire(import.meta.url)
 const { Resvg } = require(process.env.RESVG_PATH
@@ -21,6 +21,14 @@ const MEDIA   = join(process.cwd(), 'landing/media')
 const CUADROS = join(process.env.TEMP || '.', 'ledkid-hero-frames')
 
 const W = 1280, H = 720, FPS = 30, DUR = 10
+
+// Mismo criterio que en las ilustraciones: un suelo unico, los pies y las patas
+// de la mesa encima de el, y la tapa a la altura de la cadera del alumno.
+const SUELO = 700
+const S_NINO = .8
+const Y_NINO = SUELO - medidas(false, S_NINO).planta
+const TAPA   = Y_NINO + medidas(false, S_NINO).cadera
+const PATA   = SUELO - TAPA - 18
 const TOTAL = DUR * FPS
 const TAU = Math.PI * 2
 
@@ -72,15 +80,15 @@ function cuadro(t) {
     </g>
 
     <!-- alumnos y mesa -->
-    ${nino({ x: 440, y: 444, s: 1.06, ropa: C.coral, piel: 1, pelo: 1, coleta: true, brazo: 'arriba' })}
-    ${nino({ x: 852, y: 452, s: 1.02, ropa: C.turque, piel: 2, pelo: 2 })}
-    ${mesa({ x: 646, y: 548, w: 660, color: '#2C4C6E' })}
+    ${nino({ x: 440, y: Y_NINO, s: S_NINO, ropa: C.coral, piel: 1, pelo: 1, coleta: true, brazo: 'arriba' })}
+    ${nino({ x: 852, y: Y_NINO, s: S_NINO, ropa: C.turque, piel: 2, pelo: 2 })}
+    ${mesa({ x: 646, y: TAPA, w: 660, color: '#2C4C6E', pata: PATA })}
     <g transform="translate(0,${bobo})">
-      ${robot({ x: 646, y: 486, s: .9 })}
-      <circle cx="646" cy="428" r="14" fill="${C.ambar}" opacity="${antena}"/>
+      ${robot({ x: 646, y: TAPA - 61 * .9, s: .9 })}
+      <circle cx="646" cy="${TAPA - 61 * .9 - 58}" r="14" fill="${C.ambar}" opacity="${antena}"/>
     </g>
-    ${laptop({ x: 906, y: 486, s: .56 })}
-    ${placa({ x: 408, y: 524, s: .56 })}
+    ${laptop({ x: 966, y: TAPA - 70 * .56, s: .56 })}
+    ${placa({ x: 370, y: TAPA - 40 * .56, s: .56 })}
   </g>
 </svg>`
 }

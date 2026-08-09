@@ -7,8 +7,10 @@
     <circle cx="0" cy="68"  r="27" fill="#00A88F" opacity=".3"/>
     <rect x="-13" y="92" width="26" height="120" rx="9" fill="#0F2A47"/>
   </g>
+  <!-- las tres piezas comparten la línea del pie del semáforo (362): antes cada
+       una flotaba a una altura distinta y se leía como un collage -->
   
-  <g transform="translate(196,322) scale(1.15)">
+  <g transform="translate(196,316) scale(1.15)">
     <rect x="-90" y="-40" width="180" height="80" rx="10" fill="#EEF2F7" stroke="#D8DFE9" stroke-width="3"/>
     <circle cx="-72" cy="-24" r="2.6" fill="#D8DFE9"/><circle cx="-72" cy="-8" r="2.6" fill="#D8DFE9"/><circle cx="-72" cy="8" r="2.6" fill="#D8DFE9"/><circle cx="-72" cy="24" r="2.6" fill="#D8DFE9"/><circle cx="-54" cy="-24" r="2.6" fill="#D8DFE9"/><circle cx="-54" cy="-8" r="2.6" fill="#D8DFE9"/><circle cx="-54" cy="8" r="2.6" fill="#D8DFE9"/><circle cx="-54" cy="24" r="2.6" fill="#D8DFE9"/><circle cx="-36" cy="-24" r="2.6" fill="#D8DFE9"/><circle cx="-36" cy="-8" r="2.6" fill="#D8DFE9"/><circle cx="-36" cy="8" r="2.6" fill="#D8DFE9"/><circle cx="-36" cy="24" r="2.6" fill="#D8DFE9"/><circle cx="-18" cy="-24" r="2.6" fill="#D8DFE9"/><circle cx="-18" cy="-8" r="2.6" fill="#D8DFE9"/><circle cx="-18" cy="8" r="2.6" fill="#D8DFE9"/><circle cx="-18" cy="24" r="2.6" fill="#D8DFE9"/><circle cx="0" cy="-24" r="2.6" fill="#D8DFE9"/><circle cx="0" cy="-8" r="2.6" fill="#D8DFE9"/><circle cx="0" cy="8" r="2.6" fill="#D8DFE9"/><circle cx="0" cy="24" r="2.6" fill="#D8DFE9"/><circle cx="18" cy="-24" r="2.6" fill="#D8DFE9"/><circle cx="18" cy="-8" r="2.6" fill="#D8DFE9"/><circle cx="18" cy="8" r="2.6" fill="#D8DFE9"/><circle cx="18" cy="24" r="2.6" fill="#D8DFE9"/><circle cx="36" cy="-24" r="2.6" fill="#D8DFE9"/><circle cx="36" cy="-8" r="2.6" fill="#D8DFE9"/><circle cx="36" cy="8" r="2.6" fill="#D8DFE9"/><circle cx="36" cy="24" r="2.6" fill="#D8DFE9"/><circle cx="54" cy="-24" r="2.6" fill="#D8DFE9"/><circle cx="54" cy="-8" r="2.6" fill="#D8DFE9"/><circle cx="54" cy="8" r="2.6" fill="#D8DFE9"/><circle cx="54" cy="24" r="2.6" fill="#D8DFE9"/><circle cx="72" cy="-24" r="2.6" fill="#D8DFE9"/><circle cx="72" cy="-8" r="2.6" fill="#D8DFE9"/><circle cx="72" cy="8" r="2.6" fill="#D8DFE9"/><circle cx="72" cy="24" r="2.6" fill="#D8DFE9"/>
     <path d="M-54,-8 H-18" stroke="#FF6B57" stroke-width="5" stroke-linecap="round"/>
@@ -18,7 +20,7 @@
     <circle cx="60" cy="-8" r="19" fill="none" stroke="#FFA000" stroke-width="3" opacity=".45"/>
   </g>
   
-  <g transform="translate(62,176) scale(0.62)" fill="none" stroke="#FFA000" stroke-width="12">
+  <g transform="translate(16,272.1) scale(0.62)" fill="none" stroke="#FFA000" stroke-width="12">
     <path d="M5,105 V65 Q5,0 50,0 Q95,0 95,65 V105 Q95,115 85,115 H15 Q5,115 5,105 Z" stroke-linejoin="round"/>
     <path d="M5,117 H95" stroke-linecap="round"/>
     <path d="M28,124 V145 M72,124 V145" stroke-linecap="round"/>

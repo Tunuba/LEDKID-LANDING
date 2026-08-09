@@ -4,8 +4,9 @@
         fill="none" stroke="#0F2A47" stroke-width="30" stroke-linecap="round" opacity=".92"/>
   <path d="M-20,376 C120,376 110,286 250,286 S420,376 546,362"
         fill="none" stroke="#FFFFFF" stroke-width="6" stroke-dasharray="20 22" stroke-linecap="round"/>
+  <!-- la pista vale y≈286 en x=262; las ruedas apoyan ahí, antes se hundían 31 -->
   
-  <g transform="translate(262,226) scale(1.5)">
+  <g transform="translate(262,194.5) scale(1.5)">
     <path d="M0,-52 V-30" stroke="#0F2A47" stroke-width="5" stroke-linecap="round"/>
     <circle cx="0" cy="-58" r="8" fill="#FFA000"/>
     <rect x="-58" y="-32" width="116" height="72" rx="18" fill="#1461D6"/>
