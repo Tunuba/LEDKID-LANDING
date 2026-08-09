@@ -415,6 +415,25 @@ section { padding: 68px 0; }
 .chks.dos-col li:nth-last-child(-n+2) { border-bottom: 0; }
 @media (max-width: 860px) { .chks.dos-col { grid-template-columns: 1fr; } .chks.dos-col li:nth-last-child(2) { border-bottom: 1px solid var(--linea); } }
 .pie-nota { margin-top: 2rem; font-size: .9375rem; color: var(--gris); max-width: 62ch; }
+
+/* ── EL LISTADO DEL KIT ──
+   El boton "Ver el listado" llevaba a #contacto: prometia un listado y entregaba
+   un formulario. Ahora existe el listado, y sale de shared/tarifario.json de
+   LEDKID-FINANZAS, que es la fuente de verdad del kit — no de una lista escrita
+   a mano aqui, que se desincronizaria a la primera compra.
+   ⚠️ Van los COMPONENTES y las cantidades. NO van los precios: eso es interno y
+   se cotiza por colegio en la reunion. */
+.kit-grupos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+@media (max-width: 980px) { .kit-grupos { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .kit-grupos { grid-template-columns: 1fr; } }
+.kit-grupo { background: var(--panel); border-radius: var(--r2); padding: 1.5rem 1.375rem; }
+.kit-grupo h3 { font-size: 1.0625rem; font-weight: 600; margin-bottom: 1rem; }
+.kit-grupo ul { list-style: none; }
+.kit-grupo li { display: flex; justify-content: space-between; gap: .75rem; align-items: baseline;
+  font-size: .9375rem; padding: .4rem 0; border-bottom: 1px solid var(--linea); }
+.kit-grupo li:last-child { border-bottom: 0; }
+.kit-grupo .n { color: var(--gris); font-variant-numeric: tabular-nums; flex: none; }
+.kit-nota { margin-top: 1.75rem; font-size: .9375rem; color: var(--gris); max-width: 74ch; }
 /* La trampa para robots. `position:absolute` + `left:-9999px` en vez de
    `display:none`: hay bots que descartan lo que esta oculto con display, y algun
    lector de pantalla lo anunciaria. Lleva ademas aria-hidden y tabindex="-1", asi
@@ -811,7 +830,7 @@ footer .env { position: relative; z-index: 1; }
             <span class="chip melo">Material</span>
             <h3>Kits para el salón</h3>
             <p>Un kit por grupo de trabajo, con organizador rígido, repuestos e inventario a cargo de LedKid. El equipo se queda en el colegio.</p>
-            <a class="btn btn-negro btn-bloque" href="#contacto">Ver el listado</a>
+            <a class="btn btn-negro btn-bloque" href="#kit">Ver el listado</a>
           </div>
         </article>
         <article class="tarjeta revelar">
@@ -819,7 +838,13 @@ footer .env { position: relative; z-index: 1; }
           <div class="cuerpo">
             <span class="chip verde">Plataforma</span>
             <h3>Simulador en línea</h3>
-            <p>El alumno arma y programa circuitos en el navegador, sin instalar nada. Si algo falla en pantalla, no se quema un componente real. Y no está solo: <strong>BOTITO</strong> lo acompaña en cada lección.</p>
+            <!-- Se añadió lo que el simulador HACE y la landing no contaba: la
+                 simulación eléctrica de verdad, el flasheo a la placa real y los
+                 manuales. Un director que lee "simulador de circuitos" se imagina
+                 un juego de dibujitos; lo que hay resuelve voltaje y corriente
+                 pieza por pieza y manda el programa a un ESP32 por cable. Sin
+                 cifras de niveles a propósito: un conteo caduca solo. -->
+            <p>El alumno arma y programa circuitos en el navegador, sin instalar nada. No es una animación: <strong>resuelve la electricidad de verdad</strong>, y si se pasa de corriente la pieza se calienta y se quema — en pantalla, no en la mesa. Después, el mismo programa se manda a la placa real por cable. Y no está solo: <strong>BOTITO</strong> lo acompaña en cada lección.</p>
             <a class="btn btn-negro btn-bloque" href="/circuito">Probar el simulador</a>
           </div>
         </article>
@@ -843,6 +868,76 @@ footer .env { position: relative; z-index: 1; }
        `RoboMascot.vue`, que es el BOTITO que el niño ve todos los días dentro del
        simulador. Si el componente cambia, se vuelve a correr el script.
        Los contenidos citados aquí son los que existen en la base, no una promesa. -->
+  <!-- ══ EL LISTADO DEL KIT ══
+       El boton "Ver el listado" llevaba a #contacto: prometia un listado y
+       entregaba un formulario de contacto. Un director que quiere saber que
+       compra y acaba en "deje sus datos" asume que no se lo quieren decir.
+       Los 22 componentes salen de shared/tarifario.json de LEDKID-FINANZAS, que
+       es la fuente de verdad del kit. Van agrupados por para-que-sirve y no por
+       categoria de almacen, porque quien lee esto es un director, no el que
+       arma la caja.
+       ⚠️ SIN PRECIOS. El tarifario los tiene, pero son internos y se cotizan por
+       colegio en la reunion, con su matricula y su colegiatura. -->
+  <section id="kit">
+    <div class="env">
+      <div class="encab revelar">
+        <span class="chip melo">Material</span>
+        <h2>Lo que trae cada kit</h2>
+        <p class="bajada">Un kit por grupo de trabajo, en organizador rígido. Los repuestos y el inventario corren por cuenta de LedKid, y el equipo se queda en el colegio.</p>
+      </div>
+
+      <div class="kit-grupos revelar">
+        <div class="kit-grupo">
+          <h3>La placa y el montaje</h3>
+          <ul>
+            <li><span>Placa ESP32 WROOM 32D</span><span class="n">1</span></li>
+            <li><span>Cable de datos USB-C</span><span class="n">1</span></li>
+            <li><span>Protoboard de 400 puntos</span><span class="n">1</span></li>
+            <li><span>Set de cables DuPont M-H</span><span class="n">1</span></li>
+            <li><span>Cables DuPont M-H</span><span class="n">10</span></li>
+            <li><span>Cables DuPont M-M</span><span class="n">10</span></li>
+            <li><span>Cables DuPont H-H</span><span class="n">10</span></li>
+          </ul>
+        </div>
+
+        <div class="kit-grupo">
+          <h3>Lo que se ve</h3>
+          <ul>
+            <li><span>Pantalla OLED</span><span class="n">1</span></li>
+            <li><span>Pantalla LCD 1602</span><span class="n">1</span></li>
+            <li><span>Matriz de LED 8×8</span><span class="n">1</span></li>
+            <li><span>Display de 7 segmentos</span><span class="n">1</span></li>
+            <li><span>LEDs rojos</span><span class="n">10</span></li>
+            <li><span>LEDs verdes</span><span class="n">10</span></li>
+            <li><span>Set de resistencias</span><span class="n">1</span></li>
+          </ul>
+        </div>
+
+        <div class="kit-grupo">
+          <h3>Lo que mide</h3>
+          <ul>
+            <li><span>Sensor de ultrasonido HC-SR04</span><span class="n">1</span></li>
+            <li><span>Temperatura y humedad DHT11</span><span class="n">1</span></li>
+            <li><span>Humedad de suelo FC-28</span><span class="n">1</span></li>
+            <li><span>Sensor infrarrojo de obstáculos</span><span class="n">1</span></li>
+            <li><span>Sensor táctil</span><span class="n">1</span></li>
+            <li><span>Módulo joystick</span><span class="n">1</span></li>
+          </ul>
+        </div>
+
+        <div class="kit-grupo">
+          <h3>Lo que se mueve</h3>
+          <ul>
+            <li><span>Servomotor SG90</span><span class="n">1</span></li>
+            <li><span>Módulo relevador</span><span class="n">1</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="kit-nota revelar">Todo lo del kit se puede montar antes en el simulador, así que el alumno llega a la mesa sabiendo qué va conectado a qué. El costo se calcula con la matrícula y la colegiatura de cada colegio, y se arma en la reunión de presentación.</p>
+    </div>
+  </section>
+
   <section id="recorrido">
     <div class="env">
       <div class="mitades revelar">
@@ -1049,7 +1144,7 @@ footer .env { position: relative; z-index: 1; }
         <h4>Material</h4>
         <ul>
           <li><a href="#video">Video del programa</a></li>
-          <li><a href="#programa">Listado del kit</a></li>
+          <li><a href="#kit">Listado del kit</a></li>
           <li><a href="/circuito">Probar el simulador</a></li>
         </ul>
       </div>
