@@ -95,3 +95,16 @@
     }, { threshold: .1, rootMargin: '0px 0px -50px' });
     objetivos.forEach(el => obs.observe(el));
   }
+
+  // ── LA CLASE QUE FALTABA ──
+  //
+  // `.tapa-video` (el boton de play del video de demostracion) es `display:none` y
+  // solo se enciende con `.js-vivo`. Nadie ponia esa clase en ningun sitio: el
+  // grep de `js-vivo` en todo el proyecto daba UNA aparicion, la del CSS. Con el
+  // boton invisible y el <video> sin `controls`, sin `autoplay` y sin `muted`, ese
+  // video era literalmente imposible de reproducir. Medido en la pagina servida.
+  //
+  // Va aqui y no en el HTML a proposito: es una mejora progresiva. Si el
+  // JavaScript no llega a correr, el boton sigue escondido — y para ese caso esta
+  // el <noscript> del HTML, que le pone los controles nativos al video.
+  document.documentElement.classList.add('js-vivo');

@@ -12,9 +12,13 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_GT">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 176 176'%3E%3Cg transform='translate(38,15.5)' fill='none' stroke='%23FFA000' stroke-width='11'%3E%3Cpath d='M5,105 V65 Q5,0 50,0 Q95,0 95,65 V105 Q95,115 85,115 H15 Q5,115 5,105 Z' stroke-linejoin='round'/%3E%3Cpath d='M5,117 H95' stroke-linecap='round'/%3E%3Cpath d='M28,124 V145 M72,124 V145' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!-- SIN GOOGLE FONTS A PROPOSITO. La CSP del gateway es `font-src 'self' data:`,
+     asi que la hoja de fonts.googleapis.com entraba en el DOM y quedaba BLOQUEADA:
+     medido, su `.sheet` era null y la tipografia de marca no cargaba nunca en
+     produccion. Abrir la CSP seria meter dos dominios externos en la politica Y
+     depender de que el wifi del colegio alcance a Google.
+     La pila del sistema no necesita red ni CSP, y ademas es MAS de marca: los ocho
+     videos de LEDKID-MARKETING usan 'Segoe UI' weight 800, no Figtree. -->
 
 <style>
 /* ══════════════════════════════════════════════════════════════
@@ -76,7 +80,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 120px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 body {
-  font-family: 'Figtree', 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px; line-height: 1.5; font-weight: 400;
   color: var(--texto); background: var(--blanco);
   -webkit-font-smoothing: antialiased; overflow-x: hidden;
@@ -239,6 +243,13 @@ header.pegado { box-shadow: 0 1px 10px rgba(0,0,0,.08); }
      tipografía grande del sistema) el hero crece en vez de recortar el texto. */
   .hero { height: auto; min-height: 560px; }
   .hero .contenido { height: auto; min-height: 560px; }
+  /* AIRE ARRIBA. Sin esto el titular arranca pegado al header: medido a 390 px,
+     la separacion entre el borde de abajo del header y el primer texto era de
+     CERO pixeles. El contenido va centrado y es mas alto que su caja, asi que se
+     desborda por arriba y el `overflow:hidden` del hero lo recorta contra la
+     barra. El padding empuja el bloque hacia abajo y el `min-height` deja que el
+     hero crezca en vez de recortar. */
+  .hero .contenido { padding-top: 2.5rem; }
   /* El mando de pausa vive abajo a la derecha y llegaba a tocar el último botón */
   .hero .contenido { padding-bottom: 92px; }
   .hero .pausa { right: 1.25rem; bottom: 1.25rem; }
@@ -516,6 +527,12 @@ footer .circuito {
 .js-vivo .revelar.visible { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .js-vivo .revelar { opacity: 1; transform: none; transition: none; } }
 </style>
+<noscript>
+  <!-- Sin JavaScript el boton de play no aparece (vive detras de `.js-vivo`), asi
+       que se le dan al video los controles nativos del navegador. Sin esto, un
+       navegador con JS desactivado se queda mirando un poster que no hace nada. -->
+  <style>#demo { pointer-events: auto; } #demo::-webkit-media-controls { display: flex; }</style>
+</noscript>
 </head>
 <body>
 
