@@ -357,10 +357,16 @@ section { padding: 68px 0; }
 .tapa-video .play svg { width: 26px; height: 26px; color: #000; margin-left: 3px; }
 
 /* ── Cita suelta, dentro de otra sección ──────────────────── */
-.cita-suelta { max-width: 62ch; margin: 0 0 48px; padding-left: 28px; border-left: 5px solid var(--ambar); }
-.cita-suelta blockquote { font-size: clamp(1.15rem, 1.8vw, 1.5rem); line-height: 1.45; color: var(--negro); }
-.cita-suelta figcaption { margin-top: .9rem; font-size: .9375rem; color: var(--gris); }
-.cita-suelta strong { font-weight: 500; color: var(--negro); }
+/* SIN LA BARRA AMBAR DE LA IZQUIERDA. Meme: "quita el amarillo del inicio,
+   parece muy cuadrado". Era un `border-left: 5px solid var(--ambar)`, y tenia
+   razon: un filete de color a un lado es el adorno por defecto de cualquier
+   plantilla, y encima gastaba el ambar —que en esta pagina es el color de la
+   ACCION, el de los botones— en algo que no se pulsa.
+   La cita se distingue ahora por tipografia y aire, que es como se hace en
+   editorial: cuerpo mayor, peso ligero y linea generosa. */
+.cita-suelta { max-width: 62ch; margin: 0 0 48px; }
+.cita-suelta blockquote { font-size: clamp(1.3rem, 2.1vw, 1.75rem); font-weight: 300;
+  line-height: 1.5; color: var(--negro); text-wrap: balance; }
 
 /* ── Cita ─────────────────────────────────────────────────── */
 .cita-marco { position: relative; padding: 0 0 0 0; }
@@ -409,6 +415,14 @@ section { padding: 68px 0; }
 .chks.dos-col li:nth-last-child(-n+2) { border-bottom: 0; }
 @media (max-width: 860px) { .chks.dos-col { grid-template-columns: 1fr; } .chks.dos-col li:nth-last-child(2) { border-bottom: 1px solid var(--linea); } }
 .pie-nota { margin-top: 2rem; font-size: .9375rem; color: var(--gris); max-width: 62ch; }
+/* La trampa para robots. `position:absolute` + `left:-9999px` en vez de
+   `display:none`: hay bots que descartan lo que esta oculto con display, y algun
+   lector de pantalla lo anunciaria. Lleva ademas aria-hidden y tabindex="-1", asi
+   que ni se lee ni se alcanza con el tabulador. */
+.trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.respuesta-form { margin-top: 1rem; font-size: .9375rem; padding: .875rem 1rem; border-radius: var(--r); }
+.respuesta-form.ok { background: var(--p-menta); color: var(--negro); }
+.respuesta-form.mal { background: #FDECEC; color: #8A1C1C; }
 .chks svg { width: 20px; height: 20px; color: var(--turquesa); flex-shrink: 0; margin-top: .2rem; }
 .chks strong { font-weight: 500; color: var(--negro); }
 
@@ -462,34 +476,40 @@ form .btn { margin-top: 1.5rem; }
 .vias a:hover { text-decoration: underline; }
 
 /* ═══════════ PIE ═══════════ */
-footer { position: relative; padding: 80px 0 0; background: #fff; }
+/* ⚠️ SE FUE EL MOTIVO DE CIRCUITO DEL MARGEN IZQUIERDO. Meme: "hay como un
+   diseño de circuitos, quitalo". Era un patron de nodos repetido en la franja
+   que queda a la izquierda del contenedor, con un degradado de mascara. Solo se
+   veia por encima de 1200 px, o sea que la mayoria no lo veia nunca, y donde se
+   veia competia con el propio contenido del pie sin decir nada.
+   Si algun dia vuelve un motivo de fondo, que no sea en el pie: ahi lo que se
+   busca es un enlace concreto, no ambiente. */
+footer { position: relative; padding: 56px 0 0; background: #fff; }
 footer .env { position: relative; z-index: 1; }
-/* El motivo vive en el margen, fuera del contenedor: nunca debajo del texto */
-footer .circuito {
-  position: absolute; left: 0; top: 40px; bottom: 0; z-index: 0; pointer-events: none;
-  width: max(0px, calc((100vw - var(--ancho)) / 2 - 16px));
-  mask-image: linear-gradient(90deg, #000 62%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, #000 62%, transparent);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='none' stroke='%23DCD8CF' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M28 0v10M28 46v10M0 28h10M46 28h10'/%3E%3Ccircle cx='28' cy='28' r='5.5'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 56px 56px;
-}
-@media (max-width: 1200px) { footer .circuito { display: none; } }
-.pie-logo { margin-bottom: 3.5rem; }
-.pie-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; margin-bottom: 4rem; }
+/* ── PIE COMPACTO ──
+   Meme: "los elementos estan muy separados y dejan mucho espacio". Estaba
+   construido con separaciones de seccion (4rem entre bloques, 1.25rem entre
+   enlaces de una misma lista) cuando un pie es lo contrario: una lista densa que
+   se recorre con la vista de un vistazo. Los enlaces de una columna son
+   HERMANOS y tienen que leerse como un grupo; con 20 px entre uno y otro parecen
+   apartados distintos y la columna se estira hasta obligar a bajar dos pantallas.
+   El aire se conserva ENTRE columnas y antes del legal, que es donde separa algo
+   de verdad. */
+.pie-logo { margin-bottom: 2rem; }
+.pie-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem 2.5rem; margin-bottom: 2.5rem; }
 @media (max-width: 800px) { .pie-cols { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .pie-cols { grid-template-columns: 1fr; } }
-.pie-cols h4 { font-size: 1.0625rem; font-weight: 600; margin-bottom: 1.5rem; }
+.pie-cols h4 { font-size: 1.0625rem; font-weight: 600; margin-bottom: .875rem; }
 .pie-cols ul { list-style: none; }
-.pie-cols li { margin-bottom: 1.25rem; }
+.pie-cols li { margin-bottom: .625rem; }
 .pie-cols a { text-decoration: none; font-size: 1rem; }
 .pie-cols a:hover { text-decoration: underline; }
-.lema { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; flex-wrap: wrap; padding-bottom: 2rem; }
+.lema { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; flex-wrap: wrap; padding-bottom: 1.5rem; }
 .lema h3 { font-size: clamp(1.5rem, 2.4vw, 2rem); font-weight: 400; max-width: 16ch; }
 .redes { display: flex; gap: 1.5rem; }
 .redes a { color: var(--negro); }
 .redes svg { width: 24px; height: 24px; }
-.pie-legal { border-top: 1px solid var(--linea); padding: 1.5rem 0 2.5rem; }
-.pie-legal .enlaces { display: flex; gap: 1.75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.pie-legal { border-top: 1px solid var(--linea); padding: 1.25rem 0 1.75rem; }
+.pie-legal .enlaces { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: .75rem; }
 .pie-legal a { font-size: .9375rem; text-decoration: none; }
 .pie-legal a:hover { text-decoration: underline; }
 .pie-legal p { font-size: .875rem; color: var(--gris); max-width: 90ch; }
@@ -861,7 +881,16 @@ footer .circuito {
 
       <figure class="cita-suelta revelar">
         <blockquote>“Queríamos ofrecer robótica desde hace años. El problema nunca fue el interés de los alumnos: era el equipo y quién iba a darla. Aquí llegan las dos cosas resueltas.”</blockquote>
-        <figcaption><strong>Dirección académica</strong> · Colegio privado, Retalhuleu</figcaption>
+        <!-- SIN ATRIBUCION, por decision de Meme: "no digas esto en la landing:
+             Direccion academica · Colegio privado, Retalhuleu". Y es lo correcto
+             tambien de fondo: era la UNICA prueba social de la pagina y no
+             correspondia a ningun colegio concreto, asi que firmarla con un cargo
+             y una ciudad la hacia parecer un testimonio verificable. Sin firma es
+             lo que es: la frase que resume el problema que el producto resuelve.
+             ⚠️ Cuando haya un colegio de verdad dispuesto a dar su nombre, esto
+             vuelve — con nombre, cargo y permiso por escrito, no con un cargo
+             generico. -->
+
       </figure>
 
       <!-- Sin tabla de precios: la cuota se arma con cada colegio en la reunión.
@@ -916,7 +945,7 @@ footer .circuito {
           <ul class="vias">
             <li>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
-              <span><strong>Teléfono y WhatsApp</strong><a href="https://wa.me/502XXXXXXXX" target="_blank" rel="noopener">+502 0000 0000</a></span>
+              <span><strong>Teléfono y WhatsApp</strong><a href="https://wa.me/50257545388" target="_blank" rel="noopener">+502 5754 5388</a></span>
             </li>
             <li>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
@@ -925,8 +954,24 @@ footer .circuito {
                       </ul>
         </div>
 
-        <form class="revelar" action="mailto:info@ledkid.gt" method="post" enctype="text/plain">
+        <!-- ⚠️ ESTE FORMULARIO NO ENVIABA NADA. Era `action="mailto:info@ledkid.gt"`,
+             y un `mailto` en un form no manda nada a ningun servidor: intenta abrir
+             el cliente de correo del visitante. En un movil, o en un equipo sin
+             cliente configurado -o sea, casi cualquier director-, no pasa nada de
+             nada. La persona rellenaba sus datos, pulsaba, no veia ningun error y se
+             iba creyendo que habia pedido una reunion. Cada uno de esos fue un
+             cliente perdido en silencio. Y `ledkid.gt` ni siquiera es el dominio.
+             Ahora hace POST a /api/contacto, que manda el correo por el mismo SMTP
+             que ya envia las verificaciones de cuenta. El `action` se queda como
+             RESPALDO por si el JavaScript no corre. -->
+        <form id="formContacto" class="revelar" action="mailto:info@ledkid.com" method="post" enctype="text/plain">
           <div class="campos">
+            <!-- Trampa para robots: oculto para personas, tentador para un bot.
+                 Si viene relleno, el servidor contesta 200 y tira el mensaje. -->
+            <div class="campo trampa" aria-hidden="true">
+              <label for="web">No rellenar</label>
+              <input id="web" name="web" type="text" tabindex="-1" autocomplete="off">
+            </div>
             <div class="campo ancho">
               <label for="colegio">Nombre del colegio</label>
               <input id="colegio" name="colegio" type="text" required autocomplete="organization">
@@ -954,6 +999,7 @@ footer .circuito {
           </div>
           <button class="btn btn-negro btn-bloque" type="submit">Solicitar presentación</button>
           <p class="aviso-form">Al enviar acepta que le contactemos para coordinar la reunión.</p>
+          <p class="respuesta-form" id="respuestaContacto" role="status" aria-live="polite" hidden></p>
         </form>
       </div>
     </div>
@@ -963,7 +1009,6 @@ footer .circuito {
 
 <!-- ══ PIE ══ -->
 <footer>
-  <span class="circuito" aria-hidden="true"></span>
   <div class="env">
     <a class="marca pie-logo" href="#inicio" aria-label="LedKid">
       <svg class="logo" viewBox="0 0 176 176" aria-hidden="true">

@@ -103,3 +103,67 @@
   // JavaScript no llega a correr, el boton sigue escondido — y para ese caso esta
   // el <noscript> del HTML, que le pone los controles nativos al video.
   document.documentElement.classList.add('js-vivo');
+
+  // ── EL FORMULARIO, QUE AHORA SI ENVIA ──
+  //
+  // Era `<form action="mailto:...">`, y eso no manda nada a ningun servidor:
+  // intenta abrir el cliente de correo del visitante. En un movil, o en un equipo
+  // sin cliente configurado -o sea, casi cualquier director-, no ocurre NADA. Se
+  // rellenaba, se pulsaba, no salia ningun error, y la solicitud se perdia. Es el
+  // peor modo de fallo posible en la unica pantalla que convierte visitas en
+  // clientes: silencioso por los dos lados.
+  //
+  // Ahora hace POST a /api/contacto, que sale por el mismo SMTP que ya manda las
+  // verificaciones de cuenta.
+  //
+  // ⚠️ La landing se sirve bajo /landing/ dentro del gateway 8081, asi que la ruta
+  // tiene que ser ABSOLUTA (/api/contacto). Relativa resolveria a
+  // /landing/api/contacto, que no existe, y volveriamos a perder solicitudes en
+  // silencio — el mismo fallo con otra cara.
+  const form = document.getElementById('formContacto');
+  const aviso = document.getElementById('respuestaContacto');
+  if (form && aviso) {
+    const decir = (texto, ok) => {
+      aviso.textContent = texto;
+      aviso.className = 'respuesta-form ' + (ok ? 'ok' : 'mal');
+      aviso.hidden = false;
+    };
+    form.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const boton = form.querySelector('button[type=submit]');
+      const antes = boton.textContent;
+      boton.disabled = true;
+      boton.textContent = 'Enviando…';
+      const d = new FormData(form);
+      try {
+        const r = await fetch('/api/contacto', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            colegio: d.get('colegio') || '',
+            contacto: d.get('nombre') || '',
+            email: d.get('correo') || '',
+            telefono: d.get('telefono') || '',
+            alumnos: d.get('alumnos') || '',
+            mensaje: d.get('mensaje') || '',
+            web: d.get('web') || '',
+          }),
+        });
+        const j = await r.json().catch(() => ({}));
+        if (r.ok && j.ok) {
+          form.reset();
+          decir('Recibido. Le contactamos para coordinar la reunión.', true);
+        } else {
+          // Se le da SIEMPRE una salida que no depende de nosotros. Si el correo
+          // falla, que al menos sepa por donde escribir.
+          decir((j.error || 'No pudimos enviar su solicitud.') +
+                ' Escríbanos por WhatsApp al +502 5754 5388.', false);
+        }
+      } catch (_) {
+        decir('No hay conexión con el servidor. Escríbanos por WhatsApp al +502 5754 5388.', false);
+      } finally {
+        boton.disabled = false;
+        boton.textContent = antes;
+      }
+    });
+  }
