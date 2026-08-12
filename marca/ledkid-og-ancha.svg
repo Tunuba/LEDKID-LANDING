@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="LedKid — Robotica para el aula, lista para su colegio">
+  <title>LedKid</title>
+  <!-- TARJETA ANCHA 1200x630 — la que exigen WhatsApp, Facebook y LinkedIn.
+       Misma marca que la cuadrada (ledkid-og-cuadrado.svg) para que un enlace
+       compartido y un resultado de Google se vean como la misma empresa. Hasta el
+       2026-08-12 esta tarjeta era blanca con el logotipo pequeno: se leia en el
+       chat pero desaparecia en la miniatura de Google. Ahora las dos son ambar. -->
+  <rect width="1200" height="630" fill="#FFA000"/>
+
+  <!-- El LED, a la izquierda del logotipo. Caja real (37.5,10)-(138.5,166). -->
+  <g transform="translate(113.5,123.33) scale(1.6667)">
+    <g transform="translate(38,15.5)" fill="none" stroke="#FFFFFF" stroke-width="11">
+      <path d="M5,105 V65 Q5,0 50,0 Q95,0 95,65 V105 Q95,115 85,115 H15 Q5,115 5,105 Z" stroke-linejoin="round"/>
+      <path d="M5,117 H95" stroke-linecap="round"/>
+      <path d="M28,124 V145 M72,124 V145" stroke-linecap="round"/>
+    </g>
+  </g>
+
+  <!-- "LedKid" — mismos glifos de marca, "Led" blanco y "Kid" oscuro. -->
+  <g transform="translate(404.15,159.28) scale(1.3025)">
+    <g fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8,48 V132 H50"/>
+      <path d="M69.6,106 A31,31 0 1 0 54.5,127.8" transform="translate(78,0)"/>
+      <path d="M8,106 H69.6" transform="translate(78,0)" stroke-width="14"/>
+      <path d="M70,38 V132" transform="translate(176,0)"/>
+    </g>
+    <circle cx="215" cy="101" r="31" fill="none" stroke="#FFFFFF" stroke-width="16"/>
+    <g fill="none" stroke="#1A1D26" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8,48 V132 M58,48 L18,88 M30,78 L60,132" transform="translate(274,0)"/>
+      <path d="M8,70 V132" transform="translate(362,0)"/>
+      <path d="M70,38 V132" transform="translate(398,0)"/>
+    </g>
+    <circle cx="370" cy="40" r="8" fill="#1A1D26"/>
+    <circle cx="437" cy="101" r="31" fill="none" stroke="#1A1D26" stroke-width="16"/>
+  </g>
+
+  <!-- La promesa, en blanco sobre ambar. Segoe UI es la tipografia que usa la
+       landing en produccion y la de los videos de LEDKID-MARKETING. -->
+  <text x="600" y="505" text-anchor="middle" fill="#FFFFFF"
+        font-family="Segoe UI, Figtree, Helvetica, Arial, sans-serif"
+        font-size="46" font-weight="600">Robótica para el aula, lista para su colegio</text>
+</svg>

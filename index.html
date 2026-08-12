@@ -6,12 +6,87 @@
 <title>LedKid | Robótica para el aula, lista para su colegio</title>
 <meta name="description" content="LedKid lleva el programa de robótica y electrónica a su colegio: kits para el salón, simulador de circuitos, planificación docente y acompañamiento durante todo el ciclo escolar.">
 <meta name="theme-color" content="#FFFFFF">
+<link rel="canonical" href="https://ledkid.com/">
+
+<!-- ══ ICONOS: ARCHIVOS, NO data: URI ═══════════════════════════════════════
+     Meme: "cuando busco en Google mi página aparece sin logo". La causa,
+     medida el 2026-08-11: el único icono declarado era un `data:` URI y
+     https://ledkid.com/favicon.ico daba 404. Google NO lee `data:` URIs para
+     el icono del resultado de búsqueda: necesita una URL que pueda RASTREAR.
+     Sin ninguna de las dos vías, el resultado sale sin icono. El `data:` URI
+     hacía que la PESTAÑA se viera bien, y por eso el fallo pasó desapercibido:
+     el navegador y el rastreador no miran lo mismo.
+
+     POR QUÉ LAS RUTAS SON RELATIVAS Y SIN CARPETA. scripts/sincronizar-landing.ps1
+     (en LEDKID-SIMULADOR) reescribe solo `="assets/` y `="media/` a `/landing/…`;
+     todo lo demás se queda tal cual. Como en producción este index.html se sirve
+     en la RAÍZ, `favicon.svg` resuelve a https://ledkid.com/favicon.svg — y esos
+     archivos ya viven en la raíz del sitio (frontend/public/ del simulador, que
+     Vite copia a dist/ y el backend sirve uno a uno). Aquí, en el repo, están
+     los mismos archivos al lado del index.html, así que la landing sigue
+     funcionando desplegada sola. NO les pongas `marca/` delante: el script no
+     reescribe esa carpeta y en producción se irían a un 404.
+     El .ico y los .png salen de marca/ledkid-icono.png con
+     `python scripts/generar-iconos.py`; no se editan a mano. -->
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+<!-- ══ TARJETA AL COMPARTIR ══════════════════════════════════════════════════
+     og:image DEBE ser absoluta: WhatsApp, Facebook y LinkedIn no resuelven
+     rutas relativas, y la que había ("media/video-poster.png") el script la
+     convertía en "/landing/media/…", que sigue sin ser absoluta. Se deja
+     escrita con https://ledkid.com para que el script no la toque (solo
+     reescribe lo que empieza por `="media/`).
+
+     🔴 SON DOS IMÁGENES Y NO ES REDUNDANCIA (2026-08-12). Cada consumidor
+     recorta distinto:
+       · og:image / twitter:image -> 1200×630. Es lo que pide el chat.
+       · JSON-LD "image"          -> 1200×1200. Es de donde Google saca la
+         MINIATURA del resultado, y la recorta a un cuadrado de ~92 px.
+     Hasta hoy las dos eran la misma tarjeta ancha y BLANCA. En WhatsApp se veía;
+     en Google quedaba un borrón pálido ilegible — Meme lo vio buscando "ledkid".
+     Las dos son ahora ámbar con el LED en blanco, y se generan con
+     `python scripts/generar-iconos.py` desde marca/ledkid-og-*.svg. No se editan
+     a mano: los glifos de "LedKid" son paths de marca, no una tipografía. -->
+<meta property="og:site_name" content="LedKid">
+<meta property="og:url" content="https://ledkid.com/">
 <meta property="og:title" content="LedKid | Robótica educativa para colegios">
 <meta property="og:description" content="Kits, simulador y formación docente. El programa de robótica llega armado a su colegio.">
-<meta property="og:image" content="media/video-poster.png">
+<meta property="og:image" content="https://ledkid.com/marca/ledkid-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Logotipo de LedKid: robótica para el aula, lista para su colegio.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_GT">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 176 176'%3E%3Cg transform='translate(38,15.5)' fill='none' stroke='%23FFA000' stroke-width='11'%3E%3Cpath d='M5,105 V65 Q5,0 50,0 Q95,0 95,65 V105 Q95,115 85,115 H15 Q5,115 5,105 Z' stroke-linejoin='round'/%3E%3Cpath d='M5,117 H95' stroke-linecap='round'/%3E%3Cpath d='M28,124 V145 M72,124 V145' stroke-linecap='round'/%3E%3C/g%3E%3C/svg%3E">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LedKid | Robótica educativa para colegios">
+<meta name="twitter:description" content="Kits, simulador y formación docente. El programa de robótica llega armado a su colegio.">
+<meta name="twitter:image" content="https://ledkid.com/marca/ledkid-og.png">
+<meta name="twitter:image:alt" content="Logotipo de LedKid: robótica para el aula, lista para su colegio.">
+
+<!-- JSON-LD de Organization: es de donde Google saca el logo del panel de marca.
+     `logo` tiene que apuntar a un archivo rastreable y cuadrado — el icono de
+     marca a 1056×1056, servido por el backend en /marca/. Un <script> de tipo
+     application/ld+json es un BLOQUE DE DATOS, no se ejecuta, así que la CSP
+     `script-src 'self'` del gateway no lo bloquea (a diferencia de app.js, que
+     por eso va en archivo aparte). -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "LedKid",
+  "url": "https://ledkid.com/",
+  "logo": "https://ledkid.com/marca/ledkid-icono.png",
+  "image": [
+    "https://ledkid.com/marca/ledkid-og-cuadrado.png",
+    "https://ledkid.com/marca/ledkid-og.png"
+  ],
+  "description": "Programa de robótica y electrónica para colegios: kits para el salón, simulador de circuitos, planificación docente y acompañamiento durante el ciclo escolar.",
+  "areaServed": "GT"
+}
+</script>
 <!-- SIN GOOGLE FONTS A PROPOSITO. La CSP del gateway es `font-src 'self' data:`,
      asi que la hoja de fonts.googleapis.com entraba en el DOM y quedaba BLOQUEADA:
      medido, su `.sheet` era null y la tipografia de marca no cargaba nunca en
