@@ -25,9 +25,9 @@ simulador (el backend Go en el puerto 8081), que lee una copia:
 LEDKID-LANDING/                              ← ✅ esto es lo que se edita
       │   powershell scripts\sincronizar-landing.ps1
       ▼
-ROBOKIT-SIMULADOR/frontend/public/landing/   ← artefacto, en .gitignore
+LEDKID-SIMULADOR/frontend/public/landing/   ← artefacto, en .gitignore
       ▼
-ROBOKIT-SIMULADOR/frontend/dist/landing/     ← artefacto, en .gitignore
+LEDKID-SIMULADOR/frontend/dist/landing/     ← artefacto, en .gitignore
                                                ESTO es lo que sirve ledkid.com
 ```
 
@@ -94,5 +94,5 @@ copian al simulador: sólo se publican sus salidas (`assets/`, `media/`, `marca/
   el mismo que usan el logotipo, los videos y la tarjeta final de cada uno.
 - El foquito es la misma geometría que el `favicon.svg` de las tres apps.
 
-Si cambias la marca aquí, cámbiala también en `ROBOKIT-SIMULADOR/frontend/public/`
+Si cambias la marca aquí, cámbiala también en `LEDKID-SIMULADOR/frontend/public/`
 (logo y favicon) y en los guiones de `LEDKID-MARKETING`.
