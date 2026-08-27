@@ -96,3 +96,37 @@ copian al simulador: sólo se publican sus salidas (`assets/`, `media/`, `marca/
 
 Si cambias la marca aquí, cámbiala también en `LEDKID-SIMULADOR/frontend/public/`
 (logo y favicon) y en los guiones de `LEDKID-MARKETING`.
+
+---
+
+## 🔴 AVISO ABIERTO (2026-08-26): el texto del video no coincide con el archivo
+
+La sección `#video` ya anuncia **"Dos minutos y medio"** y **"Ver el programa ·
+2:30"**, pero el `media/ledkid-ventas.mp4` que hay aquí es todavía el corte de
+**2:11**. El video nuevo quedó a medio renderizar.
+
+Se cierra copiando el mp4 y el póster nuevos desde
+`LEDKID-MARKETING/video-ventas-colegios/` y corriendo, **desde el simulador**,
+`scripts\sincronizar-landing.ps1`. El detalle está en el `TRASPASO.md` de esa
+carpeta.
+
+## Las ilustraciones ya no son personas: son robots
+
+Los muñecos planos se cambiaron por **robots de la familia BOTITO** (Meme:
+*"esos personas de fondo se ven demasiado IA"*). El cambio está en el GENERADOR,
+no en los SVG: `scripts/generar-ilustraciones.mjs`, función `figura()` (antes
+`nino()`). Conserva el canon de proporciones, así que mesas, pupitres y suelos
+siguen cuadrando.
+
+⚠️ Al regenerar, dos trampas:
+
+1. Los dos generadores escriben en `landing/assets` y `landing/media`
+   **relativos al cwd**, de cuando la landing era una subcarpeta. Corriéndolos
+   desde el repo crean una carpeta `landing/` intrusa: hay que copiar a
+   `assets/` y `media/` y borrarla.
+2. Necesitan `RESVG_PATH`, y la ruta que traen escrita no existe en esta
+   máquina. Usar la del simulador:
+   `LEDKID-SIMULADOR/frontend/node_modules/@resvg/resvg-js/index.js`.
+
+Y **el héroe no es un SVG**: es `media/hero-loop.mp4`, que genera
+`scripts/generar-hero-loop.mjs`. Cambiar los assets no lo toca.

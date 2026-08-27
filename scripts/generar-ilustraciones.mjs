@@ -84,59 +84,69 @@ export const cabezaSola = ({ x = 0, y = 0, s = 1, piel = 0, adulto = false }) =>
     <circle cx="0" cy="0" r="31" fill="${PIELES[piel]}"/>
   </g>`
 
-// Niño (o adulto) de frente. El origen es el CENTRO DE LA CABEZA; el cuerpo cae
-// hacia abajo y la planta del pie queda en `medidas(adulto, s).planta`.
-export const nino = ({ x = 0, y = 0, s = 1, ropa = C.azul, pantalon = C.tinta, piel = 0, pelo = 0, coleta = false, brazo = 'abajo', adulto = false, sombra = true }) => {
-  const p = PIELES[piel], pl = PELOS[pelo]
+// FIGURA: el alumno (o el docente) de frente. Es un ROBOT de la familia BOTITO.
+//
+// ⚠️ AQUI HABIA UN NInO DIBUJADO PLANO y se cambio el 2026-08-26. Meme: *"esos
+// personas y demas de fondo se ven demasiado IA... reemplazalos por robots o
+// algo"*. Y no era solo gusto: aquellas figuras —tono de piel liso, pelo de una
+// sola forma, dos puntos por ojos y un arco por boca— son el molde exacto de
+// cualquier banco de ilustraciones, y en una pagina cuyo pie ya admite que las
+// ilustraciones son "material de muestra" eran lo que la hacia parecer una
+// plantilla. Un robot no tiene tono de piel que acertar ni cara humana que caiga
+// en el valle inquietante, y ademas ES la marca: BOTITO es el personaje que el
+// nino ve dentro del simulador y el que narra el video de ventas.
+//
+// SE CONSERVA EL CANON ENTERO (`CANON`, `medidas`) y la firma de la funcion: el
+// robot mide lo mismo que media el nino, apoya la planta en el mismo sitio y su
+// cadera cae a la misma altura, asi que las mesas, los pupitres y los suelos de
+// todas las escenas siguen cuadrando sin tocar una sola coordenada. Los
+// parametros `piel` y `pelo` se ACEPTAN Y SE IGNORAN a proposito, para no tener
+// que reescribir las siete llamadas.
+//
+// El origen es el CENTRO DE LA CABEZA; la planta queda en `medidas(adulto,s).planta`.
+export const figura = ({ x = 0, y = 0, s = 1, ropa = C.azul, pantalon = C.tinta, piel = 0, pelo = 0, coleta = false, brazo = 'abajo', adulto = false, sombra = true }) => {
   const c = adulto ? CANON.adulto : CANON.nino
   const k = c.k
-  const H = 62 * k                 // alto de la cabeza: es el módulo de todo
-  const r = 31 * k                 // radio del cráneo
-  const en = (n) => -r + n * H     // "n cabezas desde la coronilla" → y
+  const H = 62 * k                 // alto de la cabeza: el modulo de todo
+  const r = 31 * k
+  const en = (n) => -r + n * H
 
   const yHombro  = en(c.hombro)
-  const yCintura = en(c.cintura)   // a esta altura cae el codo
+  const yCintura = en(c.cintura)
   const yCadera  = en(c.cadera)
-  const yRodilla = en(c.rodilla)   // a media pierna
-  const ySuelo   = en(c.alto)      // la planta del pie
-  const hx = H * c.anchoHombro     // medio ancho de hombros
-  const cx = H * c.anchoCadera     // medio ancho de cadera
-  // La cintura estrecha un poco: un torso de lados rectos se lee como un tubo.
-  const wx = Math.min(hx, cx) * 0.93
+  const yRodilla = en(c.rodilla)
+  const ySuelo   = en(c.alto)
+  const hx = H * c.anchoHombro
+  const cx = H * c.anchoCadera
 
-  // PIERNAS. Salen de la CADERA. La rodilla parte la pierna por la mitad y el
-  // zapato apoya en ySuelo: el pie no se hunde ni flota.
-  const px = cx * 0.62             // separación entre los ejes de las dos piernas
-  // Grosores en alturas de cabeza: muslo 0.50, pantorrilla 0.34. Con menos que
-  // esto la figura sale de palillos aunque el esqueleto esté bien.
-  const gMuslo = H * 0.50, gCanilla = H * 0.34
-  const hZapato = H * 0.14, aZapato = H * 0.42
-  const yTobillo = ySuelo - hZapato
-  // El niño lleva pantalón corto (canilla de piel) y el adulto pantalón largo:
-  // así se distinguen sin tocar la paleta.
+  // PIERNAS: dos barras rectas con pie. Un robot no tiene rodilla de carne, pero
+  // la articulacion se marca igual —un tubo recto de la cadera al suelo se lee
+  // como un palo— asi que se dibuja un disco en `yRodilla`.
+  const px = cx * 0.62
+  // Mas gruesas que en la figura humana a proposito: un robot de barras finas se
+  // lee como una arana. Con 0.42/0.38 el personaje sale rechoncho y amigable,
+  // que es la lectura que se busca en una pagina para colegios.
+  const gMuslo = H * 0.42, gCanilla = H * 0.38
+  const hPie = H * 0.15, aPie = H * 0.46
+  const yTobillo = ySuelo - hPie
   const pierna = (lado) => {
     const xr = lado * px * 1.02, xt = lado * px * 0.94
     return `
-    <path d="M${lado * px},${yCadera - H * 0.06} L${xr},${yRodilla}" stroke="${pantalon}" stroke-width="${gMuslo}" stroke-linecap="round"/>
-    <path d="M${xr},${yRodilla} L${xt},${yTobillo}" stroke="${c.pantalonLargo ? pantalon : p}" stroke-width="${gCanilla}" stroke-linecap="round"/>
-    <rect x="${xt - aZapato * 0.42}" y="${yTobillo}" width="${aZapato}" height="${hZapato}" rx="${hZapato * 0.45}" fill="${C.tinta}"/>`
+    <path d="M${lado * px},${yCadera - H * 0.04} L${xr},${yRodilla}" stroke="${pantalon}" stroke-width="${gMuslo}" stroke-linecap="round"/>
+    <circle cx="${xr}" cy="${yRodilla}" r="${gMuslo * 0.46}" fill="${pantalon}"/>
+    <path d="M${xr},${yRodilla} L${xt},${yTobillo}" stroke="${pantalon}" stroke-width="${gCanilla}" stroke-linecap="round"/>
+    <rect x="${xt - aPie * 0.44}" y="${yTobillo}" width="${aPie}" height="${hPie}" rx="${hPie * 0.45}" fill="${C.tinta}"/>`
   }
 
-  // BRAZOS. Nacen en el HOMBRO, no a media caja torácica como antes (el origen
-  // estaba en y=74, justo el centro del torso). El codo cae a la altura de la
-  // cintura y la mano a media altura del muslo: son las dos cotas que delatan
-  // un brazo mal puesto.
-  const ax = hx                    // eje del hombro, en el borde del torso
-  const yArt = yHombro + H * 0.05  // la articulación, algo bajo la línea del hombro
-  const gBrazo = H * 0.29, rMano = H * 0.19
-  // La punta de los dedos cae a MEDIA ALTURA DEL MUSLO con el brazo relajado:
-  // por eso el centro de la mano es ese punto menos su radio. Un brazo que
-  // termina en la cintura o que llega a la rodilla es lo que se ve como raro.
+  // BRAZOS: el MISMO esqueleto que tenia la figura humana (hombro -> codo ->
+  // mano, con el codo a la altura de la cintura y la mano a media altura del
+  // muslo). Levantar el brazo no lo alarga: cambia el angulo, no la longitud.
+  const ax = hx
+  const yArt = yHombro + H * 0.05
+  const gBrazo = H * 0.30, rMano = H * 0.19
   const yMano = (yCadera + yRodilla) / 2 - rMano
-  const Lu = yCintura - yArt       // brazo: hombro → codo
-  const Lf = yMano - yCintura      // antebrazo + mano: codo → mano
-  // Levantar el brazo NO puede alargarlo: se reutilizan Lu y Lf y sólo cambia el
-  // ángulo. Antes el brazo en alto medía 89 y el mismo brazo caído 50.
+  const Lu = yCintura - yArt
+  const Lf = yMano - yCintura
   const bIzq = brazo === 'arriba'
     ? (() => {
         const codo = [-ax - Lu * 0.55, yArt - Lu * 0.835]
@@ -146,39 +156,38 @@ export const nino = ({ x = 0, y = 0, s = 1, ropa = C.azul, pantalon = C.tinta, p
   const bDer = { codo: [hx + H * 0.03, yCintura], mano: [hx + H * 0.01, yMano] }
   const brazoSvg = (b, lado) => `
     <path d="M${lado * ax},${yArt} L${b.codo[0]},${b.codo[1]} L${b.mano[0]},${b.mano[1]}"
-          fill="none" stroke="${p}" stroke-width="${gBrazo}" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="${b.mano[0]}" cy="${b.mano[1]}" r="${rMano}" fill="${p}"/>`
+          fill="none" stroke="${ropa}" stroke-width="${gBrazo}" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${b.mano[0]}" cy="${b.mano[1]}" r="${rMano}" fill="${ropa}"/>`
 
-  // Manga corta: cubre el primer tramo del brazo siguiendo su MISMA dirección,
-  // así el hombro se lee como una articulación y no como un tubo apoyado en el
-  // costado. Va encima de la camisa, por eso se devuelve aparte.
-  const mangaSvg = (b, lado) => {
-    const x0 = lado * ax, y0 = yArt
-    const fx = x0 + (b.codo[0] - x0) * 0.44, fy = y0 + (b.codo[1] - y0) * 0.44
-    return `<path d="M${x0},${y0}
-                     L${fx},${fy}" stroke="${ropa}" stroke-width="${gBrazo * 1.26}" stroke-linecap="round"/>`
-  }
+  // TORSO: caja redondeada con su panel de pecho y tres luces. Las luces son las
+  // mismas tres que BOTITO lleva en el simulador.
+  // El torso se ensancha un 16% sobre el ancho de hombros del canon: la caja de
+  // un robot no se estrecha en la cintura como un cuerpo, y con el ancho justo
+  // salia larguirucho al lado de una cabeza cuadrada.
+  const tw = hx * 2.32, th = yCadera - yHombro + H * 0.10
+  const panelW = tw * 0.62, panelH = th * 0.40
+  const luz = (i, col) => `<circle cx="${(-1 + i) * panelW * 0.24}" cy="${yHombro + th * 0.40}" r="${H * 0.075}" fill="${col}"/>`
 
-  // El orden importa: piernas y brazos van DETRÁS de la camisa, así la unión del
-  // hombro y la de la cadera quedan tapadas por la ropa y no parecen palos pegados.
   return `
   <g transform="translate(${x},${y}) scale(${s})">
-    ${sombra ? `<ellipse cx="0" cy="${ySuelo}" rx="${H * 0.62}" ry="${H * 0.13}" fill="${C.tinta}" opacity=".12"/>` : ''}
+    ${sombra ? `<ellipse cx="0" cy="${ySuelo}" rx="${H * 0.66}" ry="${H * 0.13}" fill="${C.tinta}" opacity=".12"/>` : ''}
     ${pierna(-1)}${pierna(1)}
     ${brazoSvg(bIzq, -1)}${brazoSvg(bDer, 1)}
-    <rect x="${-H * 0.13}" y="${r * 0.62}" width="${H * 0.26}" height="${yHombro - r * 0.62 + H * 0.08}" rx="${H * 0.09}" fill="${p}"/>
-    <path d="M${-cx},${yCadera}
-             C${-wx},${yCadera - (yCadera - yCintura) * 0.55} ${-hx},${yCintura - (yCintura - yHombro) * 0.45} ${-hx},${yHombro}
-             a${hx},${H * 0.14} 0 0 1 ${2 * hx},0
-             C${hx},${yCintura - (yCintura - yHombro) * 0.45} ${wx},${yCadera - (yCadera - yCintura) * 0.55} ${cx},${yCadera} z" fill="${ropa}"/>
-    ${mangaSvg(bIzq, -1)}${mangaSvg(bDer, 1)}
+    <rect x="${-H * 0.11}" y="${r * 0.62}" width="${H * 0.22}" height="${yHombro - r * 0.62 + H * 0.10}" rx="${H * 0.08}" fill="${C.tinta}"/>
+    <rect x="${-tw / 2}" y="${yHombro}" width="${tw}" height="${th}" rx="${H * 0.34}" fill="${ropa}"/>
+    <rect x="${-panelW / 2}" y="${yHombro + th * 0.20}" width="${panelW}" height="${panelH}" rx="${H * 0.13}" fill="${C.negro}"/>
+    ${luz(0, C.coral)}${luz(1, C.turque)}${luz(2, C.ambar)}
     <g transform="scale(${k})">
-      <circle cx="0" cy="0" r="31" fill="${p}"/>
-      <path d="M-31,-4 a31,31 0 0 1 62,0 q-10,-12 -31,-12 T-31,-4 z" fill="${pl}"/>
-      ${coleta ? `<circle cx="-33" cy="6" r="10" fill="${pl}"/><circle cx="33" cy="6" r="10" fill="${pl}"/>` : ''}
-      <circle cx="-11" cy="4" r="3.4" fill="${C.negro}"/>
-      <circle cx="11"  cy="4" r="3.4" fill="${C.negro}"/>
-      <path d="M-9,16 q9,8 18,0" fill="none" stroke="${C.negro}" stroke-width="3" stroke-linecap="round"/>
+      <rect x="-33" y="-30" width="66" height="58" rx="19" fill="${C.tinta}"/>
+      <rect x="-24" y="-21" width="48" height="35" rx="13" fill="${C.negro}"/>
+      <circle cx="-11" cy="-3" r="7.5" fill="${C.turque}"/>
+      <circle cx="11"  cy="-3" r="7.5" fill="${C.turque}"/>
+      <circle cx="-8.5" cy="-5.5" r="2.4" fill="${C.blanco}"/>
+      <circle cx="13.5" cy="-5.5" r="2.4" fill="${C.blanco}"/>
+      ${coleta ? `<rect x="-41" y="-10" width="8" height="19" rx="4" fill="${ropa}"/><rect x="33" y="-10" width="8" height="19" rx="4" fill="${ropa}"/>` : ''}
+      <path d="M0,-30 L0,-45" stroke="${C.tinta}" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="0" cy="-50" r="7" fill="${C.turque}"/>
+      <circle cx="0" cy="-50" r="12" fill="${C.turque}" opacity=".22"/>
     </g>
   </g>`
 }
@@ -292,8 +301,8 @@ const heroAula = svg(880, 640, `
 
   <!-- alumnos y mesa. Los niños están DE PIE detrás de la mesa: la tapa les tapa
        la cadera y las canillas se ven entre la tapa y el suelo. -->
-  ${nino({ x: 268, y: Y_NINO_AULA, s: S_NINO_AULA, ropa: C.coral, piel: 1, pelo: 1, coleta: true, brazo: 'arriba' })}
-  ${nino({ x: 580, y: Y_NINO_AULA, s: S_NINO_AULA, ropa: C.turque, piel: 2, pelo: 2 })}
+  ${figura({ x: 268, y: Y_NINO_AULA, s: S_NINO_AULA, ropa: C.coral, piel: 1, pelo: 1, coleta: true, brazo: 'arriba' })}
+  ${figura({ x: 580, y: Y_NINO_AULA, s: S_NINO_AULA, ropa: C.turque, piel: 2, pelo: 2 })}
   ${mesa({ x: 440, y: MESA_AULA, w: 560, pata: PATA_AULA })}
   <!-- lo de encima de la mesa apoya en MESA_AULA, no a media altura -->
   ${robot({ x: 440, y: MESA_AULA - 61 * .82, s: .82 })}
@@ -323,7 +332,7 @@ const nivel1 = svg(660, 480, `
       <path d="M46,-40 h22"/><path d="M46,-16 h30"/><path d="M46,8 h22"/>
     </g>
   </g>
-  ${nino({ x: 178, y: SUELO_N1 - medidas(false, S_N1).planta, s: S_N1, ropa: C.azul, piel: 0, pelo: 0, brazo: 'arriba' })}
+  ${figura({ x: 178, y: SUELO_N1 - medidas(false, S_N1).planta, s: S_N1, ropa: C.azul, piel: 0, pelo: 0, brazo: 'arriba' })}
   ${placa({ x: 300, y: SUELO_N1 - 40 * .68, s: .68 })}
 `, C.crema)
 
@@ -351,7 +360,7 @@ const nivel2 = svg(660, 480, `
     <circle cx="0" cy="-62" r="9" fill="${C.tinta}"/>
     <path d="M-13,50 a13,13 0 0 0 26,0" fill="${C.tinta}"/>
   </g>
-  ${nino({ x: 150, y: SUELO_N2 - medidas(false, S_N2).planta, s: S_N2, ropa: C.turque, piel: 3, pelo: 3, coleta: true })}
+  ${figura({ x: 150, y: SUELO_N2 - medidas(false, S_N2).planta, s: S_N2, ropa: C.turque, piel: 3, pelo: 3, coleta: true })}
   ${laptop({ x: 470, y: SUELO_N2 - 70 * .58, s: .58 })}
 `, C.cielo)
 
@@ -369,7 +378,7 @@ const nivel3 = svg(660, 480, `
   <path d="M40,404 C170,404 150,318 268,318 S420,404 560,392"
         fill="none" stroke="${C.blanco}" stroke-width="5" stroke-dasharray="18 20" stroke-linecap="round"/>
   ${robot({ x: 300, y: 320 - 61 * 1.15, s: 1.15, cuerpo: C.azul })}
-  ${nino({ x: 546, y: 380 - medidas(false, S_N3).planta, s: S_N3, ropa: C.coral, piel: 2, pelo: 1, brazo: 'arriba' })}
+  ${figura({ x: 546, y: 380 - medidas(false, S_N3).planta, s: S_N3, ropa: C.coral, piel: 2, pelo: 1, brazo: 'arriba' })}
   <g transform="translate(120,196)">
     <rect x="-64" y="-56" width="128" height="112" rx="16" fill="${C.blanco}" opacity=".92"/>
     <path d="M-40,-24 h40 M-40,0 h64 M-40,24 h30" stroke="${C.tinta}" stroke-width="7" stroke-linecap="round" opacity=".8"/>
@@ -465,7 +474,7 @@ const incluyeDocente = svg(720, 500, `
       <path d="M-15,2 L-4,14 16,-12" fill="none" stroke="${C.blanco}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
     </g>
   </g>
-  ${nino({ x: 168, y: SUELO_DOC - medidas(true, S_DOC).planta, s: S_DOC, ropa: C.azul, piel: 1, pelo: 0, brazo: 'arriba', adulto: true })}
+  ${figura({ x: 168, y: SUELO_DOC - medidas(true, S_DOC).planta, s: S_DOC, ropa: C.azul, piel: 1, pelo: 0, brazo: 'arriba', adulto: true })}
 `, C.menta)
 
 // ═══════════════════════════════════════════════════════════════════════════

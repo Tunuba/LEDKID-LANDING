@@ -11,7 +11,7 @@ import { mkdirSync, writeFileSync, rmSync, existsSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 import { join } from 'node:path'
 import { createRequire } from 'node:module'
-import { C, led, nino, robot, laptop, placa, mesa, puntos, medidas } from './generar-ilustraciones.mjs'
+import { C, led, figura, robot, laptop, placa, mesa, puntos, medidas } from './generar-ilustraciones.mjs'
 
 const require = createRequire(import.meta.url)
 const { Resvg } = require(process.env.RESVG_PATH
@@ -80,8 +80,8 @@ function cuadro(t) {
     </g>
 
     <!-- alumnos y mesa -->
-    ${nino({ x: 440, y: Y_NINO, s: S_NINO, ropa: C.coral, piel: 1, pelo: 1, coleta: true, brazo: 'arriba' })}
-    ${nino({ x: 852, y: Y_NINO, s: S_NINO, ropa: C.turque, piel: 2, pelo: 2 })}
+    ${figura({ x: 440, y: Y_NINO, s: S_NINO, ropa: C.coral, piel: 1, pelo: 1, coleta: true, brazo: 'arriba' })}
+    ${figura({ x: 852, y: Y_NINO, s: S_NINO, ropa: C.turque, piel: 2, pelo: 2 })}
     ${mesa({ x: 646, y: TAPA, w: 660, color: '#2C4C6E', pata: PATA })}
     <g transform="translate(0,${bobo})">
       ${robot({ x: 646, y: TAPA - 61 * .9, s: .9 })}

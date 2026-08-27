@@ -17,36 +17,38 @@
   </g>
   
   <g transform="translate(178,110.27999999999997) scale(0.92)">
-    <ellipse cx="0" cy="341" rx="38.44" ry="8.06" fill="#0F2A47" opacity=".12"/>
+    <ellipse cx="0" cy="341" rx="40.92" ry="8.06" fill="#0F2A47" opacity=".12"/>
     
-    <path d="M-21.526400000000002,163.68 L-21.956928,248" stroke="#0F2A47" stroke-width="31" stroke-linecap="round"/>
-    <path d="M-21.956928,248 L-20.234816000000002,332.32" stroke="#F0C9A4" stroke-width="21.080000000000002" stroke-linecap="round"/>
-    <rect x="-31.171616" y="332.32" width="26.04" height="8.680000000000001" rx="3.9060000000000006" fill="#0F2A47"/>
-    <path d="M21.526400000000002,163.68 L21.956928,248" stroke="#0F2A47" stroke-width="31" stroke-linecap="round"/>
-    <path d="M21.956928,248 L20.234816000000002,332.32" stroke="#F0C9A4" stroke-width="21.080000000000002" stroke-linecap="round"/>
-    <rect x="9.298016000000002" y="332.32" width="26.04" height="8.680000000000001" rx="3.9060000000000006" fill="#0F2A47"/>
+    <path d="M-21.526400000000002,164.92000000000002 L-21.956928,248" stroke="#0F2A47" stroke-width="26.04" stroke-linecap="round"/>
+    <circle cx="-21.956928" cy="248" r="11.9784" fill="#0F2A47"/>
+    <path d="M-21.956928,248 L-20.234816000000002,331.7" stroke="#0F2A47" stroke-width="23.56" stroke-linecap="round"/>
+    <rect x="-32.783616" y="331.7" width="28.52" height="9.299999999999999" rx="4.185" fill="#0F2A47"/>
+    <path d="M21.526400000000002,164.92000000000002 L21.956928,248" stroke="#0F2A47" stroke-width="26.04" stroke-linecap="round"/>
+    <circle cx="21.956928" cy="248" r="11.9784" fill="#0F2A47"/>
+    <path d="M21.956928,248 L20.234816000000002,331.7" stroke="#0F2A47" stroke-width="23.56" stroke-linecap="round"/>
+    <rect x="7.686016000000002" y="331.7" width="28.52" height="9.299999999999999" rx="4.185" fill="#0F2A47"/>
     
     <path d="M-40.92,55.800000000000004 L-85.25,-11.500999999999983 L-97.154,-69.83059999999996"
-          fill="none" stroke="#F0C9A4" stroke-width="17.98" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="-97.154" cy="-69.83059999999996" r="11.78" fill="#F0C9A4"/>
+          fill="none" stroke="#1461D6" stroke-width="18.599999999999998" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="-97.154" cy="-69.83059999999996" r="11.78" fill="#1461D6"/>
     <path d="M40.92,55.800000000000004 L42.78,136.4 L41.54,195.92"
-          fill="none" stroke="#F0C9A4" stroke-width="17.98" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="41.54" cy="195.92" r="11.78" fill="#F0C9A4"/>
-    <rect x="-8.06" y="19.22" width="16.12" height="38.440000000000005" rx="5.58" fill="#F0C9A4"/>
-    <path d="M-34.720000000000006,167.4
-             C-32.28960000000001,150.35 -40.92,98.73500000000001 -40.92,52.7
-             a40.92,8.680000000000001 0 0 1 81.84,0
-             C40.92,98.73500000000001 32.28960000000001,150.35 34.720000000000006,167.4 z" fill="#1461D6"/>
-    <path d="M-40.92,55.800000000000004
-                     L-60.425200000000004,26.18756000000001" stroke="#1461D6" stroke-width="22.6548" stroke-linecap="round"/><path d="M40.92,55.800000000000004
-                     L41.7384,91.26400000000001" stroke="#1461D6" stroke-width="22.6548" stroke-linecap="round"/>
+          fill="none" stroke="#1461D6" stroke-width="18.599999999999998" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="41.54" cy="195.92" r="11.78" fill="#1461D6"/>
+    <rect x="-6.82" y="19.22" width="13.64" height="39.68000000000001" rx="4.96" fill="#0F2A47"/>
+    <rect x="-47.4672" y="52.7" width="94.9344" height="120.9" rx="21.080000000000002" fill="#1461D6"/>
+    <rect x="-29.429664" y="76.88000000000001" width="58.859328" height="48.36000000000001" rx="8.06" fill="#12202F"/>
+    <circle cx="-14.126238719999998" cy="101.06" r="4.6499999999999995" fill="#FF6B57"/><circle cx="0" cy="101.06" r="4.6499999999999995" fill="#00A88F"/><circle cx="14.126238719999998" cy="101.06" r="4.6499999999999995" fill="#FFA000"/>
     <g transform="scale(1)">
-      <circle cx="0" cy="0" r="31" fill="#F0C9A4"/>
-      <path d="M-31,-4 a31,31 0 0 1 62,0 q-10,-12 -31,-12 T-31,-4 z" fill="#2C2320"/>
+      <rect x="-33" y="-30" width="66" height="58" rx="19" fill="#0F2A47"/>
+      <rect x="-24" y="-21" width="48" height="35" rx="13" fill="#12202F"/>
+      <circle cx="-11" cy="-3" r="7.5" fill="#00A88F"/>
+      <circle cx="11"  cy="-3" r="7.5" fill="#00A88F"/>
+      <circle cx="-8.5" cy="-5.5" r="2.4" fill="#FFFFFF"/>
+      <circle cx="13.5" cy="-5.5" r="2.4" fill="#FFFFFF"/>
       
-      <circle cx="-11" cy="4" r="3.4" fill="#12202F"/>
-      <circle cx="11"  cy="4" r="3.4" fill="#12202F"/>
-      <path d="M-9,16 q9,8 18,0" fill="none" stroke="#12202F" stroke-width="3" stroke-linecap="round"/>
+      <path d="M0,-30 L0,-45" stroke="#0F2A47" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="0" cy="-50" r="7" fill="#00A88F"/>
+      <circle cx="0" cy="-50" r="12" fill="#00A88F" opacity=".22"/>
     </g>
   </g>
   
