@@ -10,11 +10,24 @@ import { mkdirSync, writeFileSync, readFileSync, rmSync, existsSync } from 'node
 import { execFileSync } from 'node:child_process'
 import { join } from 'node:path'
 import { createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
 
+// @resvg/resvg-js NO se instala aqui: se toma del SIMULADOR, que ya lo trae.
+// La ruta se DERIVA de donde vive este propio script (LEDKID-LANDING/scripts/ ->
+// ../../LEDKID-SIMULADOR/frontend/node_modules/...), no se clava. Antes estaba
+// clavada al home de otro usuario y a la carpeta ROBOKIT vieja, que ya no existen:
+// el script moria con MODULE_NOT_FOUND. RESVG_PATH sigue mandando si se define.
+const RESVG_HERMANO = fileURLToPath(
+  new URL('../../LEDKID-SIMULADOR/frontend/node_modules/@resvg/resvg-js/index.js', import.meta.url))
+const RESVG_RUTA = process.env.RESVG_PATH || RESVG_HERMANO
+if (!existsSync(RESVG_RUTA)) {
+  console.error('No encuentro @resvg/resvg-js en: ' + RESVG_RUTA + '. ' +
+    'Cloná LEDKID-SIMULADOR al lado de este repo y corré `npm install` en su frontend/, ' +
+    'o pasá la ruta en la variable de entorno RESVG_PATH.')
+  process.exit(1)
+}
 const require = createRequire(import.meta.url)
-const RESVG = process.env.RESVG_PATH
-  || 'C:/Users/Pc/ROBOKIT-SIMULADOR-nuevo/frontend/node_modules/@resvg/resvg-js/index.js'
-const { Resvg } = require(RESVG)
+const { Resvg } = require(RESVG_RUTA)
 
 const RAIZ    = process.cwd()
 const ASSETS  = join(RAIZ, 'landing/assets')
