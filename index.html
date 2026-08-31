@@ -198,6 +198,17 @@ img, video { max-width: 100%; display: block; }
   font-family: inherit; font-size: 1rem; font-weight: 400; line-height: 1.5;
   padding: 12px 20px; border: 1px solid transparent; border-radius: var(--r);
   text-decoration: none; cursor: pointer; transition: var(--t); white-space: nowrap;
+  max-width: 100%;
+}
+/* ⚠️ EN MOVIL EL BOTON TIENE QUE PODER PARTIRSE. `white-space: nowrap` lo deja en
+   una sola linea, asi que "Probar la Academia · 20 niveles sin registrarse" MIDE
+   373 px pase lo que pase — y el ancho util a 390 son 327. Como el <body> lleva
+   `overflow-x: hidden`, no aparece scroll que lo rescate: el boton simplemente se
+   RECORTA. Medido a 390, 360 y 320 px el 2026-08-30, y era lo que se veia cortado
+   en el telefono junto con la seccion de BOTITO. */
+@media (max-width: 560px) {
+  .btn { white-space: normal; text-align: center; }
+  .mitades .medio-texto .btn { align-self: stretch; }
 }
 .btn svg { width: 18px; height: 18px; flex-shrink: 0; }
 /* El botón primario es ÁMBAR, no negro: es la firma de LedKid */
@@ -351,8 +362,8 @@ section { padding: 68px 0; }
 .encab p { margin-top: 1rem; font-size: 1.125rem; color: var(--gris); max-width: 62ch; }
 
 /* ── Rejilla de tarjetas ──────────────────────────────────── */
-.trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-@media (max-width: 980px) { .trio { grid-template-columns: 1fr; max-width: 480px; margin-inline: auto; } }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+@media (max-width: 980px) { .trio { grid-template-columns: minmax(0, 1fr); max-width: 480px; margin-inline: auto; } }
 
 .tarjeta { background: var(--off); border-radius: var(--r2); overflow: hidden; display: flex; flex-direction: column; }
 /* El atributo height del <img> gana sobre aspect-ratio: hay que soltarlo a auto */
@@ -418,7 +429,7 @@ section { padding: 68px 0; }
    teléfono, en tableta y en PC. Con minmax(0,…) las dos columnas ceden y son
    de verdad la mitad. */
 .mitades { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: var(--off); border-radius: var(--r2); overflow: hidden; }
-@media (max-width: 980px) { .mitades { grid-template-columns: 1fr; } }
+@media (max-width: 980px) { .mitades { grid-template-columns: minmax(0, 1fr); } }
 /* El video conserva su 16:9: recortarlo se comía el texto del cuadro */
 .mitades .medio-visual { position: relative; background: #000; aspect-ratio: 16 / 9; }
 .mitades .medio-visual video, .mitades .medio-visual img { width: 100%; height: 100%; object-fit: contain; }
@@ -463,9 +474,9 @@ section { padding: 68px 0; }
 .puntitos.izq { left: -1.5rem; } .puntitos.der { right: -1.5rem; }
 @media (max-width: 1100px) { .puntitos { display: none; } }
 /* Los aros van a los lados, nunca encima del globo de la cita */
-.cita { display: grid; grid-template-columns: 232px 1fr; align-items: stretch; margin-inline: 168px; position: relative; z-index: 1; }
+.cita { display: grid; grid-template-columns: 232px minmax(0, 1fr); align-items: stretch; margin-inline: 168px; position: relative; z-index: 1; }
 @media (max-width: 1100px) { .cita { margin-inline: 0; } }
-@media (max-width: 900px) { .cita { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .cita { grid-template-columns: minmax(0, 1fr); } }
 .cita .retrato { background: var(--azul); display: grid; place-items: end center; overflow: hidden; min-height: 260px; }
 .cita .retrato svg { width: 100%; height: auto; }
 .cita .globo { background: var(--p-azul); padding: clamp(1.75rem, 3vw, 2.75rem); display: flex; align-items: center; }
@@ -475,9 +486,9 @@ section { padding: 68px 0; }
 .cita-pie strong { display: block; color: var(--negro); font-weight: 500; }
 
 /* ── Pasos ────────────────────────────────────────────────── */
-.pasos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; counter-reset: p; }
-@media (max-width: 980px) { .pasos { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .pasos { grid-template-columns: 1fr; } }
+.pasos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; counter-reset: p; }
+@media (max-width: 980px) { .pasos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .pasos { grid-template-columns: minmax(0, 1fr); } }
 .paso { border-top: 2px solid var(--negro); padding-top: 1.25rem; }
 .paso .n { counter-increment: p; font-size: .875rem; color: var(--gris); }
 .paso .n::before { content: '0' counter(p); }
@@ -494,9 +505,9 @@ section { padding: 68px 0; }
 .chks { list-style: none; margin-top: 1.5rem; }
 .chks li { display: flex; gap: .9rem; padding: .85rem 0; border-bottom: 1px solid var(--linea); }
 .chks li:last-child { border-bottom: 0; }
-.chks.dos-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; margin-top: 0; }
+.chks.dos-col { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 48px; margin-top: 0; }
 .chks.dos-col li:nth-last-child(-n+2) { border-bottom: 0; }
-@media (max-width: 860px) { .chks.dos-col { grid-template-columns: 1fr; } .chks.dos-col li:nth-last-child(2) { border-bottom: 1px solid var(--linea); } }
+@media (max-width: 860px) { .chks.dos-col { grid-template-columns: minmax(0, 1fr); } .chks.dos-col li:nth-last-child(2) { border-bottom: 1px solid var(--linea); } }
 .pie-nota { margin-top: 2rem; font-size: .9375rem; color: var(--gris); max-width: 62ch; }
 
 /* ── EL LISTADO DEL KIT ──
@@ -506,9 +517,9 @@ section { padding: 68px 0; }
    a mano aqui, que se desincronizaria a la primera compra.
    ⚠️ Van los COMPONENTES y las cantidades. NO van los precios: eso es interno y
    se cotiza por colegio en la reunion. */
-.kit-grupos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-@media (max-width: 980px) { .kit-grupos { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 560px) { .kit-grupos { grid-template-columns: 1fr; } }
+.kit-grupos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; }
+@media (max-width: 980px) { .kit-grupos { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+@media (max-width: 560px) { .kit-grupos { grid-template-columns: minmax(0, 1fr); } }
 .kit-grupo { background: var(--panel); border-radius: var(--r2); padding: 1.5rem 1.375rem; }
 .kit-grupo h3 { font-size: 1.0625rem; font-weight: 600; margin-bottom: 1rem; }
 .kit-grupo ul { list-style: none; }
@@ -552,10 +563,10 @@ details p { padding: 0 4rem 1.75rem 0; color: var(--gris); }
 @media (max-width: 1000px) { .cta-panel .deco { display: none; } }
 
 /* ── Formulario ───────────────────────────────────────────── */
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
-@media (max-width: 980px) { .form-grid { grid-template-columns: 1fr; } }
+.form-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 980px) { .form-grid { grid-template-columns: minmax(0, 1fr); } }
 form { background: var(--off); border-radius: var(--r2); padding: clamp(1.75rem, 3vw, 2.5rem); }
-.campos { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.campos { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; }
 .campo { display: flex; flex-direction: column; gap: .35rem; }
 .campo.ancho { grid-column: 1 / -1; }
 label { font-size: .875rem; font-weight: 500; color: var(--negro); }
@@ -568,7 +579,7 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--n
 textarea { resize: vertical; min-height: 96px; }
 form .btn { margin-top: 1.5rem; }
 .aviso-form { font-size: .875rem; color: var(--gris); margin-top: .9rem; }
-@media (max-width: 560px) { .campos { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .campos { grid-template-columns: minmax(0, 1fr); } }
 .vias { list-style: none; margin-top: 1.5rem; }
 .vias li { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--linea); }
 .vias li:last-child { border-bottom: 0; }
@@ -597,9 +608,9 @@ footer .env { position: relative; z-index: 1; }
    El aire se conserva ENTRE columnas y antes del legal, que es donde separa algo
    de verdad. */
 .pie-logo { margin-bottom: 2rem; }
-.pie-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem 2.5rem; margin-bottom: 2.5rem; }
-@media (max-width: 800px) { .pie-cols { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 520px) { .pie-cols { grid-template-columns: 1fr; } }
+.pie-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem 2.5rem; margin-bottom: 2.5rem; }
+@media (max-width: 800px) { .pie-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+@media (max-width: 520px) { .pie-cols { grid-template-columns: minmax(0, 1fr); } }
 .pie-cols h4 { font-size: 1.0625rem; font-weight: 600; margin-bottom: .875rem; }
 .pie-cols ul { list-style: none; }
 .pie-cols li { margin-bottom: .625rem; }
@@ -1263,7 +1274,7 @@ footer .env { position: relative; z-index: 1; }
       <h3>La curiosidad se enciende en el aula.</h3>
       <div class="redes">
         <a href="#contacto" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"/></svg></a>
-        <a href="#contacto" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://www.instagram.com/ledkideducation/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de LedKid, @ledkideducation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
         <a href="#contacto" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.3-.4-4.8a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.4a2.5 2.5 0 0 0-1.8 1.8C1 8.7 1 12 1 12s0 3.3.4 4.8c.2.9.9 1.6 1.8 1.8 1.5.4 8.8.4 8.8.4s7.3 0 8.8-.4a2.5 2.5 0 0 0 1.8-1.8C23 15.3 23 12 23 12ZM9.8 15.2V8.8l6 3.2-6 3.2Z"/></svg></a>
         <a href="https://wa.me/502XXXXXXXX" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.6 14.1c-.2.7-1.2 1.3-1.9 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.8-.6-3-1.3-5-4.4-5.2-4.6-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .7.5l.9 2.1c.1.2.1.4 0 .6l-.4.5-.3.4c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.4.1.6-.1l.9-1c.2-.2.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3Z"/></svg></a>
       </div>
