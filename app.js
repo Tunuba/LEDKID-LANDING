@@ -167,3 +167,129 @@
       }
     });
   }
+
+// ── La familia de BOTITO: que saluden ──
+//
+// Los SVG de assets/botito-*.svg ya se mueven solos dentro del <img> (flotan,
+// parpadean y saludan cada tanto). Pero a un <img> no le llega nada de la pagina,
+// asi que para que saluden AL PASAR EL RATON, al tocarlos o al entrar en pantalla
+// se meten en linea y se les pone la clase .saluda un momento. Si el fetch falla,
+// se quedan como <img> y la pagina no pierde nada. connect-src 'self' lo permite.
+(function () {
+  const lista = document.querySelector('.familia-lista');
+  if (!lista || !('fetch' in window) || !('DOMParser' in window)) return;
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const saludar = (svg) => {
+    if (quieto || !svg || svg.classList.contains('saluda')) return;
+    svg.classList.add('saluda');
+    setTimeout(() => svg.classList.remove('saluda'), 1600);
+  };
+
+  const meterEnLinea = (img) => fetch(img.getAttribute('src'))
+    .then(r => (r.ok ? r.text() : Promise.reject(r.status)))
+    .then(txt => {
+      const svg = new DOMParser().parseFromString(txt, 'image/svg+xml').documentElement;
+      if (!svg || svg.nodeName.toLowerCase() !== 'svg') return;
+      svg.setAttribute('role', 'img');
+      svg.setAttribute('aria-label', img.alt);
+      svg.setAttribute('focusable', 'false');
+      img.replaceWith(document.importNode(svg, true));
+    })
+    .catch(() => {});
+
+  const tarjetas = [...lista.querySelectorAll('.botito-card')];
+  Promise.all(tarjetas.map(t => { const img = t.querySelector('img.botito-var'); return img ? meterEnLinea(img) : null; }))
+    .then(() => {
+      tarjetas.forEach(t => {
+        const svg = () => t.querySelector('svg');
+        t.addEventListener('pointerenter', () => saludar(svg()));
+        t.addEventListener('click', () => saludar(svg()));
+      });
+      if (quieto || !('IntersectionObserver' in window)) return;
+      // Al entrar en pantalla saludan en ola, una vez.
+      const obs = new IntersectionObserver(es => {
+        if (!es.some(e => e.isIntersecting)) return;
+        obs.disconnect();
+        tarjetas.forEach((t, i) => setTimeout(() => saludar(t.querySelector('svg')), 450 + i * 160));
+      }, { threshold: .35 });
+      obs.observe(lista);
+    });
+})();
+
+// ── Todo LedKid y las tres mini demos (ronda 2, r2-landing-panel) ──
+//
+// 1. Los iconos de las tarjetas y las escenas de las demos se animan en bucle.
+//    Fuera de pantalla se pausan (clase .anim-dormida), porque las maquinas de
+//    colegio son lentas. Sin este script se animan siempre, que tambien vale.
+// 2. La pregunta de la leccion se contesta de verdad: la buena cierra el cable y
+//    enciende el LED, la mala tiembla y da una pista, sin reganar.
+// 3. La nota sube al entrar en pantalla y otra vez al pulsar el boton.
+(function () {
+  const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hayIO = 'IntersectionObserver' in window;
+
+  // 1. Pausar lo que no se ve
+  const vivas = [document.getElementById('ecosistema'), document.getElementById('pruebalo')].filter(Boolean);
+  if (hayIO) {
+    vivas.forEach(el => el.classList.add('anim-dormida'));
+    const obs = new IntersectionObserver(es => {
+      es.forEach(e => e.target.classList.toggle('anim-dormida', !e.isIntersecting));
+    }, { rootMargin: '80px 0px' });
+    vivas.forEach(el => obs.observe(el));
+  }
+
+  // 2. La pregunta
+  const preg = document.getElementById('demoPregunta');
+  const otra = document.getElementById('qOtra');
+  if (preg) {
+    const aviso = preg.querySelector('.q-aviso');
+    const ops = [...preg.querySelectorAll('.q-op')];
+    ops.forEach(op => op.addEventListener('click', () => {
+      if (preg.classList.contains('ok')) return;
+      if (op.dataset.ok) {
+        preg.classList.add('ok');
+        op.classList.add('gol');
+        ops.forEach(o => { o.disabled = true; });
+        aviso.textContent = 'Eso es. Con el cable unido, la corriente llega y el LED enciende.';
+        if (otra) otra.hidden = false;
+      } else {
+        op.classList.remove('mal');
+        void op.offsetWidth;
+        op.classList.add('mal');
+        op.disabled = true;
+        aviso.textContent = 'Casi. Mira el cable de arriba, está cortado.';
+      }
+    }));
+    if (otra) otra.addEventListener('click', () => {
+      preg.classList.remove('ok');
+      ops.forEach(o => { o.disabled = false; o.classList.remove('gol', 'mal'); });
+      aviso.textContent = '';
+      otra.hidden = true;
+      ops[0].focus();
+    });
+  }
+
+  // 3. La nota que sube
+  const nota = document.getElementById('demoNota');
+  const notaOtra = document.getElementById('notaOtra');
+  if (nota) {
+    const subir = () => {
+      nota.classList.add('sin-trans');
+      nota.classList.remove('juega');
+      void nota.offsetWidth;
+      nota.classList.remove('sin-trans');
+      requestAnimationFrame(() => requestAnimationFrame(() => nota.classList.add('juega')));
+    };
+    if (quieto || !hayIO) nota.classList.add('juega');
+    else {
+      const obs = new IntersectionObserver(es => {
+        if (!es.some(e => e.isIntersecting)) return;
+        obs.disconnect();
+        setTimeout(subir, 250);
+      }, { threshold: .5 });
+      obs.observe(nota);
+    }
+    if (notaOtra) notaOtra.addEventListener('click', subir);
+  }
+})();

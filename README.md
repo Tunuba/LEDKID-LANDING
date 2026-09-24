@@ -82,6 +82,22 @@ node frontend/scripts/exportar-robo-landing.mjs
 Escribe aquí, en `assets/robo.svg`. Si cambia el componente, se vuelve a correr
 y luego se sincroniza. Editarlo a mano se pierde en la siguiente exportación.
 
+## La familia de BOTITO (`assets/botito-*.svg`)
+
+Seis variantes con el mismo cuerpo que BOTITO: rosa, con audífonos, de obra,
+científico, músico y explorador. Solo cambian el color o llevan un accesorio. Las
+**genera** `scripts/generar-botitos.mjs` (escribe relativo al script, no al cwd):
+
+```bash
+node scripts/generar-botitos.mjs
+```
+
+Se animan solas dentro del `<img>` (flotan, parpadean y saludan cada 9 s) con CSS
+propio que solo mueve `transform` y `opacity`. `app.js` las mete en línea para que
+saluden al pasar el ratón, al tocarlas y al entrar en pantalla; si eso falla se
+quedan como `<img>`. Su `viewBox` (`-32 -32 144 156`) es más ancho que el de
+`robo.svg` a propósito: dentro de un `<img>` el brazo que saluda se cortaría.
+
 ## Los otros generadores
 
 `scripts/` tiene los generadores de las ilustraciones y los videos
@@ -130,3 +146,24 @@ siguen cuadrando.
 
 Y **el héroe no es un SVG**: es `media/hero-loop.mp4`, que genera
 `scripts/generar-hero-loop.mjs`. Cambiar los assets no lo toca.
+
+## Todo LedKid y las mini demos
+
+Dos secciones nuevas después de la familia de BOTITO, escritas a mano en
+`index.html` (no hay generador):
+
+- `#ecosistema`: seis tarjetas, una por pieza de LedKid (Simulador y Academia,
+  Exámenes, Impresión 3D, idiomas, planificaciones y presentaciones, notas). Cada
+  una lleva su icono SVG en línea con su propio gesto y un primo de BOTITO
+  (`assets/botito-*.svg`). La forma copia la tarjeta de la app, con borde de 2 px,
+  canto abajo y fondo tintado, sin franja de color a la izquierda.
+- `#pruebalo`: tres escenas en SVG y CSS. Una pregunta de lección que se contesta
+  de verdad, el ratón y el queso (el primer juego de la Academia, en bucle) y una
+  nota que sube de 71 a 84 al entrar en pantalla.
+
+`app.js` pausa las animaciones de las dos secciones cuando no están en pantalla,
+maneja la pregunta y hace subir la nota. Sin script todo se ve igual, con la nota
+ya en su valor final. Con reducir movimiento todo queda quieto en su estado final.
+
+Solo se enlaza lo que abre sin sesión (`/academia`). Exámenes, notas e Impresión 3D
+piden cuenta, así que aquí solo se cuentan.

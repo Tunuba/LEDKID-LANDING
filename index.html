@@ -732,12 +732,321 @@ footer .env { position: relative; z-index: 1; }
    halo de 110 se corta en seco y reaparece el problema, solo que en el telefono
    (que es donde nadie lo mira). Con 340 y 220 quedan 60 px de holgura y el halo
    mayor baja a 54. */
+/* BOTITO VIVO (ronda 2, 2026-09-23). Solo transform y opacity, y nada con
+   reducir movimiento. El <img> flota; su envoltorio .robo-cuerpo hace la entrada
+   (sube y crece cuando la seccion se revela) y el brinco al pasar el raton, asi
+   las dos cosas no se pisan el `transform`. NO toca el viewBox ni el max-height:
+   el halo sigue siendo el mismo drop-shadow del <img>, que viaja con el. */
+.robo-caja .robo-cuerpo { position:relative; z-index:1; display:flex; justify-content:center;
+  align-items:center; width:100%; transition: transform .45s cubic-bezier(.34,1.56,.64,1); }
+.js-vivo .revelar:not(.visible) .robo-cuerpo { transform: translateY(26px) scale(.92); }
+.robo-caja:hover .robo-cuerpo { transform: translateY(-10px) rotate(-2deg); }
+.robo-caja img { animation: robo-flota 4.2s ease-in-out infinite; }
+@keyframes robo-flota { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+/* La familia de BOTITO. Seis tarjetas en escritorio, tres en tableta y dos en
+   telefono. El SVG de cada una trae aire alrededor (viewBox -32 -32 144 156) para
+   que el brazo que saluda y los sombreros no se corten dentro del <img>: por eso
+   la tarjeta no lleva overflow visible ni halo, y el tamaño lo pone el ancho. */
+.familia { margin-top: 44px; }
+.familia-encab { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem 1rem; margin-bottom:22px; }
+.familia-encab h3 { font-size:1.5rem; font-weight:400; }
+.familia-encab p { color:var(--gris); flex-basis:100%; }
+.familia-lista { list-style:none; margin:0; padding:0; display:grid;
+  grid-template-columns:repeat(6, minmax(0, 1fr)); gap:16px; }
+@media (max-width:980px) { .familia-lista { grid-template-columns:repeat(3, minmax(0, 1fr)); } }
+@media (max-width:560px) { .familia-lista { grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px; } }
+.botito-card { position:relative; isolation:isolate; overflow:hidden; border-radius:18px;
+  padding:12px 8px 14px; text-align:center; background:var(--p-cielo);
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1); -webkit-tap-highlight-color: transparent; }
+.botito-card::before { content:''; position:absolute; z-index:-1; left:50%; top:44%; width:110%;
+  aspect-ratio:1; transform:translate(-50%,-50%); pointer-events:none;
+  background:radial-gradient(closest-side, rgba(255,255,255,.9), rgba(255,255,255,.4) 45%, rgba(255,255,255,0) 72%); }
+.botito-card:hover { transform: translateY(-5px); }
+.botito-card img, .botito-card svg { display:block; width:100%; max-width:180px; height:auto;
+  aspect-ratio:144 / 156; margin:0 auto; }
+.botito-card span { display:block; margin-top:2px; font-size:.9375rem; font-weight:500; color:var(--negro); }
+.bc-rosa       { background:#FBE4EF; }
+.bc-audifonos  { background:var(--p-crema); }
+.bc-obra       { background:#FFF1C2; }
+.bc-cientifico { background:var(--p-menta); }
+.bc-musico     { background:var(--p-melo); }
+.bc-explorador { background:var(--p-verde); }
+/* Entran una detras de otra cuando la familia se revela. Con animacion y
+   fill-mode backwards (no `both`): al terminar no deja un transform pegado que
+   le gane al brinco del :hover. */
+.js-vivo .familia.revelar:not(.visible) .botito-card { opacity:0; }
+.js-vivo .familia.revelar.visible .botito-card { animation: bc-entra .55s cubic-bezier(.34,1.56,.64,1) backwards; }
+.familia .botito-card:nth-child(2) { animation-delay: .07s; }
+.familia .botito-card:nth-child(3) { animation-delay: .14s; }
+.familia .botito-card:nth-child(4) { animation-delay: .21s; }
+.familia .botito-card:nth-child(5) { animation-delay: .28s; }
+.familia .botito-card:nth-child(6) { animation-delay: .35s; }
+@keyframes bc-entra { from { opacity:0; transform: translateY(18px) scale(.94); } to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion: reduce) {
+  .robo-caja img { animation:none; }
+  .robo-caja .robo-cuerpo, .botito-card { transition:none; }
+  .js-vivo .revelar:not(.visible) .robo-cuerpo, .robo-caja:hover .robo-cuerpo,
+  .botito-card:hover { transform:none; }
+  .js-vivo .familia.revelar .botito-card { animation:none; opacity:1; }
+}
 @media (max-width:760px){
   .robo-caja { min-height:400px; padding:1.5rem 1rem; border-radius:22px; }
   .robo-caja img { max-height:276px;
     filter: drop-shadow(0 4px 10px rgba(0,212,170,.30))
             drop-shadow(0 0 22px rgba(0,212,170,.22))
             drop-shadow(0 0 54px rgba(0,212,170,.14)); } }
+
+/* ═══════════ TODO LEDKID (ronda 2, r2-landing-panel) ═══════════
+   Las piezas de LedKid como una familia, con la forma de las tarjetas de la app
+   (borde de 2 px, radio grande, canto abajo y fondo tintado) pero con los
+   colores y la letra de esta pagina. SIN franja de color a la izquierda: cada
+   pieza se marca con su fondo, su icono y su primo de BOTITO.
+   Movimiento solo con transform y opacity. Los iconos se animan en bucle solo
+   mientras la seccion esta en pantalla (.en-vista la pone app.js); sin script
+   se animan siempre, que tambien vale. Todo quieto con reducir movimiento. */
+.eco-sec { position: relative; overflow: hidden; }
+.eco-deco { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.eco-deco i { position: absolute; display: block; border: 3px solid var(--linea); opacity: .8;
+  animation: eco-deriva 9s ease-in-out infinite; }
+.eco-deco i:nth-child(1) { width: 46px; height: 46px; border-radius: 14px; left: 14px; top: 38%; rotate: 12deg; }
+.eco-deco i:nth-child(2) { width: 40px; height: 40px; border-radius: 50%; right: 22px; top: 30%; animation-delay: -3s; }
+.eco-deco i:nth-child(3) { width: 30px; height: 30px; border-radius: 9px; left: 26px; bottom: 12%; animation-delay: -5s; rotate: -18deg; }
+.eco-deco i:nth-child(4) { width: 52px; height: 52px; border-radius: 50%; right: 12px; bottom: 14%; animation-delay: -7s; }
+@keyframes eco-deriva { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+@media (max-width: 1300px) { .eco-deco { display: none; } }
+.eco-sec .env { position: relative; z-index: 1; }
+
+.eco-rejilla { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+@media (max-width: 980px) { .eco-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; } }
+@media (max-width: 620px) { .eco-rejilla { grid-template-columns: minmax(0, 1fr); gap: 18px; } }
+
+.eco {
+  --eco-fondo: var(--p-menta); --eco-borde: #B5E2CF; --eco-canto: #9ED6BF; --eco-tinta: #00705C;
+  position: relative; display: flex; flex-direction: column;
+  background: var(--eco-fondo); border: 2px solid var(--eco-borde); border-radius: 22px;
+  box-shadow: 0 6px 0 var(--eco-canto); padding: 20px 22px 24px;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.eco:hover { transform: translateY(-4px); }
+.eco-rosa  { --eco-fondo: #FBE4EF; --eco-borde: #F2C3D8; --eco-canto: #EAAAC6; --eco-tinta: #A1245B; }
+.eco-obra  { --eco-fondo: #FFF1C2; --eco-borde: #F3DB8E; --eco-canto: #E9C866; --eco-tinta: #7A5300; }
+.eco-cielo { --eco-fondo: var(--p-cielo); --eco-borde: #C2D5F3; --eco-canto: #A9C3EE; --eco-tinta: #1E4FA3; }
+.eco-verde { --eco-fondo: var(--p-verde); --eco-borde: #CFE3B2; --eco-canto: #BAD696; --eco-tinta: #466B0F; }
+.eco-melo  { --eco-fondo: var(--p-melo); --eco-borde: #F7C6A8; --eco-canto: #F0B08A; --eco-tinta: #A13F0A; }
+
+.eco-cabeza { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.eco-icono { width: 68px; height: 68px; flex: none; display: grid; place-items: center; color: var(--eco-tinta);
+  background: rgba(255,255,255,.72); border: 2px solid var(--eco-borde); border-radius: 20px; }
+.eco-icono svg { width: 46px; height: 46px; overflow: visible; }
+.eco-icono svg * { transform-box: fill-box; }
+/* El primo de BOTITO se asoma arriba a la derecha. El viewBox de las variantes
+   (-32 -32 144 156) ya trae el aire del brazo que saluda: basta fijar el ancho y
+   la proporcion, sin max-height, y nada se corta. */
+.eco-botito { width: 124px; height: auto; aspect-ratio: 144 / 156; margin: -22px -16px -22px 0; flex: none; }
+.eco-tag { display: inline-block; align-self: flex-start; font-size: .75rem; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--eco-tinta); background: rgba(255,255,255,.72); border-radius: 999px; padding: 4px 11px; }
+.eco h3 { font-size: 1.375rem; font-weight: 500; line-height: 1.25; margin: 12px 0 8px; }
+.eco p { font-size: .9688rem; color: var(--texto); }
+.eco-pildoras { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.eco-pildoras li { font-size: .8125rem; font-weight: 500; color: var(--negro); background: rgba(255,255,255,.6);
+  border: 1.5px solid var(--eco-borde); border-radius: 999px; padding: 3px 10px; }
+.eco-ir { display: inline-flex; align-items: center; gap: .6rem; align-self: flex-start; margin-top: auto;
+  padding-top: 18px; min-height: 44px; font-weight: 500; color: var(--negro); text-decoration: none; }
+.eco-ir .flecha-circ { width: 36px; height: 36px; background: var(--eco-tinta); }
+.eco-ir .flecha-circ svg { width: 16px; height: 16px; }
+.eco-ir:hover .flecha-circ { transform: translateX(3px); }
+.eco-pildoras + .eco-ir { padding-top: 14px; }
+
+/* Los iconos, cada uno con su gesto */
+.i-nodo  { transform-origin: center; animation: i-pop 3.6s ease-in-out infinite; }
+.i-nodo.n2 { animation-delay: .5s; }
+.i-estrella { transform-origin: center; animation: i-estrella 3.6s ease-in-out infinite 1s; }
+@keyframes i-pop { 0%, 60%, 100% { transform: scale(1); } 10% { transform: scale(1.3); } 20% { transform: scale(1); } }
+@keyframes i-estrella { 0%, 100% { transform: scale(1) rotate(0); } 12% { transform: scale(1.3) rotate(18deg); } 26% { transform: scale(1) rotate(0); } }
+.i-check { transform-origin: 20% 60%; animation: i-check 3.2s cubic-bezier(.34,1.56,.64,1) infinite; }
+@keyframes i-check { 0%, 12% { opacity: 0; transform: scale(.3); } 26%, 80% { opacity: 1; transform: scale(1); } 92%, 100% { opacity: 0; transform: scale(1); } }
+.i-renglon { animation: i-renglon 3.2s ease-in-out infinite; }
+.i-renglon.r2 { animation-delay: .3s; }
+@keyframes i-renglon { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+.i-boquilla { animation: i-boquilla 2.4s ease-in-out infinite; }
+@keyframes i-boquilla { 0%, 100% { transform: translateX(-5px); } 50% { transform: translateX(5px); } }
+.i-capa { animation: i-capa 4.8s ease-out infinite; }
+@keyframes i-capa { 0%, 15% { opacity: 0; transform: translateY(-6px); } 30%, 85% { opacity: 1; transform: none; } 100% { opacity: 0; transform: none; } }
+.i-globo { animation: i-globo 3.4s ease-in-out infinite; }
+.i-globo.g2 { animation-delay: -1.7s; }
+@keyframes i-globo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+.i-punto { animation: i-punto 1.2s ease-in-out infinite; }
+.i-punto.p2 { animation-delay: .2s; } .i-punto.p3 { animation-delay: .4s; }
+@keyframes i-punto { 0%, 100% { opacity: .25; } 40% { opacity: 1; } }
+.i-barra { transform-origin: bottom; animation: i-barra 3s cubic-bezier(.34,1.4,.64,1) infinite; }
+.i-barra.b2 { animation-delay: .18s; } .i-barra.b3 { animation-delay: .36s; }
+@keyframes i-barra { 0%, 8% { transform: scaleY(.45); } 30%, 82% { transform: scaleY(1); } 100% { transform: scaleY(.45); } }
+.i-medalla { transform-origin: 50% 0; animation: i-medalla 4s ease-in-out infinite; }
+@keyframes i-medalla { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+.i-flecha { animation: i-flecha 2s ease-in-out infinite; }
+@keyframes i-flecha { 0%, 100% { transform: translateY(1.5px); } 50% { transform: translateY(-2.5px); } }
+
+/* Entrada en escalon cuando la rejilla se revela */
+.js-vivo .eco-rejilla.revelar:not(.visible) .eco { opacity: 0; }
+.js-vivo .eco-rejilla.revelar.visible .eco { animation: bc-entra .55s cubic-bezier(.34,1.56,.64,1) backwards; }
+.eco-rejilla .eco:nth-child(2) { animation-delay: .08s; }
+.eco-rejilla .eco:nth-child(3) { animation-delay: .16s; }
+.eco-rejilla .eco:nth-child(4) { animation-delay: .24s; }
+.eco-rejilla .eco:nth-child(5) { animation-delay: .32s; }
+.eco-rejilla .eco:nth-child(6) { animation-delay: .40s; }
+/* Fuera de pantalla no gastan: las maquinas de colegio son lentas */
+.js-vivo .anim-dormida .eco-icono *, .js-vivo .anim-dormida .eco-deco i,
+.js-vivo .anim-dormida .demo-escena * { animation-play-state: paused !important; }
+
+/* ═══════════ PRUEBALO (tres mini demos) ═══════════
+   Una pregunta de leccion que se contesta de verdad, el primer juego de la
+   Academia (el raton y el queso) y una nota que sube. Todo es SVG y CSS: nada de
+   video nuevo. Cada escena imita una tarjeta de la app (blanca, borde de 2 px,
+   canto abajo). */
+.demos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
+@media (max-width: 980px) { .demos { grid-template-columns: minmax(0, 1fr); max-width: 520px; margin-inline: auto; } }
+.demo { display: flex; flex-direction: column; background: var(--off); border-radius: 22px; padding: 18px 18px 22px; }
+.demo-escena { position: relative; flex: 1; display: flex; flex-direction: column; gap: 12px;
+  background: #fff; border: 2px solid #DCE0EC; border-radius: 18px; box-shadow: 0 5px 0 #DCE0EC; padding: 16px; }
+.demo-pie { margin-top: 18px; }
+.demo-pie h3 { font-size: 1.125rem; font-weight: 500; margin-bottom: 4px; }
+.demo-pie p { font-size: .9375rem; color: var(--gris); }
+.demo-tag { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #00705C;
+  background: var(--p-menta); border-radius: 999px; padding: 3px 10px; align-self: flex-start; }
+.demo-boton { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 44px;
+  font: inherit; font-weight: 500; font-size: .9375rem; color: var(--tinta-btn); background: var(--ambar);
+  border: 0; border-radius: 12px; padding: 10px 18px; cursor: pointer; text-decoration: none;
+  box-shadow: 0 4px 0 var(--ambar-os); transition: transform .15s ease; }
+.demo-boton:hover { transform: translateY(-2px); }
+.demo-boton:active { transform: translateY(3px); }
+.demo-boton.suave { background: #fff; color: var(--negro); box-shadow: 0 4px 0 #DCE0EC; border: 2px solid #DCE0EC; }
+.demo-acciones { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+
+/* Demo 1, la pregunta */
+.q-dibujo { position: relative; overflow: hidden; background: #EEF3F7; border-radius: 14px; }
+.q-dibujo svg { display: block; width: 100%; height: auto; }
+.q-luz { opacity: 0; transform-origin: center; transform-box: fill-box; transition: opacity .35s ease, transform .5s ease; transform: scale(.6); }
+.q-cierre { transform-box: fill-box; transform-origin: left center; transform: scaleX(0); transition: transform .4s cubic-bezier(.34,1.4,.64,1); }
+.q-hueco { transition: opacity .2s ease; }
+.pregunta.ok .q-luz { opacity: 1; transform: scale(1); }
+.pregunta.ok .q-cierre { transform: scaleX(1); }
+.pregunta.ok .q-hueco { opacity: 0; }
+.q-texto { font-weight: 600; color: var(--negro); line-height: 1.35; }
+.q-opciones { display: grid; gap: 8px; }
+.q-op { position: relative; min-height: 46px; text-align: left; font: inherit; font-size: .9375rem; color: var(--negro);
+  background: #F4F6FA; border: 2px solid #DCE0EC; border-radius: 14px; box-shadow: 0 3px 0 #DCE0EC;
+  padding: 9px 14px; cursor: pointer; transition: transform .16s ease; }
+.q-op:hover:not(:disabled) { transform: translateY(-2px); }
+.q-op:active:not(:disabled) { transform: translateY(2px) scale(.98); }
+.q-op:disabled { cursor: default; }
+.q-op.gol { border-color: #00A88F; background: #DDF2E9; box-shadow: 0 3px 0 #9ED6BF; animation: q-pop .5s cubic-bezier(.34,1.6,.64,1); }
+.q-op.gol::after { content: ''; position: absolute; inset: -2px; border-radius: inherit; border: 2px solid #00A88F;
+  pointer-events: none; animation: q-anillo .6s ease-out forwards; }
+.q-op.mal { border-color: #D8475B; background: #FDECEE; animation: q-tiembla .42s ease; }
+@keyframes q-pop { 0%, 100% { transform: scale(1); } 45% { transform: scale(1.05); } }
+@keyframes q-anillo { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(1.12); } }
+@keyframes q-tiembla { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(2px); } }
+.q-aviso { min-height: 1.5em; font-size: .9375rem; font-weight: 500; color: var(--gris); }
+.pregunta.ok .q-aviso { color: #00705C; }
+.q-chispas { position: absolute; left: 70%; top: 36%; width: 0; height: 0; pointer-events: none; }
+.q-chispas i { position: absolute; width: 7px; height: 7px; margin: -3.5px; border-radius: 50%; background: #FFB300; opacity: 0; }
+.q-chispas i:nth-child(even) { background: #00A88F; }
+.pregunta.ok .q-chispas i { animation: q-chispa .8s ease-out forwards; }
+@keyframes q-chispa { 0% { opacity: 1; transform: rotate(var(--g)) translateX(0) scale(1); } 100% { opacity: 0; transform: rotate(var(--g)) translateX(46px) scale(.4); } }
+.demo-boton[hidden] { display: none; }
+
+/* Demo 2, el raton y el queso. Un ciclo de 10 s: los bloques se encienden uno
+   tras otro y el raton da el paso de cada uno. */
+.raton-tablero { display: block; width: 100%; height: auto; }
+.rt-celda { fill: #F4F6FA; stroke: #DCE0EC; stroke-width: 1.5; }
+.rt-bloque { fill: #E2ECFB; stroke: #C2D5F3; stroke-width: 1.5; }
+.rt-luz { fill: #FFA000; opacity: 0; animation: rt-luz 10s linear infinite; }
+.rt-luz.l1 { animation-delay: .8s; } .rt-luz.l2 { animation-delay: 1.6s; }
+.rt-luz.l3 { animation-delay: 2.4s; } .rt-luz.l4 { animation-delay: 3.2s; }
+@keyframes rt-luz { 0%, 10% { opacity: 0; } 11%, 17% { opacity: 1; } 18%, 100% { opacity: 0; } }
+.rt-flecha { fill: none; stroke: #1E4FA3; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.rt-camino { fill: none; stroke: #FFC24D; stroke-width: 3; stroke-dasharray: 2 7; stroke-linecap: round; }
+.rt-raton { animation: rt-anda 10s ease-in-out infinite; }
+@keyframes rt-anda {
+  0%, 10%  { transform: translate(0, 0) rotate(0); opacity: 1; }
+  17%      { transform: translate(32px, 0) rotate(0); }
+  25%      { transform: translate(64px, 0) rotate(0); }
+  27%      { transform: translate(64px, 0) rotate(-90deg); }
+  34%      { transform: translate(64px, -32px) rotate(-90deg); }
+  42%      { transform: translate(64px, -64px) rotate(-90deg); }
+  44%      { transform: translate(64px, -64px) rotate(0); }
+  50%, 84% { transform: translate(96px, -64px) rotate(0); opacity: 1; }
+  88%      { transform: translate(96px, -64px) rotate(0); opacity: 0; }
+  92%      { transform: translate(0, 0) rotate(0); opacity: 0; }
+  97%, 100% { transform: translate(0, 0) rotate(0); opacity: 1; }
+}
+.rt-queso { animation: rt-queso 10s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes rt-queso { 0%, 49% { transform: scale(1); } 54% { transform: scale(1.3) rotate(-8deg); } 60%, 100% { transform: scale(1); } }
+.rt-estrella { opacity: 0; animation: rt-estrella 10s ease-out infinite; }
+@keyframes rt-estrella { 0%, 50% { opacity: 0; transform: translate(0, 0) scale(.4); } 54% { opacity: 1; } 70%, 100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(1); } }
+.rt-meta { opacity: 0; animation: rt-meta 10s ease-out infinite; }
+@keyframes rt-meta { 0%, 52% { opacity: 0; transform: translateY(6px); } 58%, 84% { opacity: 1; transform: none; } 90%, 100% { opacity: 0; } }
+
+/* Demo 3, la nota que sube. Sin script se ve el estado final; con script arranca
+   abajo y sube cuando entra en pantalla (o al pulsar Otra vez). */
+.nota-cab { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.nota-grande { display: flex; align-items: baseline; gap: 6px; background: #E6F5EF; border: 2px solid #B5E2CF;
+  border-radius: 16px; padding: 12px 16px; }
+.nota-num { display: inline-flex; font-size: 3rem; font-weight: 700; line-height: 1; color: #00705C; font-variant-numeric: tabular-nums; }
+.odo { display: inline-block; height: 1em; overflow: hidden; }
+.odo-tira { display: block; transform: translateY(calc(var(--a) * -1em)); transition: transform 1.5s cubic-bezier(.3,1.2,.5,1) .2s; }
+.odo-tira span { display: block; height: 1em; }
+.nota-de { font-size: 1.1rem; color: var(--gris); }
+.nota-sube { font-size: .8125rem; font-weight: 700; color: #00705C; background: #DDF2E9; border-radius: 999px; padding: 4px 10px;
+  transition: opacity .3s ease 1.6s, transform .45s cubic-bezier(.34,1.6,.64,1) 1.6s; }
+.nota-filas { list-style: none; display: grid; gap: 10px; }
+.nota-filas li { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) auto; align-items: center; gap: 10px; font-size: .875rem; }
+.nota-filas b { font-weight: 600; color: var(--negro); font-variant-numeric: tabular-nums; }
+.nota-carril { height: 10px; border-radius: 99px; background: #EEF1F6; overflow: hidden; }
+.nota-carril i { display: block; height: 100%; border-radius: inherit; background: var(--c, #00A88F);
+  transform-origin: left; transform: scaleX(var(--a)); transition: transform 1.3s cubic-bezier(.3,1.1,.5,1) var(--d, .3s); }
+.nota-demo .nota-num .odo-tira, .nota-demo .nota-carril i { will-change: transform; }
+.js-vivo .nota-demo:not(.juega) .odo-tira { transform: translateY(calc(var(--de) * -1em)); }
+.js-vivo .nota-demo:not(.juega) .nota-carril i { transform: scaleX(var(--de)); }
+.js-vivo .nota-demo:not(.juega) .nota-sube { opacity: 0; transform: translateY(6px) scale(.8); }
+.nota-semana { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  background: #F4F6FA; border-radius: 14px; padding: 10px 12px; font-size: .8125rem; color: var(--gris); line-height: 1.35; }
+.nota-semana b { font-size: .9375rem; font-weight: 600; color: var(--negro); }
+.nota-dias { display: flex; gap: 6px; flex: none; }
+.nota-dias i { position: relative; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #DCE0EC; background: #fff; }
+.nota-dias i.si::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--ambar);
+  transition: transform .45s cubic-bezier(.34,1.6,.64,1) calc(1.1s + var(--n) * .15s); }
+.js-vivo .nota-demo:not(.juega) .nota-dias i.si::after { transform: scale(0); }
+.nota-demo.sin-trans .odo-tira, .nota-demo.sin-trans .nota-carril i, .nota-demo.sin-trans .nota-sube,
+.nota-demo.sin-trans .nota-dias i.si::after { transition: none !important; }
+.raton-tablero { margin-block: auto; }
+
+@media (max-width: 560px) {
+  .eco { padding: 18px 18px 22px; }
+  .eco h3 { font-size: 1.25rem; }
+  .demo { padding: 14px 14px 18px; }
+  .nota-num { font-size: 2.6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eco, .demo-boton, .q-op { transition: none; }
+  .eco:hover, .demo-boton:hover, .demo-boton:active, .q-op:hover:not(:disabled), .q-op:active:not(:disabled) { transform: none; }
+  .eco-deco i, .eco-icono *, .q-op.gol, .q-op.mal { animation: none !important; }
+  .q-op.gol::after, .q-chispas { display: none; }
+  .js-vivo .eco-rejilla.revelar .eco { animation: none; opacity: 1; }
+  .i-check, .i-capa { opacity: 1; }
+  .q-luz, .q-cierre, .q-hueco, .odo-tira, .nota-carril i, .nota-sube { transition: none !important; }
+  /* El juego del raton queda en su final: el camino dibujado y el raton junto al queso */
+  .rt-luz, .rt-queso, .rt-estrella { animation: none; }
+  .rt-raton { animation: none; transform: translate(64px, -64px); }
+  .rt-meta { animation: none; opacity: 1; }
+  .js-vivo .nota-demo:not(.juega) .odo-tira { transform: translateY(calc(var(--a) * -1em)); }
+  .js-vivo .nota-demo:not(.juega) .nota-carril i { transform: scaleX(var(--a)); }
+  .js-vivo .nota-demo:not(.juega) .nota-sube { opacity: 1; transform: none; }
+  .nota-dias i.si::after { transition: none !important; }
+  .js-vivo .nota-demo:not(.juega) .nota-dias i.si::after { transform: none; }
+}
 </style>
 <noscript>
   <!-- Sin JavaScript el boton de play no aparece (vive detras de `.js-vivo`), asi
@@ -783,6 +1092,7 @@ footer .env { position: relative; z-index: 1; }
           <a href="#programa">Qué incluye <small>Kits, simulador y formación docente</small></a>
           <a href="/circuito">Probar el simulador <small>Armar circuitos en el navegador</small></a>
           <a href="#video">Ver el programa <small>Recorrido en video</small></a>
+          <a href="#ecosistema">Todo LedKid <small>Academia, exámenes, notas y más</small></a>
           <a href="#preguntas">Cómo se implementa <small>Del primer contacto a la primera clase</small></a>
         </div>
       </div>
@@ -1050,7 +1360,7 @@ footer .env { position: relative; z-index: 1; }
     <div class="env">
       <div class="mitades revelar">
         <div class="robo-caja">
-          <img src="assets/robo.svg" alt="BOTITO, la mascota de LedKid" width="260" height="410" decoding="async">
+          <span class="robo-cuerpo"><img src="assets/robo.svg" alt="BOTITO, la mascota de LedKid" width="260" height="410" decoding="async"></span>
         </div>
         <div class="medio-texto">
           <span class="chip verde" style="align-self:flex-start">El acompañante</span>
@@ -1070,6 +1380,302 @@ footer .env { position: relative; z-index: 1; }
           </ul>
           <a class="btn btn-negro" href="/academia">Probar la Academia · 20 niveles sin registrarse</a>
         </div>
+      </div>
+
+      <!-- ══ LA FAMILIA DE BOTITO ══
+           El mismo cuerpo con otro color o un accesorio. Los SVG los escribe
+           scripts/generar-botitos.mjs (no se editan a mano) y se animan solos,
+           tambien dentro de un <img>. app.js, si corre, los mete en linea para que
+           saluden al pasar el raton, al tocarlos y al entrar en pantalla. -->
+      <div class="familia revelar">
+        <div class="familia-encab">
+          <span class="chip teal">Sus primos</span>
+          <h3>La familia de BOTITO</h3>
+          <p>Mismo robot, otro traje. Pasa el ratón o tócalo y te saluda.</p>
+        </div>
+        <ul class="familia-lista">
+          <li class="botito-card bc-rosa"><img class="botito-var" src="assets/botito-rosa.svg" alt="BOTITO en rosa" width="144" height="156" loading="lazy" decoding="async"><span>Rosa</span></li>
+          <li class="botito-card bc-audifonos"><img class="botito-var" src="assets/botito-audifonos.svg" alt="BOTITO con audífonos" width="144" height="156" loading="lazy" decoding="async"><span>Con audífonos</span></li>
+          <li class="botito-card bc-obra"><img class="botito-var" src="assets/botito-obra.svg" alt="BOTITO con casco de obra" width="144" height="156" loading="lazy" decoding="async"><span>De obra</span></li>
+          <li class="botito-card bc-cientifico"><img class="botito-var" src="assets/botito-cientifico.svg" alt="BOTITO científico con lentes" width="144" height="156" loading="lazy" decoding="async"><span>Científico</span></li>
+          <li class="botito-card bc-musico"><img class="botito-var" src="assets/botito-musico.svg" alt="BOTITO músico con guitarra" width="144" height="156" loading="lazy" decoding="async"><span>Músico</span></li>
+          <li class="botito-card bc-explorador"><img class="botito-var" src="assets/botito-explorador.svg" alt="BOTITO explorador" width="144" height="156" loading="lazy" decoding="async"><span>Explorador</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TODO LEDKID ══
+       Ronda 2 (r2-landing-panel). Las piezas de LedKid como una familia, cada una
+       con un primo de BOTITO. Las tarjetas copian la forma de las de la app (borde,
+       canto y fondo tintado) con los colores de esta pagina. Solo se enlaza lo que
+       se abre sin sesion. Lo demas pide cuenta y aqui solo se cuenta. -->
+  <section id="ecosistema" class="eco-sec">
+    <div class="eco-deco" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="env">
+      <div class="encab revelar">
+        <h2>Todo LedKid, en una misma familia</h2>
+        <p>El simulador es la puerta. Detrás hay una academia con juegos, exámenes, notas claras y herramientas para el docente, y cada pieza tiene a un primo de BOTITO cuidándola.</p>
+      </div>
+
+      <ul class="eco-rejilla revelar">
+        <li class="eco">
+          <div class="eco-cabeza">
+            <span class="eco-icono" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 38c0-9 14-7 14-16 0-6 6-9 9-10" stroke-dasharray="1 6"/>
+                <circle class="i-nodo" cx="10" cy="38" r="5" fill="currentColor" fill-opacity=".22"/>
+                <circle class="i-nodo n2" cx="24" cy="23" r="5" fill="currentColor" fill-opacity=".22"/>
+                <path class="i-estrella" d="M38 4l1.8 4.6 4.9.3-3.8 3.1 1.2 4.7-4.1-2.7-4.1 2.7 1.2-4.7-3.8-3.1 4.9-.3z" fill="currentColor" fill-opacity=".22"/>
+              </svg>
+            </span>
+            <img class="eco-botito" src="assets/botito-cientifico.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
+          </div>
+          <span class="eco-tag">Para el alumno</span>
+          <h3>Simulador y Academia</h3>
+          <p>Arma circuitos en el navegador y aprende jugando, nivel por nivel, con BOTITO al lado.</p>
+          <ul class="eco-pildoras"><li>Circuitos</li><li>Juegos</li><li>Bloques y código</li></ul>
+          <a class="eco-ir" href="/academia"><span class="flecha-circ" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>Abrir la Academia</a>
+        </li>
+
+        <li class="eco eco-rosa">
+          <div class="eco-cabeza">
+            <span class="eco-icono" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="10" y="8" width="28" height="34" rx="5" fill="currentColor" fill-opacity=".22"/>
+                <rect x="18" y="4" width="12" height="8" rx="3" fill="#fff"/>
+                <path class="i-renglon" d="M16 21h9"/>
+                <path class="i-renglon r2" d="M16 29h6"/>
+                <path class="i-check" d="M27 31l4 4 8-10"/>
+              </svg>
+            </span>
+            <img class="eco-botito" src="assets/botito-rosa.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
+          </div>
+          <span class="eco-tag">Evaluación</span>
+          <h3>Exámenes</h3>
+          <p>Parciales de teoría y de práctica que se rinden en la misma plataforma. La nota llega sola al registro.</p>
+          <ul class="eco-pildoras"><li>Parciales</li><li>Prácticos</li><li>Nota al instante</li></ul>
+        </li>
+
+        <li class="eco eco-obra">
+          <div class="eco-cabeza">
+            <span class="eco-icono" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <g class="i-boquilla"><path d="M17 5h14v7l-4 5h-6l-4-5z" fill="currentColor" fill-opacity=".22"/><path d="M24 17v3"/></g>
+                <rect x="9" y="37" width="30" height="6" rx="3" fill="currentColor" fill-opacity=".22"/>
+                <rect x="12" y="30" width="24" height="6" rx="3" fill="currentColor" fill-opacity=".22"/>
+                <rect class="i-capa" x="15" y="23" width="18" height="6" rx="3" fill="currentColor" fill-opacity=".22"/>
+              </svg>
+            </span>
+            <img class="eco-botito" src="assets/botito-obra.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
+          </div>
+          <span class="eco-tag">Taller</span>
+          <h3>Impresión 3D</h3>
+          <p>Elige un molde o describe la pieza, ajusta las medidas y sale lista para imprimir. Cajas, soportes y llaveros para los proyectos.</p>
+          <ul class="eco-pildoras"><li>Moldes</li><li>Medidas</li><li>Lista para imprimir</li></ul>
+        </li>
+
+        <li class="eco eco-cielo">
+          <div class="eco-cabeza">
+            <span class="eco-icono" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <g class="i-globo"><path d="M9 7h18a5 5 0 0 1 5 5v7a5 5 0 0 1-5 5H16l-6 5v-5.4A5 5 0 0 1 4 19v-7a5 5 0 0 1 5-5z" fill="currentColor" fill-opacity=".22"/><path d="M11 13h14M11 18h8"/></g>
+                <g class="i-globo g2"><path d="M39 23H23a5 5 0 0 0-5 5v6a5 5 0 0 0 5 5h9l6 5v-5.2a5 5 0 0 0 6-4.8v-6a5 5 0 0 0-5-5z" fill="#fff"/>
+                  <circle class="i-punto" cx="25.5" cy="31" r="1.6" fill="currentColor" stroke="none"/>
+                  <circle class="i-punto p2" cx="31" cy="31" r="1.6" fill="currentColor" stroke="none"/>
+                  <circle class="i-punto p3" cx="36.5" cy="31" r="1.6" fill="currentColor" stroke="none"/></g>
+              </svg>
+            </span>
+            <img class="eco-botito" src="assets/botito-audifonos.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
+          </div>
+          <span class="eco-tag">Idiomas</span>
+          <h3>En español y en inglés</h3>
+          <p>La plataforma entera cambia de idioma con un toque, y cada alumno elige con cuál aprende.</p>
+          <ul class="eco-pildoras"><li>Español</li><li>English</li></ul>
+        </li>
+
+        <li class="eco eco-verde">
+          <div class="eco-cabeza">
+            <span class="eco-icono" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="7" width="38" height="26" rx="4" fill="currentColor" fill-opacity=".22"/>
+                <path d="M16 33l-4 10M32 33l4 10M24 33v5"/>
+                <rect class="i-barra" x="12" y="21" width="5" height="7" rx="1.5" fill="currentColor" stroke="none"/>
+                <rect class="i-barra b2" x="21.5" y="17" width="5" height="11" rx="1.5" fill="currentColor" stroke="none"/>
+                <rect class="i-barra b3" x="31" y="13" width="5" height="15" rx="1.5" fill="currentColor" stroke="none"/>
+              </svg>
+            </span>
+            <img class="eco-botito" src="assets/botito-explorador.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
+          </div>
+          <span class="eco-tag">Para el docente</span>
+          <h3>Planificaciones y presentaciones</h3>
+          <p>Cada semana llega con su planificación y una presentación lista para proyectar en clase.</p>
+          <ul class="eco-pildoras"><li>Clase por clase</li><li>Para proyectar</li><li>Para imprimir</li></ul>
+        </li>
+
+        <li class="eco eco-melo">
+          <div class="eco-cabeza">
+            <span class="eco-icono" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <g class="i-medalla">
+                  <path d="M17 29l-4 13 6-3 4 5 2-12M31 29l4 13-6-3-4 5-2-12" fill="currentColor" fill-opacity=".22"/>
+                  <circle cx="24" cy="20" r="13" fill="#fff"/>
+                  <g class="i-flecha"><path d="M24 26V14M19 18.5l5-5 5 5"/></g>
+                </g>
+              </svg>
+            </span>
+            <img class="eco-botito" src="assets/botito-musico.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
+          </div>
+          <span class="eco-tag">Seguimiento</span>
+          <h3>Notas claras</h3>
+          <p>Zona, exámenes y práctica en un mismo panel. El alumno ve cómo va y el docente descarga el registro.</p>
+          <ul class="eco-pildoras"><li>Zona</li><li>Exámenes</li><li>PDF y Excel</li></ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══ PRUEBALO ══
+       Tres mini demos hechas con SVG y CSS, sin video nuevo. La pregunta se
+       contesta de verdad (app.js), el raton anda solo y la nota sube al entrar
+       en pantalla. -->
+  <section id="pruebalo">
+    <div class="env">
+      <div class="encab revelar">
+        <h2>Así se siente por dentro</h2>
+        <p>Contesta la pregunta, mira al ratón buscar su queso y ve subir una nota. Es lo mismo que el alumno encuentra en la plataforma, en pequeño.</p>
+      </div>
+
+      <div class="demos">
+        <!-- Demo 1, una pregunta de leccion -->
+        <article class="demo revelar">
+          <div class="demo-escena pregunta" id="demoPregunta">
+            <span class="demo-tag">Lección</span>
+            <div class="q-dibujo">
+              <svg viewBox="0 0 200 104" aria-hidden="true">
+                <circle class="q-luz" cx="160" cy="54" r="30" fill="#FFD54F" fill-opacity=".45"/>
+                <path d="M40 30V18h52M112 18h48v24" fill="none" stroke="#3A3F4C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M40 76v12h120V68" fill="none" stroke="#3A3F4C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                <g class="q-hueco"><circle cx="92" cy="18" r="4" fill="#D8475B"/><circle cx="112" cy="18" r="4" fill="#D8475B"/></g>
+                <path class="q-cierre" d="M92 18h20" stroke="#3A3F4C" stroke-width="4" stroke-linecap="round"/>
+                <rect x="26" y="30" width="28" height="46" rx="6" fill="#FFC24D" stroke="#3A3F4C" stroke-width="3"/>
+                <rect x="34" y="25" width="12" height="6" rx="2" fill="#3A3F4C"/>
+                <path d="M34 46h12M40 40v12" stroke="#3A3F4C" stroke-width="3" stroke-linecap="round"/>
+                <path d="M148 64V52a12 12 0 0 1 24 0v12z" fill="#FF6B6B" stroke="#3A3F4C" stroke-width="3" stroke-linejoin="round"/>
+                <path d="M146 64h28" stroke="#3A3F4C" stroke-width="3" stroke-linecap="round"/>
+                <path d="M154 66v4M166 66v4" stroke="#3A3F4C" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+              <span class="q-chispas" aria-hidden="true"><i style="--g:0deg"></i><i style="--g:45deg"></i><i style="--g:90deg"></i><i style="--g:135deg"></i><i style="--g:180deg"></i><i style="--g:225deg"></i><i style="--g:270deg"></i><i style="--g:315deg"></i></span>
+            </div>
+            <p class="q-texto" id="qTexto">¿Qué le falta para que el LED encienda?</p>
+            <div class="q-opciones" role="group" aria-labelledby="qTexto">
+              <button class="q-op" type="button">Pintarlo de rojo</button>
+              <button class="q-op" type="button" data-ok="1">Unir el cable de arriba</button>
+              <button class="q-op" type="button">Ponerle otra pila</button>
+            </div>
+            <p class="q-aviso" role="status" aria-live="polite"></p>
+          </div>
+          <div class="demo-pie">
+            <h3>Una pregunta de la lección</h3>
+            <p>Cada nivel explica con dibujos y pregunta al final. Un error no regaña, da una pista.</p>
+            <div class="demo-acciones">
+              <button class="demo-boton suave" type="button" id="qOtra" hidden>Otra vez</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- Demo 2, el raton y el queso -->
+        <article class="demo revelar">
+          <div class="demo-escena">
+            <span class="demo-tag">Juego</span>
+            <svg class="raton-tablero" viewBox="0 0 200 158" role="img" aria-label="Un ratón sigue cinco bloques de flechas por una cuadrícula hasta llegar al queso">
+              <!-- Los cinco bloques del programa -->
+              <g>
+                <rect class="rt-luz" x="18" y="6" width="30" height="30" rx="8"/>
+                <rect class="rt-luz l1" x="51" y="6" width="30" height="30" rx="8"/>
+                <rect class="rt-luz l2" x="84" y="6" width="30" height="30" rx="8"/>
+                <rect class="rt-luz l3" x="117" y="6" width="30" height="30" rx="8"/>
+                <rect class="rt-luz l4" x="150" y="6" width="30" height="30" rx="8"/>
+                <rect class="rt-bloque" x="20" y="8" width="26" height="26" rx="7"/>
+                <rect class="rt-bloque" x="53" y="8" width="26" height="26" rx="7"/>
+                <rect class="rt-bloque" x="86" y="8" width="26" height="26" rx="7"/>
+                <rect class="rt-bloque" x="119" y="8" width="26" height="26" rx="7"/>
+                <rect class="rt-bloque" x="152" y="8" width="26" height="26" rx="7"/>
+                <path class="rt-flecha" d="M26 21h14M35 16l5 5-5 5"/>
+                <path class="rt-flecha" d="M59 21h14M68 16l5 5-5 5"/>
+                <path class="rt-flecha" d="M99 28V14M94 19l5-5 5 5"/>
+                <path class="rt-flecha" d="M132 28V14M127 19l5-5 5 5"/>
+                <path class="rt-flecha" d="M158 21h14M167 16l5 5-5 5"/>
+              </g>
+              <!-- La cuadricula, 5 por 3, celdas de 32 -->
+              <g>
+                <rect class="rt-celda" x="20" y="46" width="32" height="32" rx="6"/><rect class="rt-celda" x="52" y="46" width="32" height="32" rx="6"/><rect class="rt-celda" x="84" y="46" width="32" height="32" rx="6"/><rect class="rt-celda" x="116" y="46" width="32" height="32" rx="6"/><rect class="rt-celda" x="148" y="46" width="32" height="32" rx="6"/>
+                <rect class="rt-celda" x="20" y="78" width="32" height="32" rx="6"/><rect class="rt-celda" x="52" y="78" width="32" height="32" rx="6"/><rect class="rt-celda" x="84" y="78" width="32" height="32" rx="6"/><rect class="rt-celda" x="116" y="78" width="32" height="32" rx="6"/><rect class="rt-celda" x="148" y="78" width="32" height="32" rx="6"/>
+                <rect class="rt-celda" x="20" y="110" width="32" height="32" rx="6"/><rect class="rt-celda" x="52" y="110" width="32" height="32" rx="6"/><rect class="rt-celda" x="84" y="110" width="32" height="32" rx="6"/><rect class="rt-celda" x="116" y="110" width="32" height="32" rx="6"/><rect class="rt-celda" x="148" y="110" width="32" height="32" rx="6"/>
+              </g>
+              <path class="rt-camino" d="M36 126H100V62H132"/>
+              <!-- El queso -->
+              <g transform="translate(132 62)">
+                <path class="rt-queso" d="M-11 7L10 7L10-3L-11 1Z M10-3L-3-9L-11 1Z" fill="#FFC24D" stroke="#B87800" stroke-width="2" stroke-linejoin="round"/>
+                <circle class="rt-estrella" style="--x:-16px;--y:-14px" r="3" fill="#FFA000"/>
+                <circle class="rt-estrella" style="--x:16px;--y:-14px" r="3" fill="#00A88F"/>
+                <circle class="rt-estrella" style="--x:-18px;--y:8px" r="3" fill="#00A88F"/>
+                <circle class="rt-estrella" style="--x:18px;--y:8px" r="3" fill="#FFA000"/>
+              </g>
+              <!-- El raton, mirando a la derecha y centrado en su origen -->
+              <g transform="translate(36 126)">
+                <g class="rt-raton">
+                  <path d="M-11 2c-5 1-7 5-5 8" fill="none" stroke="#8A8FA3" stroke-width="2" stroke-linecap="round"/>
+                  <ellipse cx="0" cy="0" rx="11" ry="8" fill="#B6BACB" stroke="#6F748A" stroke-width="2"/>
+                  <circle cx="3" cy="-7" r="4" fill="#F4B6C8" stroke="#6F748A" stroke-width="2"/>
+                  <circle cx="7" cy="-2" r="1.6" fill="#14161C"/>
+                  <circle cx="11" cy="1" r="1.8" fill="#F08BA8"/>
+                </g>
+              </g>
+              <text class="rt-meta" x="100" y="155" text-anchor="middle" font-size="11" font-weight="700" fill="#00705C">¡Llegó!</text>
+            </svg>
+          </div>
+          <div class="demo-pie">
+            <h3>El ratón y el queso</h3>
+            <p>El primer juego de la Academia. El alumno ordena las flechas y el ratón hace exactamente lo que dicen, sin teclado.</p>
+            <div class="demo-acciones">
+              <a class="demo-boton" href="/academia">Jugar en la Academia</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Demo 3, la nota que sube -->
+        <article class="demo revelar">
+          <div class="demo-escena nota-demo" id="demoNota">
+            <div class="nota-cab">
+              <span class="demo-tag">Mis notas</span>
+              <span class="nota-sube">Subiste 13 puntos</span>
+            </div>
+            <div class="nota-grande" role="img" aria-label="Nota de 84 sobre 100">
+              <span class="nota-num" aria-hidden="true">
+                <span class="odo"><span class="odo-tira" style="--de:7;--a:8"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>
+                <span class="odo"><span class="odo-tira" style="--de:1;--a:4"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span>
+              </span>
+              <span class="nota-de" aria-hidden="true">/ 100</span>
+            </div>
+            <ul class="nota-filas">
+              <li><span>Zona</span><span class="nota-carril"><i style="--de:.75;--a:.87"></i></span><b>52 / 60</b></li>
+              <li><span>Exámenes</span><span class="nota-carril"><i style="--de:.67;--a:.8;--c:#1E6FD9;--d:.5s"></i></span><b>24 / 30</b></li>
+              <li><span>Práctica</span><span class="nota-carril"><i style="--de:.6;--a:.8;--c:#8A5CD6;--d:.7s"></i></span><b>8 / 10</b></li>
+            </ul>
+            <div class="nota-semana">
+              <span>Meta de la semana<br><b>4 de 5 lecciones</b></span>
+              <span class="nota-dias" aria-hidden="true"><i class="si" style="--n:0"></i><i class="si" style="--n:1"></i><i class="si" style="--n:2"></i><i class="si" style="--n:3"></i><i></i></span>
+            </div>
+          </div>
+          <div class="demo-pie">
+            <h3>La nota que sube</h3>
+            <p>Cada nivel ganado suma a la zona. El alumno ve de dónde sale su nota y cuánto le falta.</p>
+            <div class="demo-acciones">
+              <button class="demo-boton suave" type="button" id="notaOtra">Otra vez</button>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -1256,6 +1862,7 @@ footer .env { position: relative; z-index: 1; }
         <ul>
           <li><a href="#programa">Qué es LedKid</a></li>
           <li><a href="#niveles">Plan de niveles</a></li>
+          <li><a href="#ecosistema">Todo LedKid</a></li>
           <li><a href="#preguntas">Cómo se implementa</a></li>
         </ul>
       </div>
