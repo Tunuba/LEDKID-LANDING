@@ -1,9 +1,9 @@
-<!-- BOTITO músico con guitarra. ARCHIVO GENERADO por scripts/generar-botitos.mjs — NO SE EDITA A MANO.
+<!-- BOTITO coral con capa. ARCHIVO GENERADO por scripts/generar-botitos.mjs — NO SE EDITA A MANO.
      Mismo cuerpo que BOTITO (RoboMascot.vue); cambia el color y lleva un accesorio. -->
-<svg xmlns="http://www.w3.org/2000/svg" class="bv bv-musico bv-p-clasico bv-musico-v" viewBox="-32 -32 144 156" width="144" height="156" style="--bv-retraso:-0.2s">
-<style>.bv-p-clasico{--bv-cabeza:#ffffff;--bv-cabeza-borde:#00896b;--bv-cuerpo:#f3faf7;--bv-cuerpo-borde:#00896b;--bv-pierna:#dcf2ea;--bv-pie:#009a78;--bv-ojo:#00d4aa;--bv-luz:#00896b;--bv-pantalla:#113a33;--bv-panel-borde:#00896b;--bv-antena:#5c6179;--bv-brillo:rgba(255,255,255,.05);--bv-sombra:rgba(26,29,46,.16);--bv-lente:#3b4463}
+<svg xmlns="http://www.w3.org/2000/svg" class="bv bv-capa bv-p-coral bv-capa-v" viewBox="-32 -32 144 156" width="144" height="156" style="--bv-retraso:-8s">
+<style>.bv-p-coral{--bv-cabeza:#ffffff;--bv-cabeza-borde:#b24a2a;--bv-cuerpo:#fff4ef;--bv-cuerpo-borde:#b24a2a;--bv-pierna:#fbdfd3;--bv-pie:#c9603e;--bv-ojo:#ffb08f;--bv-luz:#b24a2a;--bv-pantalla:#3a170c;--bv-panel-borde:#b24a2a;--bv-antena:#5c6179;--bv-brillo:rgba(255,255,255,.05);--bv-sombra:rgba(26,29,46,.16);--bv-lente:#3b4463}
 @media (prefers-color-scheme: dark){
-.bv-p-clasico{--bv-cabeza:#2a3148;--bv-cabeza-borde:#4a5578;--bv-cuerpo:#252b3d;--bv-cuerpo-borde:#3a4260;--bv-pierna:#1e2333;--bv-pie:#2e3650;--bv-ojo:#00d4aa;--bv-luz:#00ffc8;--bv-pantalla:#0d1120;--bv-panel-borde:#2a3050;--bv-antena:#8899bb;--bv-brillo:rgba(255,255,255,.05);--bv-sombra:rgba(0,0,0,.28);--bv-lente:#e8eef8}
+.bv-p-coral{--bv-cabeza:#86402c;--bv-cabeza-borde:#bf6a4f;--bv-cuerpo:#733625;--bv-cuerpo-borde:#a75a41;--bv-pierna:#55281b;--bv-pie:#94503a;--bv-ojo:#ffb08f;--bv-luz:#ffd6c4;--bv-pantalla:#0d1120;--bv-panel-borde:#2a3050;--bv-antena:#8899bb;--bv-brillo:rgba(255,255,255,.05);--bv-sombra:rgba(0,0,0,.28);--bv-lente:#e8eef8}
 }
 .bv g { transform-box: view-box; }
 .bv-flota { transform-origin: 40px 60px; animation: bv-flota 3.4s ease-in-out infinite; }
@@ -48,11 +48,12 @@
   .bv *, .saluda * { animation: none !important; }
   .bv-boca { opacity: .7; } .bv-pecho { opacity: .8; } .bv-nota { opacity: 1; } .bv-burbuja { opacity: 1; } .bv-cajaled { opacity: 1; }
 }
-.bv-musico .bv-brazo-r { animation: bv-rasgueo .5s ease-in-out infinite; }
-@keyframes bv-rasgueo { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(14deg); } }
+.bv-capa { transform-origin: 40px 48px; animation: bv-capa 1.6s ease-in-out infinite; }
+@keyframes bv-capa { 0%, 100% { transform: skewX(0) scaleX(1); } 50% { transform: skewX(-7deg) scaleX(1.05); } }
 </style>
 <g class="bv-sombra"><ellipse cx="40" cy="115" rx="20" ry="4" style="fill:var(--bv-sombra)"/></g>
 <g class="bv-flota"><g class="bv-raiz">
+      <g class="bv-capa"><path d="M20 50 Q40 44 60 50 L78 104 Q66 112 56 104 Q46 114 34 104 Q22 112 4 102 Z" fill="#00b894" stroke="#00876c" stroke-width="1.4" stroke-linejoin="round"/></g>
   <g class="bv-cabeza">
     <rect x="16" y="4" width="48" height="40" rx="9" style="fill:var(--bv-cabeza)"/>
     <rect x="16" y="4" width="48" height="40" rx="9" fill="none" style="stroke:var(--bv-cabeza-borde)" stroke-width="1.5"/>
@@ -91,27 +92,10 @@
     <circle class="bv-pecho bv-p2" cx="40" cy="68" r="4" fill="#00d4aa"/>
     <circle class="bv-pecho bv-p3" cx="50" cy="68" r="4" fill="#ffd700"/>
   </g>
-      <g transform="translate(5 2) rotate(-38 40 74)">
-        <rect x="37.8" y="30" width="4.4" height="36" rx="1.6" fill="#7a4a22"/>
-        <rect x="36" y="25" width="8" height="8" rx="2.2" fill="#5a3416"/>
-        <path d="M38 38 h4 M38 44 h4 M38 50 h4" stroke="#e8c79a" stroke-width=".8"/>
-        <ellipse cx="40" cy="70" rx="10.5" ry="9" fill="#FF8A3D" stroke="#c95a17" stroke-width="1.2"/>
-        <ellipse cx="40" cy="84" rx="14" ry="12" fill="#FF8A3D" stroke="#c95a17" stroke-width="1.2"/>
-        <ellipse cx="40" cy="77" rx="9.5" ry="7" fill="#FF8A3D"/>
-        <circle cx="40" cy="78" r="4" fill="#3b1d0a"/>
-        <rect x="34" y="89" width="12" height="2.6" rx="1.3" fill="#5a3416"/>
-      </g></g>
+      <path d="M40 58 l3 6 6.5 .6 -5 4.3 1.5 6.4 -6 -3.4 -6 3.4 1.5 -6.4 -5 -4.3 6.5 -.6 z" fill="#FFD54F" opacity=".95"/></g>
   <g class="bv-brazo-r">
     <rect x="64" y="52" width="12" height="32" rx="5" style="fill:var(--bv-cuerpo);stroke:var(--bv-cuerpo-borde)" stroke-width="1.2"/>
     <ellipse cx="70" cy="86" rx="7" ry="5" style="fill:var(--bv-pie);stroke:var(--bv-ojo)" stroke-width="1"/>
-  </g>
-  <g class="bv-notas">
-    <path class="bv-nota bv-nota1" d="M78 8 v-9 l6 -2 v9" fill="none" stroke="#FFA000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle class="bv-nota bv-nota1" cx="76.4" cy="8" r="2.2" fill="#FFA000"/>
-    <circle class="bv-nota bv-nota1" cx="82.4" cy="6" r="2.2" fill="#FFA000"/>
-    <path class="bv-nota bv-nota2" d="M90 -2 v-8" fill="none" stroke="#00b894" stroke-width="1.6" stroke-linecap="round"/>
-    <path class="bv-nota bv-nota2" d="M90 -10 q4 1 4 5" fill="none" stroke="#00b894" stroke-width="1.6" stroke-linecap="round"/>
-    <circle class="bv-nota bv-nota2" cx="88.4" cy="-2" r="2.2" fill="#00b894"/>
   </g>
 </g></g>
 </svg>

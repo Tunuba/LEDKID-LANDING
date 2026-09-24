@@ -1,0 +1,153 @@
+<!-- Formacion y acompanamiento: BOTITO profesor senala la pizarra con la clase del dia. ARCHIVO GENERADO por scripts/generar-botitos.mjs — NO SE EDITA A MANO. -->
+<svg xmlns="http://www.w3.org/2000/svg" class="il il-docentes" viewBox="0 0 720 500" width="720" height="500">
+<style>
+.il{--il-trazo:#3b4463;--il-papel:#ffffff;--il-gris:#e7ebf4;--il-gris2:#cdd4e4;--il-suelo:rgba(59,68,99,.08);--il-pantalla:#f4f7fc;--il-rejilla:#e3e8f2;--il-verde:#00a882;--il-ambar:#FFA000;--il-mesa:#e9dcc6;--il-mesa2:#d8c6a8;--il-pcb:#1f7ad6;--il-pcb2:#1766b8;--il-metal:#d9dee8;--il-metal2:#aab3c5;--il-cobre:#d9a45b;--il-negro:#2b3148;--il-planta:#43b77a;--il-maceta:#e38b5a;--il-pista:#2b3148;--il-pista-linea:#ffffff;--il-pizarra:#ffffff;--il-marco:#c9b28c}
+@media (prefers-color-scheme: dark){.il{--il-trazo:#b4bfdc;--il-papel:#1f2942;--il-gris:#253150;--il-gris2:#34426a;--il-suelo:rgba(0,0,0,.28);--il-pantalla:#141c30;--il-rejilla:#1f2a44;--il-verde:#00d4aa;--il-ambar:#FFB020;--il-mesa:#3a3346;--il-mesa2:#2c2738;--il-pcb:#2d8ae6;--il-pcb2:#1f6cc0;--il-metal:#aeb7ca;--il-metal2:#7b869e;--il-cobre:#d9a45b;--il-negro:#0f1424;--il-planta:#3fcf86;--il-maceta:#d9794a;--il-pista:#0c111e;--il-pista-linea:#e7ecf7;--il-pizarra:#1b2439;--il-marco:#6d5c43}}
+.il .t{stroke:var(--il-trazo);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.il .t2{stroke:var(--il-trazo);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.il .fb{transform-box:fill-box;transform-origin:50% 50%}
+@media (prefers-reduced-motion: reduce){ .il * { animation: none !important; } }.bv-p-morado{--bv-cabeza:#ffffff;--bv-cabeza-borde:#7355b8;--bv-cuerpo:#f6f2fd;--bv-cuerpo-borde:#7355b8;--bv-pierna:#e4dbf7;--bv-pie:#8a6bd0;--bv-ojo:#c7a4ff;--bv-luz:#7355b8;--bv-pantalla:#241a40;--bv-panel-borde:#7355b8;--bv-antena:#5c6179;--bv-brillo:rgba(255,255,255,.05);--bv-sombra:rgba(26,29,46,.16);--bv-lente:#3b4463}
+@media (prefers-color-scheme: dark){
+.bv-p-morado{--bv-cabeza:#4a3a78;--bv-cabeza-borde:#7462a8;--bv-cuerpo:#3f3168;--bv-cuerpo-borde:#64549a;--bv-pierna:#30264f;--bv-pie:#54448a;--bv-ojo:#c7a4ff;--bv-luz:#e6d6ff;--bv-pantalla:#0d1120;--bv-panel-borde:#2a3050;--bv-antena:#8899bb;--bv-brillo:rgba(255,255,255,.05);--bv-sombra:rgba(0,0,0,.28);--bv-lente:#e8eef8}
+}
+.bv g { transform-box: view-box; }
+.bv-flota { transform-origin: 40px 60px; animation: bv-flota 3.4s ease-in-out infinite; }
+.bv-sombra { transform-origin: 40px 115px; animation: bv-sombra 3.4s ease-in-out infinite; }
+.bv-cabeza { transform-origin: 40px 44px; }
+.bv-antena { transform-origin: 40px 4px; }
+.bv-brazo-l { transform-origin: 10px 52px; animation: bv-saludo-ciclo 9s ease-in-out infinite; animation-delay: var(--bv-retraso, 0s); }
+.bv-brazo-r { transform-origin: 70px 52px; }
+.bv-respira { transform-origin: 40px 68px; animation: bv-respira 3.2s ease-in-out infinite; }
+.bv-ojo-l { transform-origin: 29.5px 22.5px; animation: bv-parpadeo 4.6s ease-in-out infinite; }
+.bv-ojo-r { transform-origin: 50.5px 22.5px; animation: bv-parpadeo 4.6s ease-in-out infinite; }
+.bv-led { animation: bv-led 1.6s ease-in-out infinite; }
+.bv-boca { opacity: .1; animation: bv-boca 1s linear infinite; }
+.bv-b2 { animation-delay: .25s; } .bv-b3 { animation-delay: .5s; } .bv-b4 { animation-delay: .75s; }
+.bv-pecho { opacity: .15; animation: bv-pecho 1.2s ease-in-out infinite; }
+.bv-p2 { animation-delay: .4s; } .bv-p3 { animation-delay: .8s; }
+.bv-nota { opacity: 0; animation: bv-nota 2.6s ease-out infinite; }
+.bv-nota2 { animation-delay: 1.3s; }
+.bv-raiz { transform-origin: 40px 60px; }
+.saluda .bv-brazo-l { animation: bv-saludo 1.5s ease-in-out both; }
+.saluda .bv-raiz { animation: bv-brinco .7s ease-out both; }
+.saluda .bv-cabeza { animation: bv-ladea 1.5s ease-in-out both; }
+@keyframes bv-flota { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+@keyframes bv-sombra { 0%, 100% { transform: scale(1); } 50% { transform: scale(.92); } }
+@keyframes bv-respira { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.018, .982); } }
+@keyframes bv-parpadeo { 0%, 92%, 100% { transform: scaleY(1); } 94% { transform: scaleY(.1); } }
+@keyframes bv-led { 0%, 38%, 62%, 100% { opacity: 1; } 50% { opacity: .08; } }
+@keyframes bv-boca { 0%, 100% { opacity: .1; } 18% { opacity: 1; } }
+@keyframes bv-pecho { 0%, 100% { opacity: .15; } 33% { opacity: 1; } }
+@keyframes bv-nota { 0% { opacity: 0; transform: translate(0, 6px); } 25% { opacity: 1; } 100% { opacity: 0; transform: translate(4px, -10px); } }
+@keyframes bv-saludo-ciclo {
+  0%, 80% { transform: rotate(0); } 83% { transform: rotate(68deg); } 85% { transform: rotate(28deg); }
+  87% { transform: rotate(68deg); } 89% { transform: rotate(28deg); } 91% { transform: rotate(68deg); } 95%, 100% { transform: rotate(0); }
+}
+@keyframes bv-saludo {
+  0% { transform: rotate(0); } 15% { transform: rotate(68deg); } 25% { transform: rotate(28deg); } 35% { transform: rotate(68deg); }
+  45% { transform: rotate(28deg); } 55% { transform: rotate(68deg); } 65% { transform: rotate(28deg); } 75% { transform: rotate(68deg); } 100% { transform: rotate(0); }
+}
+@keyframes bv-brinco { 0% { transform: none; } 18% { transform: translateY(2px) scale(1.03, .96); } 45% { transform: translateY(-9px); } 75% { transform: translateY(0) scale(1.02, .98); } 100% { transform: none; } }
+@keyframes bv-ladea { 0%, 100% { transform: rotate(0); } 20%, 80% { transform: rotate(6deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .bv *, .saluda * { animation: none !important; }
+  .bv-boca { opacity: .7; } .bv-pecho { opacity: .8; } .bv-nota { opacity: 1; } .bv-burbuja { opacity: 1; } .bv-cajaled { opacity: 1; }
+}
+.bv-borla { transform-origin: 60px 1px; animation: bv-borla 2.6s ease-in-out infinite; }
+@keyframes bv-borla { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(10deg); } }
+.bv-profe-v .bv-brazo-r { animation: bv-senala 3.6s ease-in-out infinite; }
+@keyframes bv-senala { 0%, 100% { transform: rotate(0); } 35%, 60% { transform: rotate(-24deg); } 45% { transform: rotate(-18deg); } }
+.il{--il-t-crema:#fff3dc;--il-t-crema2:#ffe7bd;--il-t-menta:#e3f5ee;--il-t-menta2:#c9ebdd;--il-t-cielo:#e8f0fc;--il-t-cielo2:#d2e2f8;--il-t-rosa:#fdebf3;--il-t-rosa2:#f9d6e6}
+@media (prefers-color-scheme: dark){.il{--il-t-crema:#2a2419;--il-t-crema2:#3a301d;--il-t-menta:#132a2a;--il-t-menta2:#17393a;--il-t-cielo:#15223d;--il-t-cielo2:#1b2d52;--il-t-rosa:#2c1a2a;--il-t-rosa2:#3c2138}}
+.il-tic{opacity:0;animation:il-tic 6s ease-out infinite}.il-tic2{animation-delay:1s}.il-tic3{animation-delay:2s}
+@keyframes il-tic{0%,8%{opacity:0;transform:scale(.6)}14%,80%{opacity:1;transform:none}90%,100%{opacity:0}}
+.il-tic{transform-box:fill-box;transform-origin:30% 60%}
+.il-pzluz{animation:il-simluz 2.6s ease-in-out infinite}
+@keyframes il-simluz{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+@media (prefers-reduced-motion: reduce){.il-tic{opacity:1}}
+</style>
+<rect width="720" height="500" fill="var(--il-t-cielo)"/>
+  <circle cx="619.2" cy="80" r="180" fill="var(--il-t-cielo2)"/>
+  <circle cx="57.6" cy="450" r="110" fill="var(--il-t-cielo2)"/>
+  <g style="fill:var(--il-trazo)" fill-opacity=".14"><circle cx="50.400000000000006" cy="50" r="2.6"/><circle cx="50.400000000000006" cy="66" r="2.6"/><circle cx="50.400000000000006" cy="82" r="2.6"/><circle cx="66.4" cy="50" r="2.6"/><circle cx="66.4" cy="66" r="2.6"/><circle cx="66.4" cy="82" r="2.6"/><circle cx="82.4" cy="50" r="2.6"/><circle cx="82.4" cy="66" r="2.6"/><circle cx="82.4" cy="82" r="2.6"/><circle cx="98.4" cy="50" r="2.6"/><circle cx="98.4" cy="66" r="2.6"/><circle cx="98.4" cy="82" r="2.6"/></g>
+  <ellipse cx="360" cy="446" rx="331.2" ry="18" style="fill:var(--il-suelo)"/>
+  <g transform="translate(70 0)">
+    <path d="M250 440 L280 380 M580 440 L550 380" class="t" fill="none"/>
+    <rect x="200" y="80" width="430" height="300" rx="16" style="fill:var(--il-marco)" class="t"/>
+    <rect x="214" y="94" width="402" height="272" rx="10" style="fill:var(--il-pizarra)"/>
+    <rect x="238" y="118" width="120" height="16" rx="8" style="fill:var(--il-t-cielo2)"/>
+    <g transform="translate(250 170)">
+      <rect x="0" y="16" width="34" height="56" rx="7" fill="#FFC24D" class="t2"/><rect x="10" y="10" width="14" height="7" rx="2" style="fill:var(--il-trazo)"/>
+      <path d="M17 16 V0 H130 V30 M17 72 V88 H130 V64" fill="none" class="t2"/>
+      <path d="M120 54 V42 a10 10 0 0 1 20 0 V54 Z" fill="#ff5a6e" class="t2"/><path d="M118 54 h24" class="t2"/>
+      <circle class="il-pzluz fb" cx="130" cy="42" r="20" fill="#ffd54f" fill-opacity=".45"/>
+    </g>
+    <g class="t2" fill="none">
+      <rect x="440" y="160" width="20" height="20" rx="5" style="fill:var(--il-papel)"/><path d="M472 170 h110"/>
+      <rect x="440" y="208" width="20" height="20" rx="5" style="fill:var(--il-papel)"/><path d="M472 218 h90"/>
+      <rect x="440" y="256" width="20" height="20" rx="5" style="fill:var(--il-papel)"/><path d="M472 266 h100"/>
+    </g>
+    <path class="il-tic il-tic1" d="M444 170 l5 5 9 -10" fill="none" style="stroke:var(--il-verde)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path class="il-tic il-tic2" d="M444 218 l5 5 9 -10" fill="none" style="stroke:var(--il-verde)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path class="il-tic il-tic3" d="M444 266 l5 5 9 -10" fill="none" style="stroke:var(--il-verde)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="238" y="316" width="160" height="12" rx="6" style="fill:var(--il-gris)"/><rect x="238" y="336" width="110" height="12" rx="6" style="fill:var(--il-gris)"/>
+  </g>
+  <g transform="translate(572 300) scale(.9)"><rect x="0" y="40" width="110" height="100" rx="10" style="fill:var(--il-papel)" class="t"/>
+    <rect x="0" y="40" width="110" height="26" rx="10" style="fill:var(--il-verde)"/><rect x="0" y="56" width="110" height="10" style="fill:var(--il-verde)"/>
+    <path d="M24 32 v16 M86 32 v16" class="t" fill="none"/>
+    <g style="fill:var(--il-gris2)"><rect x="12" y="78" width="16" height="16" rx="4"/><rect x="12" y="104" width="16" height="16" rx="4"/><rect x="36" y="78" width="16" height="16" rx="4"/><rect x="36" y="104" width="16" height="16" rx="4"/><rect x="60" y="78" width="16" height="16" rx="4"/><rect x="60" y="104" width="16" height="16" rx="4"/><rect x="84" y="78" width="16" height="16" rx="4"/><rect x="84" y="104" width="16" height="16" rx="4"/></g>
+    <rect x="36" y="104" width="16" height="16" rx="4" fill="#FFC24D"/></g>
+  <svg class="bv bv-profe bv-p-morado bv-profe-v" x="-10" y="96" width="332.3" height="360" viewBox="-32 -32 144 156" overflow="visible" style="--bv-retraso:-4.8s">
+<g class="bv-sombra"><ellipse cx="40" cy="115" rx="20" ry="4" style="fill:var(--bv-sombra)"/></g>
+<g class="bv-flota"><g class="bv-raiz">
+  <g class="bv-cabeza">
+    <rect x="16" y="4" width="48" height="40" rx="9" style="fill:var(--bv-cabeza)"/>
+    <rect x="16" y="4" width="48" height="40" rx="9" fill="none" style="stroke:var(--bv-cabeza-borde)" stroke-width="1.5"/>
+    <rect x="18" y="6" width="44" height="7" rx="4" style="fill:var(--bv-brillo)"/>
+    <rect x="22" y="15" width="15" height="15" rx="4.5" style="fill:var(--bv-pantalla)"/>
+    <g class="bv-ojo-l"><circle cx="29.5" cy="22.5" r="5.5" style="fill:var(--bv-ojo)"/><circle cx="31.5" cy="20.5" r="2" fill="white" opacity=".6"/></g>
+    <rect x="43" y="15" width="15" height="15" rx="4.5" style="fill:var(--bv-pantalla)"/>
+    <g class="bv-ojo-r"><circle cx="50.5" cy="22.5" r="5.5" style="fill:var(--bv-ojo)"/><circle cx="52.5" cy="20.5" r="2" fill="white" opacity=".6"/></g>
+    <rect x="25" y="35" width="30" height="5" rx="2.5" style="fill:var(--bv-pantalla)"/>
+    <circle class="bv-boca" cx="30" cy="37.5" r="2" style="fill:var(--bv-ojo)"/>
+    <circle class="bv-boca bv-b2" cx="36.5" cy="37.5" r="2" style="fill:var(--bv-ojo)"/>
+    <circle class="bv-boca bv-b3" cx="43" cy="37.5" r="2" style="fill:var(--bv-ojo)"/>
+    <circle class="bv-boca bv-b4" cx="49.5" cy="37.5" r="2" style="fill:var(--bv-ojo)"/>
+    <g class="bv-antena">
+      <line x1="40" y1="4" x2="40" y2="-3" style="stroke:var(--bv-antena)" stroke-width="2.2" stroke-linecap="round"/>
+      <circle class="bv-led" cx="40" cy="-3" r="3.5" style="fill:var(--bv-luz)"/>
+    </g>
+      <rect x="25" y="-1" width="30" height="8" rx="2" fill="#262b40"/>
+      <path d="M8 -2 L40 -12 L72 -2 L40 8 Z" fill="#2f3550" stroke="#1b1f30" stroke-width="1.2" stroke-linejoin="round"/>
+      <g class="bv-borla"><path d="M40 -2 L60 1 L60 12" fill="none" stroke="#FFC24D" stroke-width="1.6" stroke-linecap="round"/>
+        <rect x="57.5" y="11" width="5" height="7" rx="2" fill="#FFC24D"/></g>
+      <circle cx="40" cy="-2" r="2.2" fill="#FFC24D"/>
+  </g>
+  <g class="bv-brazo-l">
+    <rect x="4" y="52" width="12" height="32" rx="5" style="fill:var(--bv-cuerpo);stroke:var(--bv-cuerpo-borde)" stroke-width="1.2"/>
+    <ellipse cx="10" cy="86" rx="7" ry="5" style="fill:var(--bv-pie);stroke:var(--bv-ojo)" stroke-width="1"/>
+  </g>
+  <g class="bv-pierna-l">
+    <rect x="23" y="94" width="13" height="16" rx="5" style="fill:var(--bv-pierna);stroke:var(--bv-cuerpo-borde)" stroke-width="1.2"/>
+    <rect x="20" y="106" width="19" height="7" rx="3.5" style="fill:var(--bv-pie)"/>
+  </g>
+  <g class="bv-pierna-r">
+    <rect x="44" y="94" width="13" height="16" rx="5" style="fill:var(--bv-pierna);stroke:var(--bv-cuerpo-borde)" stroke-width="1.2"/>
+    <rect x="41" y="106" width="19" height="7" rx="3.5" style="fill:var(--bv-pie)"/>
+  </g>
+  <g class="bv-cuerpo"><g class="bv-respira">
+    <rect x="16" y="48" width="48" height="40" rx="9" style="fill:var(--bv-cuerpo)"/>
+    <rect x="16" y="48" width="48" height="40" rx="9" fill="none" style="stroke:var(--bv-cuerpo-borde)" stroke-width="1.5"/>
+    <rect x="20" y="53" width="40" height="30" rx="7" style="fill:var(--bv-pantalla);stroke:var(--bv-panel-borde)" stroke-width="1.2"/>
+    <circle class="bv-pecho" cx="30" cy="68" r="4" fill="#ff3d52"/>
+    <circle class="bv-pecho bv-p2" cx="40" cy="68" r="4" fill="#00d4aa"/>
+    <circle class="bv-pecho bv-p3" cx="50" cy="68" r="4" fill="#ffd700"/>
+  </g></g>
+  <g class="bv-brazo-r">
+    <rect x="64" y="52" width="12" height="32" rx="5" style="fill:var(--bv-cuerpo);stroke:var(--bv-cuerpo-borde)" stroke-width="1.2"/>
+    <ellipse cx="70" cy="86" rx="7" ry="5" style="fill:var(--bv-pie);stroke:var(--bv-ojo)" stroke-width="1"/>
+      <g class="bv-puntero"><path d="M70 88 L100 58" stroke="#8b5a2b" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="100.5" cy="57.5" r="3.4" fill="#FFA000"/></g>
+  </g>
+</g></g></svg>
+</svg>

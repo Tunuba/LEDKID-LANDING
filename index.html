@@ -125,38 +125,132 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* Tinta cálida, no negro puro: el negro absoluto es de otros */
-  --negro:  #14161C;
-  --texto:  #3A3F4C;
-  --gris:   #6A6C75;
-  --gris-2: #9A9CA5;
-  --off:    #F8F7F4;   /* hueso tibio */
-  --panel:  #F4F2ED;
-  --linea:  #E4E1DA;
-  --blanco: #FFFFFF;
+  /* ══ PALETA (ronda 3, r3-landing) ══════════════════════════════════════════
+     Meme: la paleta se veia demasiado fuerte. Ahora es la del modo claro de la
+     app (main.css, html.light-mode): fondo casi blanco con un punto azul, tinta
+     azul pizarra, verde de acento #00a882 y pasteles suaves. El ambar #FFA000 se
+     queda en el logo y el foquito; los botones usan un ambar mas claro (#FFC24D)
+     con tinta casi negra. Todo el texto pasa de 4,5 a 1 (medido en el navegador).
+     El modo oscuro (prefers-color-scheme) es el azul noche de la app con su verde.
+     Los colores de BOTITO NO estan aqui: viven en scripts/generar-botitos.mjs
+     (PALETAS), un solo lugar, porque van dentro de cada SVG. */
+  color-scheme: light dark;
+  --negro:  #1a1d2e;   /* titulares */
+  --texto:  #3a3f58;
+  --gris:   #5c6179;
+  --gris-2: #8a90a8;   /* solo decoracion, nunca texto */
+  --fondo:  #fafbfe;
+  --superficie: #ffffff;
+  --off:    #f3f5fa;
+  --panel:  #eef1f8;
+  --linea:  #dde2ee;
+  --blanco: #ffffff;
 
   /* marca */
-  --ambar:    #FFA000;
+  --ambar:    #FFA000;   /* logo y foquito, sin cambios */
   --ambar-os: #E08D00;
   --ambar-cl: #FFC24D;
-  --tinta-btn:#1A1206;
+  --btn:       #FFC24D;
+  --btn-hover: #FFB323;
+  --btn-canto: #E6A63A;
+  --btn-tinta: #2a1b00;
+  --tinta-btn: var(--btn-tinta);
+  --verde:        #00a882;
+  --verde-texto:  #007a5e;
+  --flecha-bg:    #1a1d2e;
+  --flecha-tinta: #ffffff;
+  --sobre-color:  #ffffff;   /* icono sobre un circulo de color */
 
-  /* pasteles propios: tibios, del mismo tronco que el ámbar */
-  --p-crema: #FFEFCF;
-  --p-cielo: #E2ECFB;
-  --p-menta: #DDF2E9;
-  --p-melo:  #FFE3D2;
-  --p-teal:  #DDF2E9;
-  --p-azul:  #E2ECFB;
-  --p-verde: #E8F2D9;
+  /* pasteles, mas claros que antes */
+  --p-crema: #FFF4DE;
+  --p-cielo: #EAF1FC;
+  --p-menta: #E3F5EE;
+  --p-melo:  #FFEDE3;
+  --p-teal:  #E3F5EE;
+  --p-azul:  #EAF1FC;
+  --p-verde: #EEF6E3;
+  --p-rosa:  #FCEAF2;
+  --p-obra:  #FFF6D6;
 
-  --azul:    #1461D6;
-  --turquesa:#00A88F;
+  --azul:    #2f6fd6;
+  --turquesa:#00a882;
+
+  /* estados y piezas de las demos */
+  --ok-fondo: #E3F5EE; --ok-borde: #00a882; --ok-canto: #A8DCC8;
+  --mal-fondo: #FDECEE; --mal-borde: #D8475B; --mal-tinta: #8A1C1C;
+  --demo-borde: #DCE0EC;
+  --q-fondo: #EEF3F7;
+  --q-op:    #F4F6FA;
+  --q-trazo: #3A3F4C;
+  --rt-bloque: #E2ECFB; --rt-bloque-borde: #C2D5F3; --rt-flecha: #1E4FA3;
+  --nota-fondo: #E6F5EF; --nota-borde: #B5E2CF;
+  --velo: rgba(255,255,255,.72);
+  --velo-2: rgba(255,255,255,.6);
+  --luz-tarjeta: rgba(255,255,255,.9);
+  --sombra: rgba(26,29,46,.10);
+
+  /* portada y caja de BOTITO */
+  --hero-fondo: linear-gradient(120deg, #FFF7E8 0%, #F3FAF6 52%, #EDF3FD 100%);
+  --robo-fondo: radial-gradient(115% 85% at 50% 40%, #F2FBF8 0%, #E3F4EE 38%, #D7ECEF 72%, #CFE3EE 100%);
+  --robo-borde: rgba(26,29,46,.06);
+  --robo-sombra: 0 30px 70px -40px rgba(26,60,80,.35);
+  --robo-luz: rgba(0,168,130,.20);
 
   --ancho: 1185px;
   --r:  6px;      /* botones y chips */
   --r2: 10px;     /* tarjetas */
   --t: .18s ease;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --negro:  #eef2fa;
+    --texto:  #c9d0e3;
+    --gris:   #a3acc6;
+    --gris-2: #6d7897;
+    --fondo:  #0e1426;
+    --superficie: #151d33;
+    --off:    #172039;
+    --panel:  #1c2742;
+    --linea:  #2a3656;
+    --blanco: #151d33;
+    --btn:       #FFB020;
+    --btn-hover: #FFC24D;
+    --btn-canto: #B9790C;
+    --btn-tinta: #1a1206;
+    --verde:        #00d4aa;
+    --verde-texto:  #3fe0bd;
+    --flecha-bg:    #eef2fa;
+    --flecha-tinta: #0e1426;
+    --sobre-color:  #0e1426;
+    --p-crema: #2a2418;
+    --p-cielo: #172440;
+    --p-menta: #12302b;
+    --p-melo:  #2e1f1a;
+    --p-teal:  #12302b;
+    --p-azul:  #172440;
+    --p-verde: #1d2a17;
+    --p-rosa:  #2b1a29;
+    --p-obra:  #2b2616;
+    --azul:    #6aa4ff;
+    --turquesa:#00d4aa;
+    --ok-fondo: #12302b; --ok-borde: #00d4aa; --ok-canto: #0e5c4c;
+    --mal-fondo: #3a1a22; --mal-borde: #ff6b7d; --mal-tinta: #ffb3bd;
+    --demo-borde: #2e3a5c;
+    --q-fondo: #1c2742;
+    --q-op:    #1c2742;
+    --q-trazo: #c9d0e3;
+    --rt-bloque: #1d2c4d; --rt-bloque-borde: #36508a; --rt-flecha: #9cc0ff;
+    --nota-fondo: #12302b; --nota-borde: #1f5c4e;
+    --velo: rgba(255,255,255,.06);
+    --velo-2: rgba(255,255,255,.05);
+    --luz-tarjeta: rgba(255,255,255,.07);
+    --sombra: rgba(0,0,0,.4);
+    --hero-fondo: linear-gradient(120deg, #111a33 0%, #0f2233 55%, #122a3a 100%);
+    --robo-fondo: radial-gradient(115% 85% at 50% 40%, #263a63 0%, #1a2846 34%, #101a2e 70%, #0c1220 100%);
+    --robo-borde: rgba(255,255,255,.06);
+    --robo-sombra: 0 34px 80px -34px rgba(0,0,0,.6);
+    --robo-luz: rgba(0,212,170,.26);
+  }
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 120px; }
@@ -165,7 +259,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 120px; }
 body {
   font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
   font-size: 16px; line-height: 1.5; font-weight: 400;
-  color: var(--texto); background: var(--blanco);
+  color: var(--texto); background: var(--fondo);
   -webkit-font-smoothing: antialiased; overflow-x: hidden;
 }
 
@@ -185,9 +279,9 @@ img, video { max-width: 100%; display: block; }
 /* ── Chip ─────────────────────────────────────────────────── */
 .chip {
   display: inline-block; font-size: .875rem; font-weight: 500; line-height: 1.4;
-  padding: 4px 12px; border-radius: var(--r); color: #141414; background: var(--p-azul);
+  padding: 4px 12px; border-radius: var(--r); color: var(--negro); background: var(--p-azul);
 }
-.chip.ambar { background: var(--ambar); }
+.chip.ambar { background: var(--p-crema); }
 .chip.teal  { background: var(--p-teal); }
 .chip.verde { background: var(--p-verde); }
 .chip.melo  { background: var(--p-melo); }
@@ -212,12 +306,14 @@ img, video { max-width: 100%; display: block; }
 }
 .btn svg { width: 18px; height: 18px; flex-shrink: 0; }
 /* El botón primario es ÁMBAR, no negro: es la firma de LedKid */
-.btn-negro  { background: var(--ambar); color: var(--tinta-btn); font-weight: 500; }
-.btn-negro:hover { background: var(--ambar-os); }
-.btn-blanco { background: var(--ambar); color: var(--tinta-btn); font-weight: 500; font-size: 1.125rem; padding: 14.5px 24px; }
-.btn-blanco:hover { background: var(--ambar-os); }
-.btn-linea-bl { background: transparent; color: #fff; border-color: #fff; font-size: 1.125rem; padding: 14.5px 24px; }
-.btn-linea-bl:hover { background: rgba(255,255,255,.14); }
+.btn-negro  { background: var(--btn); color: var(--btn-tinta); font-weight: 500; }
+.btn-negro:hover { background: var(--btn-hover); }
+.btn-blanco { background: var(--btn); color: var(--btn-tinta); font-weight: 500; font-size: 1.125rem; padding: 14.5px 24px; }
+.btn-blanco:hover { background: var(--btn-hover); }
+.btn-linea-bl { background: transparent; color: var(--negro); border-color: var(--negro); font-size: 1.125rem; padding: 14.5px 24px; }
+.btn-linea-bl:hover { background: var(--velo); }
+.btn-linea { background: transparent; color: var(--negro); border-color: var(--linea); font-weight: 500; }
+.btn-linea:hover { border-color: var(--negro); }
 .btn-bloque { width: 100%; }
 /* El CTA de la cabecera se duplica dentro del menú de teléfono: arriba de 1100
    manda el de .acciones-cab, abajo manda este. Antes iba con style="display:none"
@@ -227,31 +323,32 @@ img, video { max-width: 100%; display: block; }
 /* Jerarquía: el ámbar sólido es solo para la llamada principal. Dentro de una
    tarjeta el botón va en contorno, si no la página entera grita. */
 .tarjeta .btn-negro { background: transparent; color: var(--negro); border-color: var(--negro); font-weight: 500; }
-.tarjeta .btn-negro:hover { background: var(--negro); color: #fff; }
+.tarjeta .btn-negro:hover { background: var(--negro); color: var(--fondo); }
 
 .flecha-circ {
   width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
-  background: var(--negro); color: #fff; flex-shrink: 0; transition: var(--t);
+  background: var(--flecha-bg); color: var(--flecha-tinta); flex-shrink: 0; transition: var(--t);
 }
 .flecha-circ svg { width: 20px; height: 20px; }
 
 /* ═══════════ BARRA DE UTILIDAD ═══════════ */
-.utilidad { border-bottom: 1px solid var(--linea); background: #fff; }
+.utilidad { border-bottom: 1px solid var(--linea); background: var(--superficie); }
 .utilidad .env { display: flex; justify-content: flex-end; align-items: center; gap: 1.75rem; height: 39px; }
 .utilidad a { font-size: .9375rem; text-decoration: none; color: var(--negro); }
 .utilidad a:hover { text-decoration: underline; }
 .utilidad .bandera { font-size: .8125rem; font-weight: 500; letter-spacing: .06em; border: 1px solid var(--linea); border-radius: var(--r); padding: 1px 7px; }
 
 /* ═══════════ CABECERA ═══════════ */
-header { position: sticky; top: 0; z-index: 90; background: #fff; }
-header.pegado { box-shadow: 0 1px 10px rgba(0,0,0,.08); }
+header { position: sticky; top: 0; z-index: 90; background: var(--superficie); }
+header.pegado { box-shadow: 0 1px 10px var(--sombra); }
 .barra { display: flex; align-items: center; gap: 2rem; height: 78px; }
 .marca { display: flex; align-items: center; gap: .55rem; text-decoration: none; flex-shrink: 0; }
 .marca .logo { width: 36px; height: 36px; }
 .marca .nombre { font-size: 1.55rem; font-weight: 600; letter-spacing: -.03em; color: var(--negro); }
 .marca .nombre em { font-style: normal; color: var(--ambar); }
 
-.nav { display: flex; align-items: center; gap: 1.9rem; margin-left: 1.5rem; }
+.nav { display: flex; align-items: center; gap: 1.6rem; margin-left: 1.25rem; }
+.nav > a.enl[aria-current="page"] { color: var(--verde-texto); box-shadow: inset 0 -3px 0 var(--verde); }
 .nav > .item { position: relative; }
 .nav .disparador, .nav > a.enl {
   display: inline-flex; align-items: center; gap: 5px; padding: 10px 0;
@@ -261,7 +358,7 @@ header.pegado { box-shadow: 0 1px 10px rgba(0,0,0,.08); }
 .nav .disparador svg { width: 14px; height: 14px; transition: var(--t); }
 .nav .item.abierto .disparador svg { transform: rotate(180deg); }
 .nav .desplegable {
-  position: absolute; top: 100%; left: -20px; min-width: 288px; background: #fff;
+  position: absolute; top: 100%; left: -20px; min-width: 288px; background: var(--superficie);
   border: 1px solid var(--linea); border-radius: var(--r2); padding: .5rem 0;
   box-shadow: 0 12px 34px rgba(0,0,0,.12); display: none; z-index: 5;
 }
@@ -283,15 +380,15 @@ header.pegado { box-shadow: 0 1px 10px rgba(0,0,0,.08); }
    Antes lo abría el script, y bajo la CSP del gateway el script no corre:
    en un teléfono la navegación entera era inalcanzable. */
 .menu-check { position: absolute; width: 1px; height: 1px; opacity: 0; margin: 0; }
-.hamb { display: none; width: 44px; height: 40px; border: 1px solid var(--linea); border-radius: var(--r); background: #fff; cursor: pointer; }
+.hamb { display: none; width: 44px; height: 40px; border: 1px solid var(--linea); border-radius: var(--r); background: var(--superficie); cursor: pointer; }
 .hamb i { display: block; width: 18px; height: 2px; background: var(--negro); margin: 4px auto; }
 .menu-check:focus-visible ~ .acciones-cab .hamb { outline: 2px solid var(--negro); outline-offset: 3px; }
 
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
   .barra { height: 64px; }
   .nav {
     position: absolute; inset: 100% 0 auto; margin: 0; flex-direction: column; align-items: stretch; gap: 0;
-    background: #fff; border-bottom: 1px solid var(--linea); padding: .25rem 1.5rem 1.25rem; display: none;
+    background: var(--superficie); border-bottom: 1px solid var(--linea); padding: .25rem 1.5rem 1.25rem; display: none;
     box-shadow: 0 12px 30px rgba(0,0,0,.1);
   }
   /* La casilla es la que manda; .abierto queda por compatibilidad con el JS */
@@ -312,44 +409,27 @@ header.pegado { box-shadow: 0 1px 10px rgba(0,0,0,.08); }
   .buscar { display: none; }
 }
 
-/* ═══════════ HERO DE VIDEO ═══════════ */
-.hero { position: relative; height: 640px; overflow: hidden; background: #111; }
-.hero video, .hero .respaldo {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-}
-.hero .velo { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.2)); }
-.hero .contenido { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: center; padding-bottom: 40px; }
-.hero .kicker { color: #fff; font-size: 1.5rem; margin-bottom: .6rem; }
-.hero h1 { color: #fff; max-width: 16ch; }
-.hero .bajada { color: #fff; font-size: clamp(1.15rem, 1.75vw, 1.5625rem); line-height: 1.35; max-width: 44ch; margin-top: 1.5rem; }
-.hero .acciones { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 2.5rem; }
-/* Mandos que solo sirven con JS: si el script no corre, un botón muerto
-   confunde más que su ausencia. Se muestran únicamente con .js-vivo. */
-.hero .pausa {
-  position: absolute; right: 2rem; bottom: 2rem; width: 44px; height: 44px;
-  background: rgba(255,255,255,.9); border: 0; border-radius: var(--r); cursor: pointer;
-  display: none; place-items: center;
-}
-.js-vivo .hero .pausa { display: grid; }
-.hero .pausa svg { width: 18px; height: 18px; }
-@media (max-width: 760px) {
-  /* Altura mínima, no fija: si el titular gana una línea (pantalla estrecha o
-     tipografía grande del sistema) el hero crece en vez de recortar el texto. */
-  .hero { height: auto; min-height: 560px; }
-  .hero .contenido { height: auto; min-height: 560px; }
-  /* AIRE ARRIBA. Sin esto el titular arranca pegado al header: medido a 390 px,
-     la separacion entre el borde de abajo del header y el primer texto era de
-     CERO pixeles. El contenido va centrado y es mas alto que su caja, asi que se
-     desborda por arriba y el `overflow:hidden` del hero lo recorta contra la
-     barra. El padding empuja el bloque hacia abajo y el `min-height` deja que el
-     hero crezca en vez de recortar. */
-  .hero .contenido { padding-top: 2.5rem; }
-  /* El mando de pausa vive abajo a la derecha y llegaba a tocar el último botón */
-  .hero .contenido { padding-bottom: 92px; }
-  .hero .pausa { right: 1.25rem; bottom: 1.25rem; }
-  /* En vertical el video se recorta al centro: hace falta más velo para leer el titular */
-  .hero .velo { background: linear-gradient(180deg, rgba(0,0,0,.5), rgba(0,0,0,.65)); }
-  .hero video { object-position: 68% center; }
+/* ═══════════ PORTADA ═══════════
+   RONDA 3: SE FUE EL VIDEO. El hero era media/hero-loop.mp4 (tres robots de
+   palitos y un carrito, oscuro y pesado). Ahora es texto a la izquierda y la
+   escena de tres BOTITOS (assets/escena-hero.svg, generada) a la derecha, sobre
+   un degradado claro. La escena se anima sola en bucle, como el video, pero con
+   CSS dentro del SVG (solo transform y opacity) y quieta con reducir movimiento.
+   Los archivos del video siguen en media/ por si se quieren recuperar. */
+.hero { position: relative; overflow: hidden; background: var(--hero-fondo); }
+.hero-rejilla { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); align-items: center; gap: 2rem;
+  min-height: min(600px, calc(100vh - 117px)); padding-block: 40px; }
+.hero .contenido { position: relative; }
+.hero .kicker { display: inline-block; color: var(--verde-texto); font-size: 1.125rem; font-weight: 600; margin-bottom: .6rem; }
+.hero h1 { color: var(--negro); max-width: 16ch; }
+.hero .bajada { color: var(--texto); font-size: clamp(1.1rem, 1.5vw, 1.35rem); line-height: 1.45; max-width: 44ch; margin-top: 1.25rem; }
+.hero .bajada strong { color: var(--negro); }
+.hero .acciones { display: flex; gap: 1rem 1.25rem; flex-wrap: wrap; margin-top: 2rem; }
+.hero-arte { display: flex; justify-content: center; }
+.hero-arte img { width: 100%; max-width: 560px; height: auto; aspect-ratio: 640 / 560; }
+@media (max-width: 900px) {
+  .hero-rejilla { grid-template-columns: minmax(0, 1fr); gap: .5rem; min-height: 0; padding-block: 32px 24px; }
+  .hero-arte img { max-width: 380px; }
 }
 
 /* ═══════════ SECCIONES ═══════════ */
@@ -396,7 +476,7 @@ section { padding: 68px 0; }
 
 .baldosa {
   scroll-snap-align: start; position: relative; border-radius: var(--r2); overflow: hidden;
-  height: 420px; padding: 32px; display: block; text-decoration: none; background: var(--p-crema);
+  height: 390px; padding: 32px; display: block; text-decoration: none; background: var(--p-crema);
   transition: var(--t);
 }
 .baldosa:nth-child(2) { background: var(--p-cielo); }
@@ -404,12 +484,14 @@ section { padding: 68px 0; }
 .baldosa:hover { filter: brightness(.97); }
 .baldosa .fila { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
 .baldosa h3 { font-size: 1.75rem; font-weight: 400; line-height: 1.2; max-width: 11ch; }
-.baldosa .grado { display: block; margin-top: .5rem; font-size: .9375rem; color: #45474D; }
-.baldosa .flecha-circ { background: var(--ambar); color: var(--tinta-btn); }
-.baldosa:nth-child(2) .flecha-circ { background: var(--azul); color: #fff; }
-.baldosa:nth-child(3) .flecha-circ { background: var(--turquesa); color: #fff; }
-/* El producto se sale por abajo: la baldosa lo recorta, como una foto de producto */
-.baldosa img { position: absolute; left: -6%; bottom: -46px; width: 112%; }
+.baldosa .grado { display: block; margin-top: .5rem; font-size: .9375rem; color: var(--texto); }
+.baldosa:nth-child(4) { background: var(--p-rosa); }
+.baldosa .flecha-circ { background: var(--btn); color: var(--btn-tinta); }
+.baldosa:nth-child(2) .flecha-circ { background: var(--azul); color: var(--sobre-color); }
+.baldosa:nth-child(3) .flecha-circ { background: var(--turquesa); color: var(--sobre-color); }
+.baldosa:nth-child(4) .flecha-circ { background: #d9609a; color: #fff; }
+/* Ronda 3: los dibujos nuevos (assets/nivel-*.svg) se apoyan abajo, enteros */
+.baldosa img { position: absolute; left: 2%; bottom: 8px; width: 96%; aspect-ratio: 400 / 260; }
 .baldosa:hover .flecha-circ { transform: scale(1.08); }
 
 /* Sin JS las flechas no empujan nada, pero la pista sigue arrastrándose con el
@@ -417,7 +499,7 @@ section { padding: 68px 0; }
 .mandos { display: none; justify-content: flex-end; gap: 8px; margin-top: 32px; }
 .js-vivo .mandos { display: flex; }
 .mando { width: 56px; height: 56px; border: 0; border-radius: var(--r); background: var(--panel); color: var(--gris-2); cursor: pointer; display: grid; place-items: center; transition: var(--t); }
-.mando.activo { background: var(--negro); color: #fff; }
+.mando.activo { background: var(--flecha-bg); color: var(--flecha-tinta); }
 .mando svg { width: 22px; height: 22px; }
 
 /* ── Bloque 50/50 ─────────────────────────────────────────── */
@@ -535,8 +617,8 @@ section { padding: 68px 0; }
 .trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .respuesta-form { margin-top: 1rem; font-size: .9375rem; padding: .875rem 1rem; border-radius: var(--r); }
 .respuesta-form.ok { background: var(--p-menta); color: var(--negro); }
-.respuesta-form.mal { background: #FDECEC; color: #8A1C1C; }
-.chks svg { width: 20px; height: 20px; color: var(--turquesa); flex-shrink: 0; margin-top: .2rem; }
+.respuesta-form.mal { background: var(--mal-fondo); color: var(--mal-tinta); }
+.chks svg { width: 20px; height: 20px; color: var(--verde-texto); flex-shrink: 0; margin-top: .2rem; }
 .chks strong { font-weight: 500; color: var(--negro); }
 
 /* ── FAQ ──────────────────────────────────────────────────── */
@@ -573,7 +655,7 @@ label { font-size: .875rem; font-weight: 500; color: var(--negro); }
 label .opt { font-weight: 400; color: var(--gris); }
 input, select, textarea {
   font-family: inherit; font-size: 1rem; color: var(--texto); width: 100%;
-  background: #fff; border: 1px solid var(--linea); border-radius: var(--r); padding: .7rem .85rem;
+  background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--r); padding: .7rem .85rem;
 }
 input:focus, select:focus, textarea:focus { outline: none; border-color: var(--negro); }
 textarea { resize: vertical; min-height: 96px; }
@@ -596,7 +678,7 @@ form .btn { margin-top: 1.5rem; }
    veia competia con el propio contenido del pie sin decir nada.
    Si algun dia vuelve un motivo de fondo, que no sea en el pie: ahi lo que se
    busca es un enlace concreto, no ambiente. */
-footer { position: relative; padding: 56px 0 0; background: #fff; }
+footer { position: relative; padding: 56px 0 0; background: var(--fondo); border-top: 1px solid var(--linea); }
 footer .env { position: relative; z-index: 1; }
 /* ── PIE COMPACTO ──
    Meme: "los elementos estan muy separados y dejan mucho espacio". Estaba
@@ -642,7 +724,7 @@ footer .env { position: relative; z-index: 1; }
   .tarjeta .chip { margin-bottom: 18px; }
   .tarjeta h3 { margin-bottom: 1rem; }
 
-  .baldosa { padding: 24px; }
+  .baldosa { padding: 24px; height: 330px; }
 
   /* El FAQ perdía 4rem de renglón por un padding pensado para 1185px */
   summary { gap: 1rem; padding: 1.25rem 0; }
@@ -694,10 +776,9 @@ footer .env { position: relative; z-index: 1; }
    pasada sigue vigente: dentro se recortaria contra el viewBox. */
 .robo-caja { display:flex; align-items:center; justify-content:center;
   position:relative; isolation:isolate; overflow:hidden;
-  background:radial-gradient(115% 85% at 50% 40%,
-    #263a63 0%, #1a2846 34%, #101a2e 70%, #0c1220 100%);
-  border:1px solid rgba(255,255,255,.06); border-radius:28px;
-  box-shadow:0 34px 80px -34px rgba(10,16,28,.55);
+  background:var(--robo-fondo);
+  border:1px solid var(--robo-borde); border-radius:28px;
+  box-shadow:var(--robo-sombra);
   padding:2.5rem 1rem; min-height:420px; }
 /* El resplandor de ambiente. Va detras del <img> (z-index) y se apaga del todo
    antes del 74%, para que nunca toque el borde de la caja: si llegara, volveria
@@ -705,8 +786,8 @@ footer .env { position: relative; z-index: 1; }
 .robo-caja::before { content:''; position:absolute; z-index:0; left:50%; top:42%;
   width:150%; aspect-ratio:1; transform:translate(-50%,-50%); pointer-events:none;
   background:radial-gradient(closest-side,
-    rgba(0,212,170,.26) 0%, rgba(0,212,170,.13) 34%,
-    rgba(0,212,170,.05) 56%, rgba(0,212,170,0) 74%); }
+    var(--robo-luz) 0%, rgba(0,212,170,.10) 34%,
+    rgba(0,212,170,.04) 56%, rgba(0,212,170,0) 74%); }
 /* `height:auto` explicito: el ancho lo pone el max-height y la proporcion del
    viewBox. Sin esto el SVG se estira al ancho de la columna y BOTITO sale gordo. */
 /* ⚠️ 450 Y NO 360, Y VA ATADO AL viewBox. El lienzo del SVG crecio de 126 a 158
@@ -761,14 +842,14 @@ footer .env { position: relative; z-index: 1; }
   transition: transform .35s cubic-bezier(.34,1.56,.64,1); -webkit-tap-highlight-color: transparent; }
 .botito-card::before { content:''; position:absolute; z-index:-1; left:50%; top:44%; width:110%;
   aspect-ratio:1; transform:translate(-50%,-50%); pointer-events:none;
-  background:radial-gradient(closest-side, rgba(255,255,255,.9), rgba(255,255,255,.4) 45%, rgba(255,255,255,0) 72%); }
+  background:radial-gradient(closest-side, var(--luz-tarjeta), transparent 72%); }
 .botito-card:hover { transform: translateY(-5px); }
 .botito-card img, .botito-card svg { display:block; width:100%; max-width:180px; height:auto;
   aspect-ratio:144 / 156; margin:0 auto; }
 .botito-card span { display:block; margin-top:2px; font-size:.9375rem; font-weight:500; color:var(--negro); }
-.bc-rosa       { background:#FBE4EF; }
+.bc-rosa       { background:var(--p-rosa); }
 .bc-audifonos  { background:var(--p-crema); }
-.bc-obra       { background:#FFF1C2; }
+.bc-obra       { background:var(--p-obra); }
 .bc-cientifico { background:var(--p-menta); }
 .bc-musico     { background:var(--p-melo); }
 .bc-explorador { background:var(--p-verde); }
@@ -822,38 +903,47 @@ footer .env { position: relative; z-index: 1; }
 @media (max-width: 620px) { .eco-rejilla { grid-template-columns: minmax(0, 1fr); gap: 18px; } }
 
 .eco {
-  --eco-fondo: var(--p-menta); --eco-borde: #B5E2CF; --eco-canto: #9ED6BF; --eco-tinta: #00705C;
+  --eco-fondo: var(--p-menta); --eco-borde: #BFE6D6; --eco-canto: #A8DCC8; --eco-tinta: #00705C;
   position: relative; display: flex; flex-direction: column;
   background: var(--eco-fondo); border: 2px solid var(--eco-borde); border-radius: 22px;
   box-shadow: 0 6px 0 var(--eco-canto); padding: 20px 22px 24px;
   transition: transform .3s cubic-bezier(.34,1.56,.64,1);
 }
 .eco:hover { transform: translateY(-4px); }
-.eco-rosa  { --eco-fondo: #FBE4EF; --eco-borde: #F2C3D8; --eco-canto: #EAAAC6; --eco-tinta: #A1245B; }
-.eco-obra  { --eco-fondo: #FFF1C2; --eco-borde: #F3DB8E; --eco-canto: #E9C866; --eco-tinta: #7A5300; }
-.eco-cielo { --eco-fondo: var(--p-cielo); --eco-borde: #C2D5F3; --eco-canto: #A9C3EE; --eco-tinta: #1E4FA3; }
-.eco-verde { --eco-fondo: var(--p-verde); --eco-borde: #CFE3B2; --eco-canto: #BAD696; --eco-tinta: #466B0F; }
-.eco-melo  { --eco-fondo: var(--p-melo); --eco-borde: #F7C6A8; --eco-canto: #F0B08A; --eco-tinta: #A13F0A; }
+.eco-rosa  { --eco-fondo: var(--p-rosa); --eco-borde: #F4CDDF; --eco-canto: #EDB6CF; --eco-tinta: #A1245B; }
+.eco-obra  { --eco-fondo: var(--p-obra); --eco-borde: #F3DFA0; --eco-canto: #EACF7C; --eco-tinta: #6E4B00; }
+.eco-cielo { --eco-fondo: var(--p-cielo); --eco-borde: #CADAF4; --eco-canto: #B3CAF0; --eco-tinta: #1E4FA3; }
+.eco-verde { --eco-fondo: var(--p-verde); --eco-borde: #D5E6BD; --eco-canto: #C2DBA2; --eco-tinta: #3F610D; }
+.eco-melo  { --eco-fondo: var(--p-melo); --eco-borde: #F7CFB6; --eco-canto: #F0BA99; --eco-tinta: #983A08; }
+@media (prefers-color-scheme: dark) {
+  .eco       { --eco-borde: #1f5c4e; --eco-canto: #174a3f; --eco-tinta: #52e3c2; }
+  .eco-rosa  { --eco-borde: #5a2c4f; --eco-canto: #4a2341; --eco-tinta: #ff9fcd; }
+  .eco-obra  { --eco-borde: #5a4b1f; --eco-canto: #4a3d18; --eco-tinta: #ffd36b; }
+  .eco-cielo { --eco-borde: #2c4677; --eco-canto: #233963; --eco-tinta: #9cc0ff; }
+  .eco-verde { --eco-borde: #3c5424; --eco-canto: #31451d; --eco-tinta: #b9e27e; }
+  .eco-melo  { --eco-borde: #5c3a2a; --eco-canto: #4b2f22; --eco-tinta: #ffb58f; }
+}
 
 .eco-cabeza { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
 .eco-icono { width: 68px; height: 68px; flex: none; display: grid; place-items: center; color: var(--eco-tinta);
-  background: rgba(255,255,255,.72); border: 2px solid var(--eco-borde); border-radius: 20px; }
+  background: var(--velo); border: 2px solid var(--eco-borde); border-radius: 20px; }
 .eco-icono svg { width: 46px; height: 46px; overflow: visible; }
 .eco-icono svg * { transform-box: fill-box; }
+.eco-icono svg [fill="#fff"] { fill: var(--superficie); }
 /* El primo de BOTITO se asoma arriba a la derecha. El viewBox de las variantes
    (-32 -32 144 156) ya trae el aire del brazo que saluda: basta fijar el ancho y
    la proporcion, sin max-height, y nada se corta. */
 .eco-botito { width: 124px; height: auto; aspect-ratio: 144 / 156; margin: -22px -16px -22px 0; flex: none; }
 .eco-tag { display: inline-block; align-self: flex-start; font-size: .75rem; font-weight: 700; letter-spacing: .06em;
-  text-transform: uppercase; color: var(--eco-tinta); background: rgba(255,255,255,.72); border-radius: 999px; padding: 4px 11px; }
+  text-transform: uppercase; color: var(--eco-tinta); background: var(--velo); border-radius: 999px; padding: 4px 11px; }
 .eco h3 { font-size: 1.375rem; font-weight: 500; line-height: 1.25; margin: 12px 0 8px; }
 .eco p { font-size: .9688rem; color: var(--texto); }
 .eco-pildoras { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
-.eco-pildoras li { font-size: .8125rem; font-weight: 500; color: var(--negro); background: rgba(255,255,255,.6);
+.eco-pildoras li { font-size: .8125rem; font-weight: 500; color: var(--negro); background: var(--velo-2);
   border: 1.5px solid var(--eco-borde); border-radius: 999px; padding: 3px 10px; }
 .eco-ir { display: inline-flex; align-items: center; gap: .6rem; align-self: flex-start; margin-top: auto;
   padding-top: 18px; min-height: 44px; font-weight: 500; color: var(--negro); text-decoration: none; }
-.eco-ir .flecha-circ { width: 36px; height: 36px; background: var(--eco-tinta); }
+.eco-ir .flecha-circ { width: 36px; height: 36px; background: var(--eco-tinta); color: var(--eco-fondo); }
 .eco-ir .flecha-circ svg { width: 16px; height: 16px; }
 .eco-ir:hover .flecha-circ { transform: translateX(3px); }
 .eco-pildoras + .eco-ir { padding-top: 14px; }
@@ -908,23 +998,25 @@ footer .env { position: relative; z-index: 1; }
 @media (max-width: 980px) { .demos { grid-template-columns: minmax(0, 1fr); max-width: 520px; margin-inline: auto; } }
 .demo { display: flex; flex-direction: column; background: var(--off); border-radius: 22px; padding: 18px 18px 22px; }
 .demo-escena { position: relative; flex: 1; display: flex; flex-direction: column; gap: 12px;
-  background: #fff; border: 2px solid #DCE0EC; border-radius: 18px; box-shadow: 0 5px 0 #DCE0EC; padding: 16px; }
+  background: var(--superficie); border: 2px solid var(--demo-borde); border-radius: 18px; box-shadow: 0 5px 0 var(--demo-borde); padding: 16px; }
 .demo-pie { margin-top: 18px; }
 .demo-pie h3 { font-size: 1.125rem; font-weight: 500; margin-bottom: 4px; }
 .demo-pie p { font-size: .9375rem; color: var(--gris); }
-.demo-tag { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #00705C;
+.demo-tag { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--verde-texto);
   background: var(--p-menta); border-radius: 999px; padding: 3px 10px; align-self: flex-start; }
 .demo-boton { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 44px;
-  font: inherit; font-weight: 500; font-size: .9375rem; color: var(--tinta-btn); background: var(--ambar);
+  font: inherit; font-weight: 500; font-size: .9375rem; color: var(--btn-tinta); background: var(--btn);
   border: 0; border-radius: 12px; padding: 10px 18px; cursor: pointer; text-decoration: none;
-  box-shadow: 0 4px 0 var(--ambar-os); transition: transform .15s ease; }
+  box-shadow: 0 4px 0 var(--btn-canto); transition: transform .15s ease; }
 .demo-boton:hover { transform: translateY(-2px); }
 .demo-boton:active { transform: translateY(3px); }
-.demo-boton.suave { background: #fff; color: var(--negro); box-shadow: 0 4px 0 #DCE0EC; border: 2px solid #DCE0EC; }
+.demo-boton.suave { background: var(--superficie); color: var(--negro); box-shadow: 0 4px 0 var(--demo-borde); border: 2px solid var(--demo-borde); }
 .demo-acciones { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
 
 /* Demo 1, la pregunta */
-.q-dibujo { position: relative; overflow: hidden; background: #EEF3F7; border-radius: 14px; }
+.q-dibujo { position: relative; overflow: hidden; background: var(--q-fondo); border-radius: 14px; }
+.q-dibujo [stroke="#3A3F4C"] { stroke: var(--q-trazo); }
+.q-dibujo [fill="#3A3F4C"] { fill: var(--q-trazo); }
 .q-dibujo svg { display: block; width: 100%; height: auto; }
 .q-luz { opacity: 0; transform-origin: center; transform-box: fill-box; transition: opacity .35s ease, transform .5s ease; transform: scale(.6); }
 .q-cierre { transform-box: fill-box; transform-origin: left center; transform: scaleX(0); transition: transform .4s cubic-bezier(.34,1.4,.64,1); }
@@ -935,20 +1027,20 @@ footer .env { position: relative; z-index: 1; }
 .q-texto { font-weight: 600; color: var(--negro); line-height: 1.35; }
 .q-opciones { display: grid; gap: 8px; }
 .q-op { position: relative; min-height: 46px; text-align: left; font: inherit; font-size: .9375rem; color: var(--negro);
-  background: #F4F6FA; border: 2px solid #DCE0EC; border-radius: 14px; box-shadow: 0 3px 0 #DCE0EC;
+  background: var(--q-op); border: 2px solid var(--demo-borde); border-radius: 14px; box-shadow: 0 3px 0 var(--demo-borde);
   padding: 9px 14px; cursor: pointer; transition: transform .16s ease; }
 .q-op:hover:not(:disabled) { transform: translateY(-2px); }
 .q-op:active:not(:disabled) { transform: translateY(2px) scale(.98); }
 .q-op:disabled { cursor: default; }
-.q-op.gol { border-color: #00A88F; background: #DDF2E9; box-shadow: 0 3px 0 #9ED6BF; animation: q-pop .5s cubic-bezier(.34,1.6,.64,1); }
-.q-op.gol::after { content: ''; position: absolute; inset: -2px; border-radius: inherit; border: 2px solid #00A88F;
+.q-op.gol { border-color: var(--ok-borde); background: var(--ok-fondo); box-shadow: 0 3px 0 var(--ok-canto); animation: q-pop .5s cubic-bezier(.34,1.6,.64,1); }
+.q-op.gol::after { content: ''; position: absolute; inset: -2px; border-radius: inherit; border: 2px solid var(--ok-borde);
   pointer-events: none; animation: q-anillo .6s ease-out forwards; }
-.q-op.mal { border-color: #D8475B; background: #FDECEE; animation: q-tiembla .42s ease; }
+.q-op.mal { border-color: var(--mal-borde); background: var(--mal-fondo); animation: q-tiembla .42s ease; }
 @keyframes q-pop { 0%, 100% { transform: scale(1); } 45% { transform: scale(1.05); } }
 @keyframes q-anillo { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(1.12); } }
 @keyframes q-tiembla { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(2px); } }
 .q-aviso { min-height: 1.5em; font-size: .9375rem; font-weight: 500; color: var(--gris); }
-.pregunta.ok .q-aviso { color: #00705C; }
+.pregunta.ok .q-aviso { color: var(--verde-texto); }
 .q-chispas { position: absolute; left: 70%; top: 36%; width: 0; height: 0; pointer-events: none; }
 .q-chispas i { position: absolute; width: 7px; height: 7px; margin: -3.5px; border-radius: 50%; background: #FFB300; opacity: 0; }
 .q-chispas i:nth-child(even) { background: #00A88F; }
@@ -959,13 +1051,13 @@ footer .env { position: relative; z-index: 1; }
 /* Demo 2, el raton y el queso. Un ciclo de 10 s: los bloques se encienden uno
    tras otro y el raton da el paso de cada uno. */
 .raton-tablero { display: block; width: 100%; height: auto; }
-.rt-celda { fill: #F4F6FA; stroke: #DCE0EC; stroke-width: 1.5; }
-.rt-bloque { fill: #E2ECFB; stroke: #C2D5F3; stroke-width: 1.5; }
+.rt-celda { fill: var(--q-op); stroke: var(--demo-borde); stroke-width: 1.5; }
+.rt-bloque { fill: var(--rt-bloque); stroke: var(--rt-bloque-borde); stroke-width: 1.5; }
 .rt-luz { fill: #FFA000; opacity: 0; animation: rt-luz 10s linear infinite; }
 .rt-luz.l1 { animation-delay: .8s; } .rt-luz.l2 { animation-delay: 1.6s; }
 .rt-luz.l3 { animation-delay: 2.4s; } .rt-luz.l4 { animation-delay: 3.2s; }
 @keyframes rt-luz { 0%, 10% { opacity: 0; } 11%, 17% { opacity: 1; } 18%, 100% { opacity: 0; } }
-.rt-flecha { fill: none; stroke: #1E4FA3; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.rt-flecha { fill: none; stroke: var(--rt-flecha); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .rt-camino { fill: none; stroke: #FFC24D; stroke-width: 3; stroke-dasharray: 2 7; stroke-linecap: round; }
 .rt-raton { animation: rt-anda 10s ease-in-out infinite; }
 @keyframes rt-anda {
@@ -985,25 +1077,25 @@ footer .env { position: relative; z-index: 1; }
 @keyframes rt-queso { 0%, 49% { transform: scale(1); } 54% { transform: scale(1.3) rotate(-8deg); } 60%, 100% { transform: scale(1); } }
 .rt-estrella { opacity: 0; animation: rt-estrella 10s ease-out infinite; }
 @keyframes rt-estrella { 0%, 50% { opacity: 0; transform: translate(0, 0) scale(.4); } 54% { opacity: 1; } 70%, 100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(1); } }
-.rt-meta { opacity: 0; animation: rt-meta 10s ease-out infinite; }
+.rt-meta { opacity: 0; animation: rt-meta 10s ease-out infinite; fill: var(--verde-texto); }
 @keyframes rt-meta { 0%, 52% { opacity: 0; transform: translateY(6px); } 58%, 84% { opacity: 1; transform: none; } 90%, 100% { opacity: 0; } }
 
 /* Demo 3, la nota que sube. Sin script se ve el estado final; con script arranca
    abajo y sube cuando entra en pantalla (o al pulsar Otra vez). */
 .nota-cab { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.nota-grande { display: flex; align-items: baseline; gap: 6px; background: #E6F5EF; border: 2px solid #B5E2CF;
+.nota-grande { display: flex; align-items: baseline; gap: 6px; background: var(--nota-fondo); border: 2px solid var(--nota-borde);
   border-radius: 16px; padding: 12px 16px; }
-.nota-num { display: inline-flex; font-size: 3rem; font-weight: 700; line-height: 1; color: #00705C; font-variant-numeric: tabular-nums; }
+.nota-num { display: inline-flex; font-size: 3rem; font-weight: 700; line-height: 1; color: var(--verde-texto); font-variant-numeric: tabular-nums; }
 .odo { display: inline-block; height: 1em; overflow: hidden; }
 .odo-tira { display: block; transform: translateY(calc(var(--a) * -1em)); transition: transform 1.5s cubic-bezier(.3,1.2,.5,1) .2s; }
 .odo-tira span { display: block; height: 1em; }
 .nota-de { font-size: 1.1rem; color: var(--gris); }
-.nota-sube { font-size: .8125rem; font-weight: 700; color: #00705C; background: #DDF2E9; border-radius: 999px; padding: 4px 10px;
+.nota-sube { font-size: .8125rem; font-weight: 700; color: var(--verde-texto); background: var(--ok-fondo); border-radius: 999px; padding: 4px 10px;
   transition: opacity .3s ease 1.6s, transform .45s cubic-bezier(.34,1.6,.64,1) 1.6s; }
 .nota-filas { list-style: none; display: grid; gap: 10px; }
 .nota-filas li { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) auto; align-items: center; gap: 10px; font-size: .875rem; }
 .nota-filas b { font-weight: 600; color: var(--negro); font-variant-numeric: tabular-nums; }
-.nota-carril { height: 10px; border-radius: 99px; background: #EEF1F6; overflow: hidden; }
+.nota-carril { height: 10px; border-radius: 99px; background: var(--q-op); overflow: hidden; }
 .nota-carril i { display: block; height: 100%; border-radius: inherit; background: var(--c, #00A88F);
   transform-origin: left; transform: scaleX(var(--a)); transition: transform 1.3s cubic-bezier(.3,1.1,.5,1) var(--d, .3s); }
 .nota-demo .nota-num .odo-tira, .nota-demo .nota-carril i { will-change: transform; }
@@ -1011,10 +1103,10 @@ footer .env { position: relative; z-index: 1; }
 .js-vivo .nota-demo:not(.juega) .nota-carril i { transform: scaleX(var(--de)); }
 .js-vivo .nota-demo:not(.juega) .nota-sube { opacity: 0; transform: translateY(6px) scale(.8); }
 .nota-semana { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 10px;
-  background: #F4F6FA; border-radius: 14px; padding: 10px 12px; font-size: .8125rem; color: var(--gris); line-height: 1.35; }
+  background: var(--q-op); border-radius: 14px; padding: 10px 12px; font-size: .8125rem; color: var(--gris); line-height: 1.35; }
 .nota-semana b { font-size: .9375rem; font-weight: 600; color: var(--negro); }
 .nota-dias { display: flex; gap: 6px; flex: none; }
-.nota-dias i { position: relative; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #DCE0EC; background: #fff; }
+.nota-dias i { position: relative; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--demo-borde); background: var(--superficie); }
 .nota-dias i.si::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--ambar);
   transition: transform .45s cubic-bezier(.34,1.6,.64,1) calc(1.1s + var(--n) * .15s); }
 .js-vivo .nota-demo:not(.juega) .nota-dias i.si::after { transform: scale(0); }
@@ -1047,6 +1139,78 @@ footer .env { position: relative; z-index: 1; }
   .nota-dias i.si::after { transition: none !important; }
   .js-vivo .nota-demo:not(.juega) .nota-dias i.si::after { transform: none; }
 }
+
+/* ═══════════ PORTADA Y PANELES (ronda 3, r3-landing) ═══════════
+   La portada queda corta: presentacion, resumen, BOTITO y el llamado a probar.
+   El resto vive en paneles (.panel) que abre app.js segun el ancla de la URL.
+   SIN SCRIPT no se oculta nada: los paneles son secciones normales, una debajo de
+   otra, y la barra de paneles no se ve. Con script (.js-paneles) solo se ve la
+   vista activa; el atributo hidden lo pone app.js. */
+.panel-barra { display: none; }
+.js-paneles .panel-barra:not([hidden]) { display: block; }
+.panel-barra { position: sticky; top: 78px; z-index: 80; background: var(--superficie); border-bottom: 1px solid var(--linea); }
+@media (max-width: 1200px) { .panel-barra { top: 64px; } }
+.panel-barra-in { display: flex; align-items: center; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-block: 8px; }
+.panel-barra-in::-webkit-scrollbar { display: none; }
+.panel-barra a { flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px;
+  border-radius: 999px; font-size: .9375rem; font-weight: 500; color: var(--texto); text-decoration: none; }
+.panel-barra a:hover { background: var(--panel); color: var(--negro); }
+.panel-barra a[aria-current="page"] { background: var(--p-menta); color: var(--verde-texto); box-shadow: inset 0 0 0 2px var(--ok-canto); }
+.panel-barra .panel-volver { color: var(--negro); border: 1.5px solid var(--linea); margin-right: 6px; }
+.panel-barra .panel-volver svg { width: 18px; height: 18px; }
+/* En el telefono la barra queda en una fila: Portada y el panel abierto. Los demas
+   paneles estan en el menu de hamburguesa; siete pastillas no caben en 390 px. */
+@media (max-width: 700px) {
+  .panel-barra a:not(.panel-volver):not([aria-current]) { display: none; }
+}
+.panel:focus { outline: none; }
+.panel-titulo:focus { outline: none; }
+.panel-titulo:focus-visible { outline: 2px solid var(--verde); outline-offset: 6px; border-radius: 4px; }
+.panel-pie { display: none; }
+.js-paneles .panel-pie { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; padding: 8px 0 72px; }
+.panel-pie .btn svg { width: 18px; height: 18px; }
+.js-paneles .panel > section:first-child { padding-top: 48px; }
+
+/* Resumen: una tarjeta por panel, con la forma de las de la app */
+.res-rejilla { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 1100px) { .res-rejilla { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 700px)  { .res-rejilla { grid-template-columns: minmax(0, 1fr); gap: 12px; } }
+.res { --res-fondo: var(--p-menta); --res-borde: #BFE6D6; --res-tinta: #00705C;
+  height: 100%; display: flex; flex-direction: column; gap: 14px; padding: 20px 18px 22px; text-decoration: none;
+  background: var(--res-fondo); border: 2px solid var(--res-borde); border-radius: 20px; box-shadow: 0 5px 0 var(--res-borde);
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+.res:hover { transform: translateY(-4px); }
+.res:focus-visible { outline: 3px solid var(--verde); outline-offset: 3px; }
+.res-crema { --res-fondo: var(--p-crema); --res-borde: #F3DFA0; --res-tinta: #6E4B00; }
+.res-cielo { --res-fondo: var(--p-cielo); --res-borde: #CADAF4; --res-tinta: #1E4FA3; }
+.res-rosa  { --res-fondo: var(--p-rosa);  --res-borde: #F4CDDF; --res-tinta: #A1245B; }
+.res-melo  { --res-fondo: var(--p-melo);  --res-borde: #F7CFB6; --res-tinta: #983A08; }
+@media (prefers-color-scheme: dark) {
+  .res       { --res-borde: #1f5c4e; --res-tinta: #52e3c2; }
+  .res-crema { --res-borde: #5a4b1f; --res-tinta: #ffd36b; }
+  .res-cielo { --res-borde: #2c4677; --res-tinta: #9cc0ff; }
+  .res-rosa  { --res-borde: #5a2c4f; --res-tinta: #ff9fcd; }
+  .res-melo  { --res-borde: #5c3a2a; --res-tinta: #ffb58f; }
+}
+.res-icono { width: 56px; height: 56px; display: grid; place-items: center; color: var(--res-tinta);
+  background: var(--velo); border: 2px solid var(--res-borde); border-radius: 16px; }
+.res-icono svg { width: 36px; height: 36px; }
+.res-txt b { display: block; font-size: 1.125rem; font-weight: 600; color: var(--negro); margin-bottom: 4px; }
+.res-txt span { display: block; font-size: .9375rem; color: var(--texto); line-height: 1.45; }
+@media (max-width: 700px) {
+  .res { flex-direction: row; align-items: center; padding: 14px 16px; }
+  .res-icono { width: 48px; height: 48px; flex: none; }
+  .res-icono svg { width: 30px; height: 30px; }
+}
+
+/* Probar: el llamado de la portada, con dos primos de BOTITO a los lados */
+.probar-panel { background: var(--p-menta); }
+.probar-panel .deco { width: 190px; bottom: 6px; opacity: 1; aspect-ratio: 144 / 156; }
+.probar-panel .deco.izq { left: 12px; } .probar-panel .deco.der { right: 12px; }
+.probar-acciones { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+@media (max-width: 1150px) { .probar-panel .deco { display: none; } }
+
+@media (prefers-reduced-motion: reduce) { .res { transition: none; } .res:hover { transform: none; } }
 </style>
 <noscript>
   <!-- Sin JavaScript el boton de play no aparece (vive detras de `.js-vivo`), asi
@@ -1083,31 +1247,16 @@ footer .env { position: relative; z-index: 1; }
       <span class="nombre"><em>Led</em>Kid</span>
     </a>
 
-    <nav class="nav" id="nav">
-      <div class="item">
-        <button class="disparador" aria-expanded="false">El programa
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-        </button>
-        <div class="desplegable">
-          <a href="#programa">Qué incluye <small>Kits, simulador y formación docente</small></a>
-          <a href="/circuito">Probar el simulador <small>Armar circuitos en el navegador</small></a>
-          <a href="#video">Ver el programa <small>Recorrido en video</small></a>
-          <a href="#ecosistema">Todo LedKid <small>Academia, exámenes, notas y más</small></a>
-          <a href="#preguntas">Cómo se implementa <small>Del primer contacto a la primera clase</small></a>
-        </div>
-      </div>
-      <div class="item">
-        <button class="disparador" aria-expanded="false">Niveles
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-        </button>
-        <div class="desplegable">
-          <a href="#niveles">Nivel 1 · Chispa <small>1º a 3º primaria</small></a>
-          <a href="#niveles">Nivel 2 · Circuito <small>4º a 6º primaria</small></a>
-          <a href="#niveles">Nivel 3 · Robot <small>1º a 3º básico</small></a>
-        </div>
-      </div>
-      <a class="enl" href="#directores">Para directores</a>
-      <a class="enl" href="#preguntas">Preguntas</a>
+    <!-- RONDA 3: UN BOTON POR PANEL. La portada queda corta (presentacion, BOTITO y
+         el llamado a probar) y el resto vive en paneles que se abren desde aqui. Son
+         anclas normales: sin JavaScript la pagina se ve entera, como siempre; con
+         app.js cada ancla muestra su panel, la URL lo recuerda y atras funciona. -->
+    <nav class="nav" id="nav" aria-label="Principal">
+      <a class="enl" href="#programa" data-panel-enl="programa">Programa</a>
+      <a class="enl" href="#kit" data-panel-enl="material">Material</a>
+      <a class="enl" href="#plataforma" data-panel-enl="plataforma">Plataforma</a>
+      <a class="enl" href="#ecosistema" data-panel-enl="todo">Todo LedKid</a>
+      <a class="enl" href="#directores" data-panel-enl="directores">Para directores</a>
       <!-- El simulador vive en la misma máquina y el mismo dominio: ruta relativa -->
       <a class="enl" href="/circuito">Probar el simulador</a>
       <a class="btn btn-negro solo-movil" href="#contacto">Agendar una demostración</a>
@@ -1115,9 +1264,6 @@ footer .env { position: relative; z-index: 1; }
 
     <div class="acciones-cab">
       <a class="btn btn-negro" href="#contacto">Agendar una demostración</a>
-      <button class="buscar" aria-label="Buscar en el sitio">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      </button>
       <button class="hamb" id="hamb" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav"><i></i><i></i><i></i></button>
     </div>
   </div>
@@ -1125,34 +1271,156 @@ footer .env { position: relative; z-index: 1; }
 
 <main id="inicio">
 
-  <!-- ══ HERO ══ -->
+
+  <!-- ══ PORTADA ══ -->
+  <div class="vista-portada" id="portada" data-portada>
+  <!-- ══ HERO ══
+       Ronda 3: sin video. La escena de tres BOTITOS la genera
+       scripts/generar-botitos.mjs y se anima sola (CSS dentro del SVG). -->
   <section class="hero" style="padding:0">
-    <video id="heroVideo" autoplay muted loop playsinline poster="media/hero-poster.png" aria-hidden="true">
-      <source src="media/hero-loop.mp4" type="video/mp4">
-    </video>
-    <div class="velo"></div>
-    <div class="env contenido">
-      <span class="kicker">Programa 2027</span>
-      <h1>LedKid, robótica y electrónica para el aula</h1>
-      <p class="bajada">De primero primaria a <strong>sexto diversificado</strong>, con material propio, simulador en línea y el docente del colegio ya capacitado. Un solo programa que crece con el alumno durante toda su escolaridad.</p>
-      <div class="acciones">
-        <a class="btn btn-blanco" href="#programa">Cómo funciona</a>
-        <a class="btn btn-linea-bl" href="#video">Ver el programa · 2:30
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5z" fill="currentColor" stroke="none"/></svg>
-        </a>
+    <div class="env hero-rejilla">
+      <div class="contenido">
+        <span class="kicker">Programa 2027</span>
+        <h1>LedKid, robótica y electrónica para el aula</h1>
+        <p class="bajada">De primero primaria a <strong>sexto diversificado</strong>, con material propio, simulador en línea y el docente del colegio ya capacitado. Un solo programa que crece con el alumno durante toda su escolaridad.</p>
+        <div class="acciones">
+          <a class="btn btn-blanco" href="#programa">Cómo funciona</a>
+          <a class="btn btn-linea-bl" href="#video">Ver el programa · 2:30
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M10 8.5v7l6-3.5z" fill="currentColor" stroke="none"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="hero-arte">
+        <img src="assets/escena-hero.svg" width="640" height="560" alt="Tres BOTITOS: uno ámbar sostiene un LED encendido, otro con moño saluda y otro con capa da un brinco" decoding="async" fetchpriority="high">
       </div>
     </div>
-    <!-- El boton de pausa se quito el 2026-08-09 por decision de Meme: el video del
-         hero es DECORADO y tiene que estar SIEMPRE en loop. Un control de pausa sobre
-         un fondo invita a pararlo y deja la portada congelada. El <video> ya lleva
-         `autoplay muted loop playsinline`, que es lo unico que hace falta. -->
   </section>
 
+  <!-- ══ RESUMEN: UNA PUERTA POR PANEL ══
+       Ronda 3. Meme: "hay demasiado en una sola pagina". La portada cuenta lo
+       esencial y cada tarjeta abre su panel. Son anclas: sin JavaScript llevan a
+       la seccion de siempre, mas abajo. -->
+  <section id="resumen">
+    <div class="env">
+      <div class="encab revelar">
+        <h2>Todo el programa, por partes</h2>
+        <p>Elija por dónde empezar. Cada parte se abre aquí mismo y el botón de atrás le devuelve.</p>
+      </div>
+      <ul class="res-rejilla revelar">
+        <li><a class="res" href="#programa">
+          <span class="res-icono" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M8 38l10-10 8 6 14-18" /><circle cx="8" cy="38" r="3.5" fill="currentColor" fill-opacity=".22"/><circle cx="18" cy="28" r="3.5" fill="currentColor" fill-opacity=".22"/><circle cx="26" cy="34" r="3.5" fill="currentColor" fill-opacity=".22"/><path d="M34 12h7v7"/></svg></span>
+          <span class="res-txt"><b>Programa</b><span>Cuatro niveles, de primero primaria a sexto diversificado.</span></span></a></li>
+        <li><a class="res res-crema" href="#kit">
+          <span class="res-icono" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="18" width="36" height="22" rx="5" fill="currentColor" fill-opacity=".22"/><path d="M10 18l4-8h20l4 8M18 18v22M30 18v22"/></svg></span>
+          <span class="res-txt"><b>Material</b><span>Lo que trae cada kit, pieza por pieza.</span></span></a></li>
+        <li><a class="res res-cielo" href="#plataforma">
+          <span class="res-icono" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="8" width="36" height="24" rx="4" fill="currentColor" fill-opacity=".22"/><path d="M2 38h44M14 20h8v-5M22 20h6"/><circle cx="31" cy="20" r="3"/></svg></span>
+          <span class="res-txt"><b>Plataforma</b><span>El video del simulador y tres demos para probar.</span></span></a></li>
+        <li><a class="res res-rosa" href="#ecosistema">
+          <span class="res-icono" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="15" height="15" rx="4" fill="currentColor" fill-opacity=".22"/><rect x="27" y="6" width="15" height="15" rx="4"/><rect x="6" y="27" width="15" height="15" rx="4"/><rect x="27" y="27" width="15" height="15" rx="4" fill="currentColor" fill-opacity=".22"/></svg></span>
+          <span class="res-txt"><b>Todo LedKid</b><span>Academia, exámenes, notas, idiomas y más.</span></span></a></li>
+        <li><a class="res res-melo" href="#directores">
+          <span class="res-icono" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20L24 8l18 12" /><path d="M10 20v18h28V20" fill="currentColor" fill-opacity=".22"/><path d="M20 38V28h8v10"/></svg></span>
+          <span class="res-txt"><b>Para directores</b><span>Costos, convenio y las preguntas de siempre.</span></span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══ BOTITO Y EL RECORRIDO COMPLETO ══
+       Meme lo pidió explícito: *"la landing debe de usar nuestro robot mascota del
+       simulador, no otro"*. El de `assets/robo.svg` NO es un dibujo de marketing:
+       lo genera `frontend/scripts/exportar-robo-landing.mjs` leyendo
+       `RoboMascot.vue`, que es el BOTITO que el niño ve todos los días dentro del
+       simulador. Si el componente cambia, se vuelve a correr el script.
+       Los contenidos citados aquí son los que existen en la base, no una promesa. -->
+  <section id="recorrido">
+    <div class="env">
+      <div class="mitades revelar">
+        <div class="robo-caja">
+          <span class="robo-cuerpo"><img src="assets/robo.svg" alt="BOTITO, la mascota de LedKid" width="260" height="410" decoding="async"></span>
+        </div>
+        <div class="medio-texto">
+          <span class="chip verde" style="align-self:flex-start">El acompañante</span>
+          <h2>Este es BOTITO, y no es un dibujo de folleto</h2>
+          <p>
+            Es el mismo que el alumno ve dentro del simulador: le explica cada lección,
+            le escucha por el micrófono y le celebra cuando el circuito por fin enciende.
+            Aquí sale igual que allá, porque es exactamente el mismo.
+          </p>
+          <ul class="chks revelar" style="margin-top:.5rem">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              <span><strong>Primaria.</strong> Sin teclado y sin kit: el alumno programa a un ratón, arma vehículos que la física decide si andan, y enciende su primer circuito de verdad.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              <span><strong>Básicos.</strong> El kit entra en la mesa: LEDs, resistencias, protoboard, sensores y el ESP32, con el código escrito por el propio alumno.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              <span><strong>Diversificado.</strong> Electrónica digital de verdad: compuertas y leyes de De Morgan, divisor de tensión, PWM, máquinas de estado con <code>millis()</code>, I2C y telemetría, hasta una estación de monitoreo como proyecto final.</span></li>
+          </ul>
+          <a class="btn btn-negro" href="/academia">Probar la Academia · 20 niveles sin registrarse</a>
+        </div>
+      </div>
+
+      <!-- ══ LA FAMILIA DE BOTITO ══
+           El mismo cuerpo con otro color o un accesorio. Los SVG los escribe
+           scripts/generar-botitos.mjs (no se editan a mano) y se animan solos,
+           tambien dentro de un <img>. app.js, si corre, los mete en linea para que
+           saluden al pasar el raton, al tocarlos y al entrar en pantalla. -->
+      <div class="familia revelar">
+        <div class="familia-encab">
+          <span class="chip teal">Sus primos</span>
+          <h3>La familia de BOTITO</h3>
+          <p>Mismo robot, otro traje. Pasa el ratón o tócalo y te saluda.</p>
+        </div>
+        <ul class="familia-lista">
+          <li class="botito-card bc-rosa"><img class="botito-var" src="assets/botito-rosa.svg" alt="BOTITO en rosa" width="144" height="156" loading="lazy" decoding="async"><span>Rosa</span></li>
+          <li class="botito-card bc-audifonos"><img class="botito-var" src="assets/botito-audifonos.svg" alt="BOTITO con audífonos" width="144" height="156" loading="lazy" decoding="async"><span>Con audífonos</span></li>
+          <li class="botito-card bc-obra"><img class="botito-var" src="assets/botito-obra.svg" alt="BOTITO con casco de obra" width="144" height="156" loading="lazy" decoding="async"><span>De obra</span></li>
+          <li class="botito-card bc-cientifico"><img class="botito-var" src="assets/botito-cientifico.svg" alt="BOTITO científico con lentes" width="144" height="156" loading="lazy" decoding="async"><span>Científico</span></li>
+          <li class="botito-card bc-musico"><img class="botito-var" src="assets/botito-musico.svg" alt="BOTITO músico con guitarra" width="144" height="156" loading="lazy" decoding="async"><span>Músico</span></li>
+          <li class="botito-card bc-explorador"><img class="botito-var" src="assets/botito-explorador.svg" alt="BOTITO explorador" width="144" height="156" loading="lazy" decoding="async"><span>Explorador</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ PROBAR: el llamado de la portada ══ -->
+  <section id="probar">
+    <div class="env">
+      <div class="cta-panel probar-panel revelar">
+        <img class="deco izq" src="assets/botito-piloto.svg" width="144" height="156" alt="" loading="lazy" decoding="async">
+        <img class="deco der" src="assets/botito-libro.svg" width="144" height="156" alt="" loading="lazy" decoding="async">
+        <h2>Pruébelo hoy, sin registrarse</h2>
+        <p>El simulador y los primeros niveles de la Academia abren en el navegador. Si le gusta, lo llevamos a su colegio con el material a la vista.</p>
+        <div class="probar-acciones">
+          <a class="btn btn-negro" href="/circuito">Probar el simulador</a>
+          <a class="btn btn-linea" href="/academia">Abrir la Academia</a>
+          <a class="btn btn-linea" href="#contacto">Agendar una demostración</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <!-- La barra de paneles. Solo se ve con app.js y un panel abierto: sin script,
+       los paneles son secciones normales, una debajo de otra. -->
+  <nav class="panel-barra" id="panelBarra" aria-label="Partes de LedKid" hidden>
+    <div class="env panel-barra-in">
+      <a class="panel-volver" href="#inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 5l-7 7 7 7"/></svg>Portada</a>
+      <a href="#programa" data-panel-enl="programa">Programa</a>
+      <a href="#kit" data-panel-enl="material">Material</a>
+      <a href="#plataforma" data-panel-enl="plataforma">Plataforma</a>
+      <a href="#ecosistema" data-panel-enl="todo">Todo LedKid</a>
+      <a href="#directores" data-panel-enl="directores">Para directores</a>
+      <a href="#contacto" data-panel-enl="contacto">Contacto</a>
+    </div>
+  </nav>
+
+  <div class="panel" id="programa" data-panel="programa" role="region" tabindex="-1" aria-label="Programa">
   <!-- ══ NIVELES · CARRUSEL ══ -->
   <section id="niveles">
     <div class="env">
       <div class="encab ancho revelar">
-        <h2>Cuatro niveles que llevan al alumno del primer LED encendido a una estación que mide y reporta sola</h2>
+        <h2 class="panel-titulo" tabindex="-1">Cuatro niveles que llevan al alumno del primer LED encendido a una estación que mide y reporta sola</h2>
       </div>
 
       <div class="carrusel">
@@ -1162,7 +1430,7 @@ footer .env { position: relative; z-index: 1; }
               <h3>Chispa<span class="grado">Nivel 1 · 1º a 3º primaria</span></h3>
               <span class="flecha-circ" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
             </div>
-            <img src="assets/producto-1.svg" alt="Semáforo con LEDs y placa de pruebas" loading="lazy">
+            <img src="assets/nivel-chispa.svg" width="400" height="260" alt="Un LED en la placa de pruebas y un semáforo" loading="lazy" decoding="async">
           </a>
 
           <a class="baldosa" href="#programa">
@@ -1170,7 +1438,7 @@ footer .env { position: relative; z-index: 1; }
               <h3>Circuito<span class="grado">Nivel 2 · 4º a 6º primaria</span></h3>
               <span class="flecha-circ" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
             </div>
-            <img src="assets/producto-2.svg" alt="Sensor de distancia y computadora con el simulador" loading="lazy">
+            <img src="assets/nivel-circuito.svg" width="400" height="260" alt="Sensor de distancia conectado a la computadora con el simulador" loading="lazy" decoding="async">
           </a>
 
           <a class="baldosa" href="#programa">
@@ -1178,7 +1446,7 @@ footer .env { position: relative; z-index: 1; }
               <h3>Robot<span class="grado">Nivel 3 · 1º a 3º básico</span></h3>
               <span class="flecha-circ" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
             </div>
-            <img src="assets/producto-3.svg" alt="Robot seguidor de línea sobre la pista" loading="lazy">
+            <img src="assets/nivel-robot.svg" width="400" height="260" alt="Robot seguidor de línea sobre la pista" loading="lazy" decoding="async">
           </a>
 
           <!-- DIVERSIFICADO. Faltaba, y no es un detalle: el programa llega hasta
@@ -1190,7 +1458,7 @@ footer .env { position: relative; z-index: 1; }
               <h3>Ingeniería<span class="grado">Nivel 4 · 4º, 5º y 6º diversificado</span></h3>
               <span class="flecha-circ" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
             </div>
-            <img src="assets/producto-2.svg" alt="Estación de monitoreo con sensores y pantalla" loading="lazy">
+            <img src="assets/nivel-ingenieria.svg" width="400" height="260" alt="Estación de monitoreo con sensores, pantalla y una planta" loading="lazy" decoding="async">
           </a>
         </div>
 
@@ -1202,48 +1470,13 @@ footer .env { position: relative; z-index: 1; }
     </div>
   </section>
 
-  <!-- ══ VIDEO 50/50 ══ -->
-  <section id="video">
-    <div class="env">
-      <div class="mitades revelar">
-        <div class="medio-visual">
-          <!-- El ?v= NO es decoracion: es lo unico que hace que un video nuevo se vea.
-               Cloudflare cachea este mp4 en el borde y, al republicarlo con el MISMO
-               nombre, sigue sirviendo el anterior (cf-cache: HIT) aunque el origen ya
-               tenga el bueno. Medido el 2026-08-30: sin parametro daba 41973642 bytes
-               (el corte viejo de 2:11) y con ?v= al azar daba 33635055 (el de 2:32).
-               Ya habia pasado tres veces en una sola sesion el 09/ago.
-               AL SUSTITUIR EL VIDEO O EL POSTER, SUBIR ESTE NUMERO. -->
-          <video id="demo" playsinline preload="metadata" poster="media/ledkid-ventas-poster.png?v=3">
-            <source src="media/ledkid-ventas.mp4?v=3" type="video/mp4">
-          </video>
-          <button class="tapa-video" id="tapaDemo" aria-label="Reproducir el video">
-            <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-          </button>
-        </div>
-        <div class="medio-texto">
-          <span class="chip teal" style="align-self:flex-start">El programa en video</span>
-          <h2>Dos minutos y medio por dentro del simulador</h2>
-          <p>
-            BOTITO recorre lo que el alumno usa de verdad: los juegos de práctica de primaria,
-            el editor de circuitos con su simulación eléctrica, la programación por bloques y por
-            código sobre el ESP32, el flasheo a una placa real y la electrónica digital de
-            diversificado. <strong>Todo lo que se ve son pantallas reales</strong> —grabadas del
-            simulador funcionando, no una recreación.
-          </p>
-          <a class="btn btn-negro" href="#contacto">Agendar una visita</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ══ EL PROGRAMA POR DENTRO ══ -->
-  <section id="programa">
+  <section id="incluye">
     <div class="env">
       <div class="encab revelar"><h2>Todo llega armado al salón</h2></div>
       <div class="trio">
         <article class="tarjeta revelar">
-          <img src="assets/nivel-1.svg" width="660" height="480" alt="Alumno junto a un semáforo con LEDs">
+          <img src="assets/escena-material.svg" width="720" height="500" alt="BOTITO menta con la caja del kit, sus LEDs y un semáforo" loading="lazy" decoding="async">
           <div class="cuerpo">
             <span class="chip melo">Material</span>
             <h3>Kits para el salón</h3>
@@ -1252,7 +1485,7 @@ footer .env { position: relative; z-index: 1; }
           </div>
         </article>
         <article class="tarjeta revelar">
-          <img src="assets/nivel-2.svg" width="660" height="480" alt="Alumna con un sensor y una alarma">
+          <img src="assets/escena-plataforma.svg" width="720" height="500" alt="BOTITO con gorra junto al simulador en la computadora, un sensor de distancia y una alarma" loading="lazy" decoding="async">
           <div class="cuerpo">
             <span class="chip verde">Plataforma</span>
             <h3>Simulador en línea</h3>
@@ -1267,7 +1500,7 @@ footer .env { position: relative; z-index: 1; }
           </div>
         </article>
         <article class="tarjeta revelar">
-          <img src="assets/nivel-3.svg" width="660" height="480" alt="Robot seguidor de línea">
+          <img src="assets/escena-docentes.svg" width="720" height="500" alt="BOTITO profesor señala la pizarra con la clase del día" loading="lazy" decoding="async">
           <div class="cuerpo">
             <span class="chip teal">Docentes</span>
             <h3>Formación y acompañamiento</h3>
@@ -1279,13 +1512,13 @@ footer .env { position: relative; z-index: 1; }
     </div>
   </section>
 
-  <!-- ══ BOTITO Y EL RECORRIDO COMPLETO ══
-       Meme lo pidió explícito: *"la landing debe de usar nuestro robot mascota del
-       simulador, no otro"*. El de `assets/robo.svg` NO es un dibujo de marketing:
-       lo genera `frontend/scripts/exportar-robo-landing.mjs` leyendo
-       `RoboMascot.vue`, que es el BOTITO que el niño ve todos los días dentro del
-       simulador. Si el componente cambia, se vuelve a correr el script.
-       Los contenidos citados aquí son los que existen en la base, no una promesa. -->
+    <div class="env panel-pie">
+      <a class="btn btn-linea" href="#kit">Siguiente: Material <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      <a class="btn btn-negro" href="#contacto">Agendar una demostración</a>
+    </div>
+  </div>
+
+  <div class="panel" id="p-material" data-panel="material" role="region" tabindex="-1" aria-label="Material">
   <!-- ══ EL LISTADO DEL KIT ══
        El boton "Ver el listado" llevaba a #contacto: prometia un listado y
        entregaba un formulario de contacto. Un director que quiere saber que
@@ -1300,7 +1533,7 @@ footer .env { position: relative; z-index: 1; }
     <div class="env">
       <div class="encab revelar">
         <span class="chip melo">Material</span>
-        <h2>Lo que trae cada kit</h2>
+        <h2 class="panel-titulo" tabindex="-1">Lo que trae cada kit</h2>
         <p class="bajada">Un kit por grupo de trabajo: cada componente en su cajita, y todas las cajitas dentro de una caja grande. Los repuestos y el inventario corren por cuenta de LedKid, y el equipo se queda en el colegio.</p>
       </div>
 
@@ -1356,182 +1589,45 @@ footer .env { position: relative; z-index: 1; }
     </div>
   </section>
 
-  <section id="recorrido">
+    <div class="env panel-pie">
+      <a class="btn btn-linea" href="#plataforma">Siguiente: Plataforma <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      <a class="btn btn-negro" href="#contacto">Agendar una demostración</a>
+    </div>
+  </div>
+
+  <div class="panel" id="plataforma" data-panel="plataforma" role="region" tabindex="-1" aria-label="Plataforma">
+  <!-- ══ VIDEO 50/50 ══ -->
+  <section id="video">
     <div class="env">
       <div class="mitades revelar">
-        <div class="robo-caja">
-          <span class="robo-cuerpo"><img src="assets/robo.svg" alt="BOTITO, la mascota de LedKid" width="260" height="410" decoding="async"></span>
+        <div class="medio-visual">
+          <!-- El ?v= NO es decoracion: es lo unico que hace que un video nuevo se vea.
+               Cloudflare cachea este mp4 en el borde y, al republicarlo con el MISMO
+               nombre, sigue sirviendo el anterior (cf-cache: HIT) aunque el origen ya
+               tenga el bueno. Medido el 2026-08-30: sin parametro daba 41973642 bytes
+               (el corte viejo de 2:11) y con ?v= al azar daba 33635055 (el de 2:32).
+               Ya habia pasado tres veces en una sola sesion el 09/ago.
+               AL SUSTITUIR EL VIDEO O EL POSTER, SUBIR ESTE NUMERO. -->
+          <video id="demo" playsinline preload="metadata" poster="media/ledkid-ventas-poster.png?v=3">
+            <source src="media/ledkid-ventas.mp4?v=3" type="video/mp4">
+          </video>
+          <button class="tapa-video" id="tapaDemo" aria-label="Reproducir el video">
+            <span class="play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+          </button>
         </div>
         <div class="medio-texto">
-          <span class="chip verde" style="align-self:flex-start">El acompañante</span>
-          <h2>Este es BOTITO, y no es un dibujo de folleto</h2>
+          <span class="chip teal" style="align-self:flex-start">El programa en video</span>
+          <h2 class="panel-titulo" tabindex="-1">Dos minutos y medio por dentro del simulador</h2>
           <p>
-            Es el mismo que el alumno ve dentro del simulador: le explica cada lección,
-            le escucha por el micrófono y le celebra cuando el circuito por fin enciende.
-            Aquí sale igual que allá, porque es exactamente el mismo.
+            BOTITO recorre lo que el alumno usa de verdad: los juegos de práctica de primaria,
+            el editor de circuitos con su simulación eléctrica, la programación por bloques y por
+            código sobre el ESP32, el flasheo a una placa real y la electrónica digital de
+            diversificado. <strong>Todo lo que se ve son pantallas reales</strong> —grabadas del
+            simulador funcionando, no una recreación.
           </p>
-          <ul class="chks revelar" style="margin-top:.5rem">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-              <span><strong>Primaria.</strong> Sin teclado y sin kit: el alumno programa a un ratón, arma vehículos que la física decide si andan, y enciende su primer circuito de verdad.</span></li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-              <span><strong>Básicos.</strong> El kit entra en la mesa: LEDs, resistencias, protoboard, sensores y el ESP32, con el código escrito por el propio alumno.</span></li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
-              <span><strong>Diversificado.</strong> Electrónica digital de verdad: compuertas y leyes de De Morgan, divisor de tensión, PWM, máquinas de estado con <code>millis()</code>, I2C y telemetría, hasta una estación de monitoreo como proyecto final.</span></li>
-          </ul>
-          <a class="btn btn-negro" href="/academia">Probar la Academia · 20 niveles sin registrarse</a>
+          <a class="btn btn-negro" href="#contacto">Agendar una visita</a>
         </div>
       </div>
-
-      <!-- ══ LA FAMILIA DE BOTITO ══
-           El mismo cuerpo con otro color o un accesorio. Los SVG los escribe
-           scripts/generar-botitos.mjs (no se editan a mano) y se animan solos,
-           tambien dentro de un <img>. app.js, si corre, los mete en linea para que
-           saluden al pasar el raton, al tocarlos y al entrar en pantalla. -->
-      <div class="familia revelar">
-        <div class="familia-encab">
-          <span class="chip teal">Sus primos</span>
-          <h3>La familia de BOTITO</h3>
-          <p>Mismo robot, otro traje. Pasa el ratón o tócalo y te saluda.</p>
-        </div>
-        <ul class="familia-lista">
-          <li class="botito-card bc-rosa"><img class="botito-var" src="assets/botito-rosa.svg" alt="BOTITO en rosa" width="144" height="156" loading="lazy" decoding="async"><span>Rosa</span></li>
-          <li class="botito-card bc-audifonos"><img class="botito-var" src="assets/botito-audifonos.svg" alt="BOTITO con audífonos" width="144" height="156" loading="lazy" decoding="async"><span>Con audífonos</span></li>
-          <li class="botito-card bc-obra"><img class="botito-var" src="assets/botito-obra.svg" alt="BOTITO con casco de obra" width="144" height="156" loading="lazy" decoding="async"><span>De obra</span></li>
-          <li class="botito-card bc-cientifico"><img class="botito-var" src="assets/botito-cientifico.svg" alt="BOTITO científico con lentes" width="144" height="156" loading="lazy" decoding="async"><span>Científico</span></li>
-          <li class="botito-card bc-musico"><img class="botito-var" src="assets/botito-musico.svg" alt="BOTITO músico con guitarra" width="144" height="156" loading="lazy" decoding="async"><span>Músico</span></li>
-          <li class="botito-card bc-explorador"><img class="botito-var" src="assets/botito-explorador.svg" alt="BOTITO explorador" width="144" height="156" loading="lazy" decoding="async"><span>Explorador</span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ TODO LEDKID ══
-       Ronda 2 (r2-landing-panel). Las piezas de LedKid como una familia, cada una
-       con un primo de BOTITO. Las tarjetas copian la forma de las de la app (borde,
-       canto y fondo tintado) con los colores de esta pagina. Solo se enlaza lo que
-       se abre sin sesion. Lo demas pide cuenta y aqui solo se cuenta. -->
-  <section id="ecosistema" class="eco-sec">
-    <div class="eco-deco" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-    <div class="env">
-      <div class="encab revelar">
-        <h2>Todo LedKid, en una misma familia</h2>
-        <p>El simulador es la puerta. Detrás hay una academia con juegos, exámenes, notas claras y herramientas para el docente, y cada pieza tiene a un primo de BOTITO cuidándola.</p>
-      </div>
-
-      <ul class="eco-rejilla revelar">
-        <li class="eco">
-          <div class="eco-cabeza">
-            <span class="eco-icono" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M10 38c0-9 14-7 14-16 0-6 6-9 9-10" stroke-dasharray="1 6"/>
-                <circle class="i-nodo" cx="10" cy="38" r="5" fill="currentColor" fill-opacity=".22"/>
-                <circle class="i-nodo n2" cx="24" cy="23" r="5" fill="currentColor" fill-opacity=".22"/>
-                <path class="i-estrella" d="M38 4l1.8 4.6 4.9.3-3.8 3.1 1.2 4.7-4.1-2.7-4.1 2.7 1.2-4.7-3.8-3.1 4.9-.3z" fill="currentColor" fill-opacity=".22"/>
-              </svg>
-            </span>
-            <img class="eco-botito" src="assets/botito-cientifico.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
-          </div>
-          <span class="eco-tag">Para el alumno</span>
-          <h3>Simulador y Academia</h3>
-          <p>Arma circuitos en el navegador y aprende jugando, nivel por nivel, con BOTITO al lado.</p>
-          <ul class="eco-pildoras"><li>Circuitos</li><li>Juegos</li><li>Bloques y código</li></ul>
-          <a class="eco-ir" href="/academia"><span class="flecha-circ" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>Abrir la Academia</a>
-        </li>
-
-        <li class="eco eco-rosa">
-          <div class="eco-cabeza">
-            <span class="eco-icono" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="10" y="8" width="28" height="34" rx="5" fill="currentColor" fill-opacity=".22"/>
-                <rect x="18" y="4" width="12" height="8" rx="3" fill="#fff"/>
-                <path class="i-renglon" d="M16 21h9"/>
-                <path class="i-renglon r2" d="M16 29h6"/>
-                <path class="i-check" d="M27 31l4 4 8-10"/>
-              </svg>
-            </span>
-            <img class="eco-botito" src="assets/botito-rosa.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
-          </div>
-          <span class="eco-tag">Evaluación</span>
-          <h3>Exámenes</h3>
-          <p>Parciales de teoría y de práctica que se rinden en la misma plataforma. La nota llega sola al registro.</p>
-          <ul class="eco-pildoras"><li>Parciales</li><li>Prácticos</li><li>Nota al instante</li></ul>
-        </li>
-
-        <li class="eco eco-obra">
-          <div class="eco-cabeza">
-            <span class="eco-icono" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <g class="i-boquilla"><path d="M17 5h14v7l-4 5h-6l-4-5z" fill="currentColor" fill-opacity=".22"/><path d="M24 17v3"/></g>
-                <rect x="9" y="37" width="30" height="6" rx="3" fill="currentColor" fill-opacity=".22"/>
-                <rect x="12" y="30" width="24" height="6" rx="3" fill="currentColor" fill-opacity=".22"/>
-                <rect class="i-capa" x="15" y="23" width="18" height="6" rx="3" fill="currentColor" fill-opacity=".22"/>
-              </svg>
-            </span>
-            <img class="eco-botito" src="assets/botito-obra.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
-          </div>
-          <span class="eco-tag">Taller</span>
-          <h3>Impresión 3D</h3>
-          <p>Elige un molde o describe la pieza, ajusta las medidas y sale lista para imprimir. Cajas, soportes y llaveros para los proyectos.</p>
-          <ul class="eco-pildoras"><li>Moldes</li><li>Medidas</li><li>Lista para imprimir</li></ul>
-        </li>
-
-        <li class="eco eco-cielo">
-          <div class="eco-cabeza">
-            <span class="eco-icono" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <g class="i-globo"><path d="M9 7h18a5 5 0 0 1 5 5v7a5 5 0 0 1-5 5H16l-6 5v-5.4A5 5 0 0 1 4 19v-7a5 5 0 0 1 5-5z" fill="currentColor" fill-opacity=".22"/><path d="M11 13h14M11 18h8"/></g>
-                <g class="i-globo g2"><path d="M39 23H23a5 5 0 0 0-5 5v6a5 5 0 0 0 5 5h9l6 5v-5.2a5 5 0 0 0 6-4.8v-6a5 5 0 0 0-5-5z" fill="#fff"/>
-                  <circle class="i-punto" cx="25.5" cy="31" r="1.6" fill="currentColor" stroke="none"/>
-                  <circle class="i-punto p2" cx="31" cy="31" r="1.6" fill="currentColor" stroke="none"/>
-                  <circle class="i-punto p3" cx="36.5" cy="31" r="1.6" fill="currentColor" stroke="none"/></g>
-              </svg>
-            </span>
-            <img class="eco-botito" src="assets/botito-audifonos.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
-          </div>
-          <span class="eco-tag">Idiomas</span>
-          <h3>En español y en inglés</h3>
-          <p>La plataforma entera cambia de idioma con un toque, y cada alumno elige con cuál aprende.</p>
-          <ul class="eco-pildoras"><li>Español</li><li>English</li></ul>
-        </li>
-
-        <li class="eco eco-verde">
-          <div class="eco-cabeza">
-            <span class="eco-icono" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="5" y="7" width="38" height="26" rx="4" fill="currentColor" fill-opacity=".22"/>
-                <path d="M16 33l-4 10M32 33l4 10M24 33v5"/>
-                <rect class="i-barra" x="12" y="21" width="5" height="7" rx="1.5" fill="currentColor" stroke="none"/>
-                <rect class="i-barra b2" x="21.5" y="17" width="5" height="11" rx="1.5" fill="currentColor" stroke="none"/>
-                <rect class="i-barra b3" x="31" y="13" width="5" height="15" rx="1.5" fill="currentColor" stroke="none"/>
-              </svg>
-            </span>
-            <img class="eco-botito" src="assets/botito-explorador.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
-          </div>
-          <span class="eco-tag">Para el docente</span>
-          <h3>Planificaciones y presentaciones</h3>
-          <p>Cada semana llega con su planificación y una presentación lista para proyectar en clase.</p>
-          <ul class="eco-pildoras"><li>Clase por clase</li><li>Para proyectar</li><li>Para imprimir</li></ul>
-        </li>
-
-        <li class="eco eco-melo">
-          <div class="eco-cabeza">
-            <span class="eco-icono" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <g class="i-medalla">
-                  <path d="M17 29l-4 13 6-3 4 5 2-12M31 29l4 13-6-3-4 5-2-12" fill="currentColor" fill-opacity=".22"/>
-                  <circle cx="24" cy="20" r="13" fill="#fff"/>
-                  <g class="i-flecha"><path d="M24 26V14M19 18.5l5-5 5 5"/></g>
-                </g>
-              </svg>
-            </span>
-            <img class="eco-botito" src="assets/botito-musico.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
-          </div>
-          <span class="eco-tag">Seguimiento</span>
-          <h3>Notas claras</h3>
-          <p>Zona, exámenes y práctica en un mismo panel. El alumno ve cómo va y el docente descarga el registro.</p>
-          <ul class="eco-pildoras"><li>Zona</li><li>Exámenes</li><li>PDF y Excel</li></ul>
-        </li>
-      </ul>
     </div>
   </section>
 
@@ -1680,11 +1776,155 @@ footer .env { position: relative; z-index: 1; }
     </div>
   </section>
 
+    <div class="env panel-pie">
+      <a class="btn btn-linea" href="#ecosistema">Siguiente: Todo LedKid <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      <a class="btn btn-negro" href="#contacto">Agendar una demostración</a>
+    </div>
+  </div>
+
+  <div class="panel" id="p-todo" data-panel="todo" role="region" tabindex="-1" aria-label="Todo LedKid">
+  <!-- ══ TODO LEDKID ══
+       Ronda 2 (r2-landing-panel). Las piezas de LedKid como una familia, cada una
+       con un primo de BOTITO. Las tarjetas copian la forma de las de la app (borde,
+       canto y fondo tintado) con los colores de esta pagina. Solo se enlaza lo que
+       se abre sin sesion. Lo demas pide cuenta y aqui solo se cuenta. -->
+  <section id="ecosistema" class="eco-sec">
+    <div class="eco-deco" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="env">
+      <div class="encab revelar">
+        <h2 class="panel-titulo" tabindex="-1">Todo LedKid, en una misma familia</h2>
+        <p>El simulador es la puerta. Detrás hay una academia con juegos, exámenes, notas claras y herramientas para el docente, y cada pieza tiene a un primo de BOTITO cuidándola.</p>
+      </div>
+
+      <ul class="eco-rejilla revelar">
+        <li class="eco">
+          <div class="eco-cabeza">
+            <span class="eco-icono" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10 38c0-9 14-7 14-16 0-6 6-9 9-10" stroke-dasharray="1 6"/>
+                <circle class="i-nodo" cx="10" cy="38" r="5" fill="currentColor" fill-opacity=".22"/>
+                <circle class="i-nodo n2" cx="24" cy="23" r="5" fill="currentColor" fill-opacity=".22"/>
+                <path class="i-estrella" d="M38 4l1.8 4.6 4.9.3-3.8 3.1 1.2 4.7-4.1-2.7-4.1 2.7 1.2-4.7-3.8-3.1 4.9-.3z" fill="currentColor" fill-opacity=".22"/>
+              </svg>
+            </span>
+            <img class="eco-botito" src="assets/botito-cientifico.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
+          </div>
+          <span class="eco-tag">Para el alumno</span>
+          <h3>Simulador y Academia</h3>
+          <p>Arma circuitos en el navegador y aprende jugando, nivel por nivel, con BOTITO al lado.</p>
+          <ul class="eco-pildoras"><li>Circuitos</li><li>Juegos</li><li>Bloques y código</li></ul>
+          <a class="eco-ir" href="/academia"><span class="flecha-circ" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>Abrir la Academia</a>
+        </li>
+
+        <li class="eco eco-rosa">
+          <div class="eco-cabeza">
+            <span class="eco-icono" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="10" y="8" width="28" height="34" rx="5" fill="currentColor" fill-opacity=".22"/>
+                <rect x="18" y="4" width="12" height="8" rx="3" fill="#fff"/>
+                <path class="i-renglon" d="M16 21h9"/>
+                <path class="i-renglon r2" d="M16 29h6"/>
+                <path class="i-check" d="M27 31l4 4 8-10"/>
+              </svg>
+            </span>
+            <img class="eco-botito" src="assets/botito-rosa.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
+          </div>
+          <span class="eco-tag">Evaluación</span>
+          <h3>Exámenes</h3>
+          <p>Parciales de teoría y de práctica que se rinden en la misma plataforma. La nota llega sola al registro.</p>
+          <ul class="eco-pildoras"><li>Parciales</li><li>Prácticos</li><li>Nota al instante</li></ul>
+        </li>
+
+        <li class="eco eco-obra">
+          <div class="eco-cabeza">
+            <span class="eco-icono" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <g class="i-boquilla"><path d="M17 5h14v7l-4 5h-6l-4-5z" fill="currentColor" fill-opacity=".22"/><path d="M24 17v3"/></g>
+                <rect x="9" y="37" width="30" height="6" rx="3" fill="currentColor" fill-opacity=".22"/>
+                <rect x="12" y="30" width="24" height="6" rx="3" fill="currentColor" fill-opacity=".22"/>
+                <rect class="i-capa" x="15" y="23" width="18" height="6" rx="3" fill="currentColor" fill-opacity=".22"/>
+              </svg>
+            </span>
+            <img class="eco-botito" src="assets/botito-obra.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
+          </div>
+          <span class="eco-tag">Taller</span>
+          <h3>Impresión 3D</h3>
+          <p>Elige un molde o describe la pieza, ajusta las medidas y sale lista para imprimir. Cajas, soportes y llaveros para los proyectos.</p>
+          <ul class="eco-pildoras"><li>Moldes</li><li>Medidas</li><li>Lista para imprimir</li></ul>
+        </li>
+
+        <li class="eco eco-cielo">
+          <div class="eco-cabeza">
+            <span class="eco-icono" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <g class="i-globo"><path d="M9 7h18a5 5 0 0 1 5 5v7a5 5 0 0 1-5 5H16l-6 5v-5.4A5 5 0 0 1 4 19v-7a5 5 0 0 1 5-5z" fill="currentColor" fill-opacity=".22"/><path d="M11 13h14M11 18h8"/></g>
+                <g class="i-globo g2"><path d="M39 23H23a5 5 0 0 0-5 5v6a5 5 0 0 0 5 5h9l6 5v-5.2a5 5 0 0 0 6-4.8v-6a5 5 0 0 0-5-5z" fill="#fff"/>
+                  <circle class="i-punto" cx="25.5" cy="31" r="1.6" fill="currentColor" stroke="none"/>
+                  <circle class="i-punto p2" cx="31" cy="31" r="1.6" fill="currentColor" stroke="none"/>
+                  <circle class="i-punto p3" cx="36.5" cy="31" r="1.6" fill="currentColor" stroke="none"/></g>
+              </svg>
+            </span>
+            <img class="eco-botito" src="assets/botito-audifonos.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
+          </div>
+          <span class="eco-tag">Idiomas</span>
+          <h3>En español y en inglés</h3>
+          <p>La plataforma entera cambia de idioma con un toque, y cada alumno elige con cuál aprende.</p>
+          <ul class="eco-pildoras"><li>Español</li><li>English</li></ul>
+        </li>
+
+        <li class="eco eco-verde">
+          <div class="eco-cabeza">
+            <span class="eco-icono" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="7" width="38" height="26" rx="4" fill="currentColor" fill-opacity=".22"/>
+                <path d="M16 33l-4 10M32 33l4 10M24 33v5"/>
+                <rect class="i-barra" x="12" y="21" width="5" height="7" rx="1.5" fill="currentColor" stroke="none"/>
+                <rect class="i-barra b2" x="21.5" y="17" width="5" height="11" rx="1.5" fill="currentColor" stroke="none"/>
+                <rect class="i-barra b3" x="31" y="13" width="5" height="15" rx="1.5" fill="currentColor" stroke="none"/>
+              </svg>
+            </span>
+            <img class="eco-botito" src="assets/botito-explorador.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
+          </div>
+          <span class="eco-tag">Para el docente</span>
+          <h3>Planificaciones y presentaciones</h3>
+          <p>Cada semana llega con su planificación y una presentación lista para proyectar en clase.</p>
+          <ul class="eco-pildoras"><li>Clase por clase</li><li>Para proyectar</li><li>Para imprimir</li></ul>
+        </li>
+
+        <li class="eco eco-melo">
+          <div class="eco-cabeza">
+            <span class="eco-icono" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <g class="i-medalla">
+                  <path d="M17 29l-4 13 6-3 4 5 2-12M31 29l4 13-6-3-4 5-2-12" fill="currentColor" fill-opacity=".22"/>
+                  <circle cx="24" cy="20" r="13" fill="#fff"/>
+                  <g class="i-flecha"><path d="M24 26V14M19 18.5l5-5 5 5"/></g>
+                </g>
+              </svg>
+            </span>
+            <img class="eco-botito" src="assets/botito-musico.svg" alt="" width="144" height="156" loading="lazy" decoding="async">
+          </div>
+          <span class="eco-tag">Seguimiento</span>
+          <h3>Notas claras</h3>
+          <p>Zona, exámenes y práctica en un mismo panel. El alumno ve cómo va y el docente descarga el registro.</p>
+          <ul class="eco-pildoras"><li>Zona</li><li>Exámenes</li><li>PDF y Excel</li></ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+    <div class="env panel-pie">
+      <a class="btn btn-linea" href="#directores">Siguiente: Para directores <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      <a class="btn btn-negro" href="#contacto">Agendar una demostración</a>
+    </div>
+  </div>
+
+  <div class="panel" id="p-directores" data-panel="directores" role="region" tabindex="-1" aria-label="Para directores">
   <!-- ══ DIRECTORES ══ -->
   <section id="directores">
     <div class="env">
       <div class="encab revelar">
-        <h2>Un programa que no compromete el presupuesto</h2>
+        <h2 class="panel-titulo" tabindex="-1">Un programa que no compromete el presupuesto</h2>
         <p>Se financia con una cuota mensual incluida en la colegiatura durante los diez meses del ciclo. La institución no adquiere equipo ni contrata personal técnico.</p>
       </div>
 
@@ -1744,10 +1984,17 @@ footer .env { position: relative; z-index: 1; }
     </div>
   </section>
 
+    <div class="env panel-pie">
+      <a class="btn btn-linea" href="#contacto">Siguiente: Contacto <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      <a class="btn btn-negro" href="#contacto">Agendar una demostración</a>
+    </div>
+  </div>
+
+  <div class="panel" id="p-contacto" data-panel="contacto" role="region" tabindex="-1" aria-label="Contacto">
   <!-- ══ CONTACTO ══ -->
   <section id="contacto">
     <div class="env">
-      <div class="encab revelar"><h2>¿Lo quiere en su colegio el próximo bimestre?</h2></div>
+      <div class="encab revelar"><h2 class="panel-titulo" tabindex="-1">¿Lo quiere en su colegio el próximo bimestre?</h2></div>
       <div class="form-grid">
         <div class="revelar">
           <p class="gris">Una reunión de treinta minutos con el material a la vista. Respondemos en un plazo máximo de 48 horas hábiles.</p>
@@ -1839,6 +2086,13 @@ footer .env { position: relative; z-index: 1; }
       </div>
     </div>
   </section>
+
+    <div class="env panel-pie">
+      <a class="btn btn-linea" href="#programa">Siguiente: Programa <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      <a class="btn btn-negro" href="#contacto">Agendar una demostración</a>
+    </div>
+  </div>
+
 
 </main>
 

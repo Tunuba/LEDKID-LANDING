@@ -1,10 +1,13 @@
 <!-- BOTITO con casco de obra. ARCHIVO GENERADO por scripts/generar-botitos.mjs — NO SE EDITA A MANO.
-     Mismo cuerpo que BOTITO (RoboMascot.vue); solo cambia el color o lleva un accesorio. -->
-<svg xmlns="http://www.w3.org/2000/svg" class="bv bv-obra" viewBox="-32 -32 144 156" width="144" height="156" style="--bv-retraso:-3s">
-<style>
+     Mismo cuerpo que BOTITO (RoboMascot.vue); cambia el color y lleva un accesorio. -->
+<svg xmlns="http://www.w3.org/2000/svg" class="bv bv-obra bv-p-clasico bv-obra-v" viewBox="-32 -32 144 156" width="144" height="156" style="--bv-retraso:-3s">
+<style>.bv-p-clasico{--bv-cabeza:#ffffff;--bv-cabeza-borde:#00896b;--bv-cuerpo:#f3faf7;--bv-cuerpo-borde:#00896b;--bv-pierna:#dcf2ea;--bv-pie:#009a78;--bv-ojo:#00d4aa;--bv-luz:#00896b;--bv-pantalla:#113a33;--bv-panel-borde:#00896b;--bv-antena:#5c6179;--bv-brillo:rgba(255,255,255,.05);--bv-sombra:rgba(26,29,46,.16);--bv-lente:#3b4463}
+@media (prefers-color-scheme: dark){
+.bv-p-clasico{--bv-cabeza:#2a3148;--bv-cabeza-borde:#4a5578;--bv-cuerpo:#252b3d;--bv-cuerpo-borde:#3a4260;--bv-pierna:#1e2333;--bv-pie:#2e3650;--bv-ojo:#00d4aa;--bv-luz:#00ffc8;--bv-pantalla:#0d1120;--bv-panel-borde:#2a3050;--bv-antena:#8899bb;--bv-brillo:rgba(255,255,255,.05);--bv-sombra:rgba(0,0,0,.28);--bv-lente:#e8eef8}
+}
 .bv g { transform-box: view-box; }
 .bv-flota { transform-origin: 40px 60px; animation: bv-flota 3.4s ease-in-out infinite; }
-.bv-sombra { transform-box: view-box; transform-origin: 40px 115px; animation: bv-sombra 3.4s ease-in-out infinite; }
+.bv-sombra { transform-origin: 40px 115px; animation: bv-sombra 3.4s ease-in-out infinite; }
 .bv-cabeza { transform-origin: 40px 44px; }
 .bv-antena { transform-origin: 40px 4px; }
 .bv-brazo-l { transform-origin: 10px 52px; animation: bv-saludo-ciclo 9s ease-in-out infinite; animation-delay: var(--bv-retraso, 0s); }
@@ -43,61 +46,61 @@
 @keyframes bv-ladea { 0%, 100% { transform: rotate(0); } 20%, 80% { transform: rotate(6deg); } }
 @media (prefers-reduced-motion: reduce) {
   .bv *, .saluda * { animation: none !important; }
-  .bv-boca { opacity: .7; } .bv-pecho { opacity: .8; } .bv-nota { opacity: 1; } .bv-burbuja { opacity: 1; }
+  .bv-boca { opacity: .7; } .bv-pecho { opacity: .8; } .bv-nota { opacity: 1; } .bv-burbuja { opacity: 1; } .bv-cajaled { opacity: 1; }
 }
 .bv-obra .bv-brazo-r { animation: bv-martillo 1.4s ease-in-out infinite; }
 @keyframes bv-martillo { 0%, 60%, 100% { transform: rotate(0); } 70% { transform: rotate(-22deg); } 80% { transform: rotate(-4deg); } 88% { transform: rotate(-18deg); } }
 </style>
-<g class="bv-sombra"><ellipse cx="40" cy="115" rx="20" ry="4" fill="rgba(20,22,28,.18)"/></g>
+<g class="bv-sombra"><ellipse cx="40" cy="115" rx="20" ry="4" style="fill:var(--bv-sombra)"/></g>
 <g class="bv-flota"><g class="bv-raiz">
   <g class="bv-cabeza">
-    <rect x="16" y="4" width="48" height="40" rx="9" fill="#2a3148"/>
-    <rect x="16" y="4" width="48" height="40" rx="9" fill="none" stroke="#4a5578" stroke-width="1.5"/>
-    <rect x="18" y="6" width="44" height="7" rx="4" fill="white" opacity=".05"/>
-    <rect x="22" y="15" width="15" height="15" rx="4.5" fill="#0d1120"/>
-    <g class="bv-ojo-l"><circle cx="29.5" cy="22.5" r="5.5" fill="#00d4aa"/><circle cx="31.5" cy="20.5" r="2" fill="white" opacity=".6"/></g>
-    <rect x="43" y="15" width="15" height="15" rx="4.5" fill="#0d1120"/>
-    <g class="bv-ojo-r"><circle cx="50.5" cy="22.5" r="5.5" fill="#00d4aa"/><circle cx="52.5" cy="20.5" r="2" fill="white" opacity=".6"/></g>
-    <rect x="25" y="35" width="30" height="5" rx="2.5" fill="#0d1120"/>
-    <circle class="bv-boca" cx="30" cy="37.5" r="2" fill="#00d4aa"/>
-    <circle class="bv-boca bv-b2" cx="36.5" cy="37.5" r="2" fill="#00d4aa"/>
-    <circle class="bv-boca bv-b3" cx="43" cy="37.5" r="2" fill="#00d4aa"/>
-    <circle class="bv-boca bv-b4" cx="49.5" cy="37.5" r="2" fill="#00d4aa"/>
+    <rect x="16" y="4" width="48" height="40" rx="9" style="fill:var(--bv-cabeza)"/>
+    <rect x="16" y="4" width="48" height="40" rx="9" fill="none" style="stroke:var(--bv-cabeza-borde)" stroke-width="1.5"/>
+    <rect x="18" y="6" width="44" height="7" rx="4" style="fill:var(--bv-brillo)"/>
+    <rect x="22" y="15" width="15" height="15" rx="4.5" style="fill:var(--bv-pantalla)"/>
+    <g class="bv-ojo-l"><circle cx="29.5" cy="22.5" r="5.5" style="fill:var(--bv-ojo)"/><circle cx="31.5" cy="20.5" r="2" fill="white" opacity=".6"/></g>
+    <rect x="43" y="15" width="15" height="15" rx="4.5" style="fill:var(--bv-pantalla)"/>
+    <g class="bv-ojo-r"><circle cx="50.5" cy="22.5" r="5.5" style="fill:var(--bv-ojo)"/><circle cx="52.5" cy="20.5" r="2" fill="white" opacity=".6"/></g>
+    <rect x="25" y="35" width="30" height="5" rx="2.5" style="fill:var(--bv-pantalla)"/>
+    <circle class="bv-boca" cx="30" cy="37.5" r="2" style="fill:var(--bv-ojo)"/>
+    <circle class="bv-boca bv-b2" cx="36.5" cy="37.5" r="2" style="fill:var(--bv-ojo)"/>
+    <circle class="bv-boca bv-b3" cx="43" cy="37.5" r="2" style="fill:var(--bv-ojo)"/>
+    <circle class="bv-boca bv-b4" cx="49.5" cy="37.5" r="2" style="fill:var(--bv-ojo)"/>
       <path d="M14 12 C14 -8 66 -8 66 12 Z" fill="#FFC21A" stroke="#d99a00" stroke-width="1.4"/>
       <rect x="36.5" y="-3" width="7" height="15" rx="3.5" fill="#ffd95c"/>
       <path d="M22 4 C26 -1 32 -3 36 -3" fill="none" stroke="#fff3c4" stroke-width="1.6" stroke-linecap="round" opacity=".8"/>
       <rect x="7" y="10" width="66" height="5.5" rx="2.75" fill="#FFB000" stroke="#d99a00" stroke-width="1.2"/>
     <g class="bv-antena">
-      <line x1="40" y1="4" x2="40" y2="-3" stroke="#8899bb" stroke-width="2.2" stroke-linecap="round"/>
-      <circle class="bv-led" cx="40" cy="-3" r="3.5" fill="#00ffc8"/>
+      <line x1="40" y1="4" x2="40" y2="-3" style="stroke:var(--bv-antena)" stroke-width="2.2" stroke-linecap="round"/>
+      <circle class="bv-led" cx="40" cy="-3" r="3.5" style="fill:var(--bv-luz)"/>
     </g>
   </g>
   <g class="bv-brazo-l">
-    <rect x="4" y="52" width="12" height="32" rx="5" fill="#252b3d" stroke="#3a4260" stroke-width="1.2"/>
-    <ellipse cx="10" cy="86" rx="7" ry="5" fill="#2e3650" stroke="#00d4aa" stroke-width="1"/>
+    <rect x="4" y="52" width="12" height="32" rx="5" style="fill:var(--bv-cuerpo);stroke:var(--bv-cuerpo-borde)" stroke-width="1.2"/>
+    <ellipse cx="10" cy="86" rx="7" ry="5" style="fill:var(--bv-pie);stroke:var(--bv-ojo)" stroke-width="1"/>
   </g>
   <g class="bv-pierna-l">
-    <rect x="23" y="94" width="13" height="16" rx="5" fill="#1e2333" stroke="#3a4260" stroke-width="1.2"/>
-    <rect x="20" y="106" width="19" height="7" rx="3.5" fill="#2e3650"/>
+    <rect x="23" y="94" width="13" height="16" rx="5" style="fill:var(--bv-pierna);stroke:var(--bv-cuerpo-borde)" stroke-width="1.2"/>
+    <rect x="20" y="106" width="19" height="7" rx="3.5" style="fill:var(--bv-pie)"/>
   </g>
   <g class="bv-pierna-r">
-    <rect x="44" y="94" width="13" height="16" rx="5" fill="#1e2333" stroke="#3a4260" stroke-width="1.2"/>
-    <rect x="41" y="106" width="19" height="7" rx="3.5" fill="#2e3650"/>
+    <rect x="44" y="94" width="13" height="16" rx="5" style="fill:var(--bv-pierna);stroke:var(--bv-cuerpo-borde)" stroke-width="1.2"/>
+    <rect x="41" y="106" width="19" height="7" rx="3.5" style="fill:var(--bv-pie)"/>
   </g>
   <g class="bv-cuerpo"><g class="bv-respira">
-    <rect x="16" y="48" width="48" height="40" rx="9" fill="#252b3d"/>
-    <rect x="16" y="48" width="48" height="40" rx="9" fill="none" stroke="#3a4260" stroke-width="1.5"/>
-    <rect x="20" y="53" width="40" height="30" rx="7" fill="#0d1120" stroke="#2a3050" stroke-width="1.2"/>
+    <rect x="16" y="48" width="48" height="40" rx="9" style="fill:var(--bv-cuerpo)"/>
+    <rect x="16" y="48" width="48" height="40" rx="9" fill="none" style="stroke:var(--bv-cuerpo-borde)" stroke-width="1.5"/>
+    <rect x="20" y="53" width="40" height="30" rx="7" style="fill:var(--bv-pantalla);stroke:var(--bv-panel-borde)" stroke-width="1.2"/>
     <circle class="bv-pecho" cx="30" cy="68" r="4" fill="#ff3d52"/>
     <circle class="bv-pecho bv-p2" cx="40" cy="68" r="4" fill="#00d4aa"/>
     <circle class="bv-pecho bv-p3" cx="50" cy="68" r="4" fill="#ffd700"/>
   </g></g>
   <g class="bv-brazo-r">
-    <rect x="64" y="52" width="12" height="32" rx="5" fill="#252b3d" stroke="#3a4260" stroke-width="1.2"/>
-    <ellipse cx="70" cy="86" rx="7" ry="5" fill="#2e3650" stroke="#00d4aa" stroke-width="1"/>
+    <rect x="64" y="52" width="12" height="32" rx="5" style="fill:var(--bv-cuerpo);stroke:var(--bv-cuerpo-borde)" stroke-width="1.2"/>
+    <ellipse cx="70" cy="86" rx="7" ry="5" style="fill:var(--bv-pie);stroke:var(--bv-ojo)" stroke-width="1"/>
       <g class="bv-llave">
-        <rect x="68" y="76" width="4" height="18" rx="2" fill="#aab4c8" transform="rotate(-30 70 86)"/>
-        <circle cx="75" cy="78" r="4.2" fill="none" stroke="#aab4c8" stroke-width="3" transform="rotate(-30 70 86)"/>
+        <rect x="68" y="76" width="4" height="18" rx="2" fill="#98a3ba" transform="rotate(-30 70 86)"/>
+        <circle cx="75" cy="78" r="4.2" fill="none" stroke="#98a3ba" stroke-width="3" transform="rotate(-30 70 86)"/>
       </g>
   </g>
 </g></g>

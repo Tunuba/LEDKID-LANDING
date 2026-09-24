@@ -82,21 +82,64 @@ node frontend/scripts/exportar-robo-landing.mjs
 Escribe aquí, en `assets/robo.svg`. Si cambia el componente, se vuelve a correr
 y luego se sincroniza. Editarlo a mano se pierde en la siguiente exportación.
 
-## La familia de BOTITO (`assets/botito-*.svg`)
+## BOTITO, su familia y los dibujos (`scripts/generar-botitos.mjs`)
 
-Seis variantes con el mismo cuerpo que BOTITO: rosa, con audífonos, de obra,
-científico, músico y explorador. Solo cambian el color o llevan un accesorio. Las
-**genera** `scripts/generar-botitos.mjs` (escribe relativo al script, no al cwd):
+Un solo generador escribe todo lo que lleva a BOTITO fuera de `robo.svg` (escribe
+relativo al script, no al cwd):
 
 ```bash
 node scripts/generar-botitos.mjs
 ```
 
-Se animan solas dentro del `<img>` (flotan, parpadean y saludan cada 9 s) con CSS
-propio que solo mueve `transform` y `opacity`. `app.js` las mete en línea para que
-saluden al pasar el ratón, al tocarlas y al entrar en pantalla; si eso falla se
-quedan como `<img>`. Su `viewBox` (`-32 -32 144 156`) es más ancho que el de
-`robo.svg` a propósito: dentro de un `<img>` el brazo que saluda se cortaría.
+- `assets/botito-*.svg`: 14 variantes con el cuerpo de BOTITO. La familia (rosa,
+  audífonos, obra, científico, músico, explorador) y las de la ronda 3, cada una con
+  color y accesorio propios: `kit` (menta con la caja del kit), `gorra` (celeste),
+  `profe` (morado con birrete y puntero), `foco` (ámbar con un LED), `mono` (fresa con
+  moño), `capa` (coral con capa), `piloto` (lima con casco y bandera) y `libro` (cian).
+- `assets/escena-hero.svg`: la portada (tres BOTITOS alrededor de un LED).
+- `assets/escena-material.svg`, `escena-plataforma.svg`, `escena-docentes.svg`: las
+  tarjetas de "Todo llega armado al salón".
+- `assets/nivel-chispa.svg`, `nivel-circuito.svg`, `nivel-robot.svg`,
+  `nivel-ingenieria.svg`: las cuatro baldosas de niveles.
+
+Todo se anima solo dentro del `<img>` con CSS propio que solo mueve `transform` y
+`opacity`, y queda quieto con reducir movimiento. `app.js` mete la familia en línea
+para que salude al pasar el ratón.
+
+**Claro y oscuro.** Cada color del dibujo es una variable CSS con su valor claro y su
+valor oscuro (`prefers-color-scheme`), y un SVG dentro de un `<img>` sigue el tema de
+la página. Los colores de BOTITO viven en UN solo lugar, `PALETAS` del generador, y
+son los de la app (`VARIANTES` y `VARIANTES_CLARO` de
+`frontend/src/components/botitoAnimado.js`). Si la app los cambia, se copian ahí y se
+regenera.
+
+El `viewBox` de las variantes (`-32 -32 144 156`) es más ancho que el de `robo.svg` a
+propósito: dentro de un `<img>` el brazo que saluda se cortaría. En las escenas cada
+BOTITO va en un `<svg>` anidado con ese mismo `viewBox`.
+
+Ya no se usan (siguen en disco): `media/hero-loop.mp4`, `media/hero-poster.png`,
+`assets/producto-*.svg`, `assets/nivel-1..3.svg`, `assets/hero-aula.svg` y
+`assets/incluye-*.svg`, que eran los robots de palitos.
+
+## Portada y paneles
+
+La portada es corta: presentación, "Todo el programa, por partes", BOTITO con su
+familia y "Pruébelo hoy". El resto vive en paneles (`.panel[data-panel]` en
+`index.html`) que se abren desde el menú: Programa, Material, Plataforma, Todo LedKid,
+Para directores y Contacto.
+
+Todo va por el ancla de la URL (`#programa`, `#kit`, `#plataforma`, `#ecosistema`,
+`#directores`, `#contacto` y cualquier id de dentro, como `#preguntas` o `#video`).
+Se puede enlazar un panel y el botón de atrás funciona. Sin JavaScript no se oculta
+nada y la página se ve entera, como antes. Al abrir un panel, el foco va a su título.
+
+## La paleta
+
+Clara y suave, la del modo claro de la app (`main.css`, `html.light-mode`), con el
+verde `#00a882` de acento. El ámbar `#FFA000` se queda en el logo y el foquito, y los
+botones usan `#FFC24D` con tinta casi negra. Con `prefers-color-scheme: dark` la página
+pasa al azul noche con verde de la app. Los tokens están en `:root` al principio del
+`<style>`, con su bloque oscuro debajo. Todo el texto pasa de 4,5 a 1 en los dos temas.
 
 ## Los otros generadores
 
@@ -144,8 +187,9 @@ siguen cuadrando.
    máquina. Usar la del simulador:
    `LEDKID-SIMULADOR/frontend/node_modules/@resvg/resvg-js/index.js`.
 
-Y **el héroe no es un SVG**: es `media/hero-loop.mp4`, que genera
-`scripts/generar-hero-loop.mjs`. Cambiar los assets no lo toca.
+Desde la ronda 3 esas ilustraciones ya no están en la página: el héroe es
+`assets/escena-hero.svg` y las tarjetas y las baldosas salen de
+`scripts/generar-botitos.mjs` (ver arriba).
 
 ## Todo LedKid y las mini demos
 

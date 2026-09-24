@@ -293,3 +293,89 @@
     if (notaOtra) notaOtra.addEventListener('click', subir);
   }
 })();
+
+// ── Portada y paneles (ronda 3, r3-landing) ──
+//
+// Meme: "hay demasiado en una sola pagina". La portada se queda con lo esencial y
+// el resto vive en paneles (.panel[data-panel]) que se abren desde el menu. Todo
+// va por el ANCLA de la URL: cada boton es un <a href="#algo"> normal, asi que
+// se puede enlazar un panel, el boton de atras funciona y, sin este script, la
+// pagina sigue entera como antes (nada se oculta si no corre).
+//
+// Regla: el ancla apunta a un elemento. Si esta dentro de un panel, se abre ese
+// panel; si no (o si es #inicio o no hay ancla), se ve la portada. Si el ancla es
+// el panel o su primera seccion, se sube al principio; si es una seccion de mas
+// abajo (#preguntas, #pruebalo), se baja hasta ella. El foco va al titulo del
+// panel para que el teclado y el lector de pantalla sigan donde se abrio.
+(function () {
+  const portada = document.getElementById('portada');
+  const paneles = [...document.querySelectorAll('.panel[data-panel]')];
+  const barra = document.getElementById('panelBarra');
+  if (!portada || !paneles.length) return;
+  document.documentElement.classList.add('js-paneles');
+  const enlaces = [...document.querySelectorAll('[data-panel-enl]')];
+  const altoCabecera = () => {
+    const cab = document.getElementById('cabecera');
+    return (cab ? cab.getBoundingClientRect().height : 0) + (barra && !barra.hidden ? barra.getBoundingClientRect().height : 0);
+  };
+
+  let primera = true;
+  const mostrar = (conFoco) => {
+    const id = decodeURIComponent(location.hash.slice(1));
+    const destino = id ? document.getElementById(id) : null;
+    const panel = destino ? destino.closest('.panel[data-panel]') : null;
+    const vista = panel || portada;
+
+    portada.hidden = !!panel;
+    paneles.forEach(p => { p.hidden = p !== panel; });
+    if (barra) barra.hidden = !panel;
+    const clave = panel ? panel.dataset.panel : '';
+    enlaces.forEach(a => {
+      if (a.dataset.panelEnl === clave) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    });
+
+    // El carrusel y lo que mide su tamaño necesitan saber que ya se ven
+    dispatchEvent(new Event('resize'));
+
+    const alPrincipio = !destino || destino === vista || id === 'inicio' ||
+      (panel && destino === panel.querySelector('section'));
+    const irA = () => {
+      if (alPrincipio) scrollTo({ top: 0, behavior: 'auto' });
+      else scrollTo({ top: destino.getBoundingClientRect().top + scrollY - altoCabecera() - 8, behavior: 'auto' });
+    };
+    irA();
+    // Las imagenes perezosas del panel recien abierto cambian las alturas: se
+    // vuelve a apuntar una vez cuando ya han entrado.
+    if (!alPrincipio) setTimeout(irA, 350);
+
+    if (conFoco && panel) {
+      const t = (alPrincipio ? panel.querySelector('.panel-titulo') : destino.querySelector('h2, h3')) || panel;
+      if (!t.hasAttribute('tabindex')) t.setAttribute('tabindex', '-1');
+      t.focus({ preventScroll: true });
+    }
+    // En la portada, al volver, el foco va al principio del contenido
+    if (conFoco && !panel && !primera) {
+      const h1 = portada.querySelector('h1');
+      if (h1) { h1.setAttribute('tabindex', '-1'); h1.focus({ preventScroll: true }); }
+    }
+    primera = false;
+  };
+
+  addEventListener('hashchange', () => mostrar(true));
+  // Pulsar el ancla que ya esta en la URL no dispara hashchange: se repite a mano.
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    if (a.getAttribute('href') === location.hash || (a.getAttribute('href') === '#inicio' && !location.hash)) {
+      e.preventDefault(); mostrar(true);
+    }
+    // El menu de telefono se cierra al elegir (la casilla sin JS tambien)
+    const casilla = document.getElementById('menu-movil');
+    if (casilla && a.closest('#nav')) casilla.checked = false;
+  });
+  // Con paneles, el salto entre vistas es instantaneo: un desplazamiento suave
+  // desde el fondo de un panel largo hasta arriba del siguiente marea.
+  document.documentElement.style.scrollBehavior = 'auto';
+  mostrar(false);
+})();
