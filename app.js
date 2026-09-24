@@ -379,32 +379,3 @@
   document.documentElement.style.scrollBehavior = 'auto';
   mostrar(false);
 })();
-
-// ── Boton de tema claro u oscuro ──
-//
-// La landing arranca en claro (pedido de Meme); el oscuro solo si el visitante lo
-// elige aqui. Se guarda en ledkid-landing-tema, una clave propia: la app de /app/
-// arranca en oscuro y su eleccion no debe cambiar la landing. El script del <head>
-// fija data-tema antes de pintar para que no parpadee.
-(() => {
-  const boton = document.getElementById('boton-tema');
-  if (!boton) return;
-  const raiz = document.documentElement;
-  const sistema = matchMedia('(prefers-color-scheme: dark)');
-  const oscuro = () => raiz.dataset.tema ? raiz.dataset.tema === 'oscuro' : sistema.matches;
-  const meta = document.querySelector('meta[name="theme-color"]');
-  const pintar = () => {
-    const o = oscuro();
-    boton.querySelector('.tema-txt').textContent = o ? 'Claro' : 'Oscuro';
-    boton.setAttribute('aria-label', o ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro');
-    if (meta) meta.setAttribute('content', o ? '#0e1426' : '#FFFFFF');
-  };
-  boton.addEventListener('click', () => {
-    const o = !oscuro();
-    raiz.dataset.tema = o ? 'oscuro' : 'claro';
-    try { localStorage.setItem('ledkid-landing-tema', o ? 'oscuro' : 'claro'); } catch (e) {}
-    pintar();
-  });
-  sistema.addEventListener('change', pintar);
-  pintar();
-})();
