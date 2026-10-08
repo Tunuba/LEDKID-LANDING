@@ -4,6 +4,25 @@
 
 Este repo es la **FUENTE DE VERDAD** de esa página. Se edita aquí y sólo aquí.
 
+> ### Estado al 2026-10-07 (medido ese día)
+>
+> - **Vivo.** `https://ledkid.com/` responde 200. Lo publicado en
+>   `LEDKID-SIMULADOR/frontend/dist/landing/` es igual a este repo: `index.html` igual una vez
+>   deshechas las rutas `/landing/`, y `app.js` y el video con el mismo MD5.
+> - **Cómo se levanta:** no corre sola. La sirve el backend del simulador (8081, tarea
+>   `LEDKIDServidor`). Publicar es `scripts\sincronizar-landing.ps1` desde el simulador (ver abajo).
+> - **Último commit:** `317dd82` (2026-10-07), el WhatsApp del pie apunta al número de LedKid. Al día
+>   con `origin/main`.
+> - **Sin commitear:** nada.
+> - **Riesgos de la auditoría que tocan aquí:** solo uno, bajo. `media/ledkid-ventas.mp4` pesa unos
+>   77 MB y es la única fuente del video: en un teléfono con datos se traba y gasta el plan. Falta una
+>   versión ligera como primera fuente. La narración de ese video sale de edge-tts, que
+>   `LEDKID-VOCES` descarta para un producto que se vende (está en `LEDKID-MARKETING`).
+> - Informe: [`../LEDKID-SIMULADOR/docs/AUDITORIA_2026-10-07.md`](../LEDKID-SIMULADOR/docs/AUDITORIA_2026-10-07.md).
+>   Mapa: [`../LEDKID-SIMULADOR/docs/negocio/ECOSISTEMA.md`](../LEDKID-SIMULADOR/docs/negocio/ECOSISTEMA.md).
+> - Donde abajo dice `ROBOKIT-SIMULADOR`: medido el 2026-10-07, la carpeta es
+>   `C:\Proyectos\LEDKID\LEDKID-SIMULADOR`. No queda ninguna carpeta `ROBOKIT-*`.
+
 Un solo `index.html` sin build, sin dependencias y sin red: los estilos van en
 línea y la tipografía es la del sistema, así que el archivo se abre igual desde
 disco que servido.
@@ -35,7 +54,8 @@ Así que publicar es:
 
 ```powershell
 # 1. editar y commitear AQUI
-# 2. desde la raiz de ROBOKIT-SIMULADOR (clonado al lado de este repo):
+# 2. desde la raiz de LEDKID-SIMULADOR (clonado al lado de este repo):
+#    (aqui decia ROBOKIT-SIMULADOR; medido el 2026-10-07 esa carpeta no existe)
 powershell scripts\sincronizar-landing.ps1
 ```
 
@@ -75,7 +95,7 @@ real del simulador (`frontend/src/components/RoboMascot.vue`), que es el BOTITO 
 el niño ve todos los días:
 
 ```bash
-# desde ROBOKIT-SIMULADOR
+# desde LEDKID-SIMULADOR (aqui decia ROBOKIT-SIMULADOR; medido el 2026-10-07 no existe)
 node frontend/scripts/exportar-robo-landing.mjs
 ```
 
